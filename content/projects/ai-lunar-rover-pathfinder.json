@@ -1,0 +1,482 @@
+{
+  "id": "ai-lunar-rover-pathfinder",
+  "hero": {
+    "src": "/media/ai-lunar-rover-pathfinder/hero.jpg",
+    "alt": "Heavily cratered lunar terrain near the South Pole-Aitken basin, photographed from Artemis II, with the dark night side curving across the lower left.",
+    "credit": "NASA (Artemis II crew)",
+    "sourceUrl": "https://images.nasa.gov/details/art002e009283"
+  },
+  "overview": {
+    "what": "A Python program that reads real height measurements of the Moon, turns them into a slope map, and uses the A* search algorithm to plan a rover route that never crosses ground that is too steep.",
+    "why": "A* is one of the most useful algorithms in robotics and games. You build it yourself, see it solve a real problem, and learn how a planner trades route length against safety.",
+    "spaceRelevance": "Rover teams plan routes from orbital maps, because a rover that tips over cannot be rescued. The height data you use comes from NASA's Lunar Reconnaissance Orbiter.",
+    "finalOutput": "A script and GitHub repository that plan a safe route across real lunar terrain, with a map showing it next to a straight-line drive that would break the slope limit.",
+    "difficulty": 5,
+    "estimatedTime": "5 to 6 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "satellite",
+      "label": "Get LOLA heights",
+      "detail": "A laser map of the Moon from NASA's orbiter."
+    },
+    {
+      "icon": "map",
+      "label": "Cut out a region",
+      "detail": "A 224 by 320 piece near the Apollo 17 site."
+    },
+    {
+      "icon": "chart",
+      "label": "Compute slopes",
+      "detail": "Rise over run for every cell, in degrees."
+    },
+    {
+      "icon": "route",
+      "label": "Search with A*",
+      "detail": "Steep cells are walls, and steeper ground costs more."
+    },
+    {
+      "icon": "compass",
+      "label": "Compare the routes",
+      "detail": "The safe path against a straight line."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "Digital elevation model",
+      "meaning": "A grid in which every cell stores a height. Together the cells make a map of hills and valleys. LOLA's Moon map is one."
+    },
+    {
+      "term": "Slope",
+      "meaning": "How steep the ground is, as an angle. It comes from the height difference between neighbouring cells divided by the distance between them."
+    },
+    {
+      "term": "A* search",
+      "meaning": "A path-finding method that explores the cheapest-looking routes first. It scores each cell as cost so far (g) plus a guess of the cost left (h), and it finds the cheapest route."
+    },
+    {
+      "term": "Heuristic",
+      "meaning": "The guess h in A*. Straight-line distance works well because it never overestimates what is left, so A* stays correct while skipping most of the map."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "-L-WgKMFuhE",
+      "title": "A* Pathfinding (E01: algorithm explanation)",
+      "channel": "Sebastian Lague",
+      "why": "Walks through A* on a grid with g, h and f costs, which is exactly what you code in step 8. Watch it before steps 6 to 8."
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "The earlier AI projects, or the same skills: Python, NumPy, the terminal and Git",
+      "What a graph or a grid of cells is"
+    ],
+    "programming": [
+      "Python functions, loops, dictionaries and tuples",
+      "NumPy arrays and slicing",
+      "Reading code written by someone else"
+    ],
+    "mathPhysics": [
+      "Right-angled triangles and the tangent",
+      "Pythagoras' theorem, for distances",
+      "Latitude and longitude"
+    ],
+    "software": [
+      "Python 3.11 or newer",
+      "Git and a GitHub account",
+      "NumPy and matplotlib, installed in step 3",
+      "About 100 MB of free disk space"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "Python",
+      "why": "Holds the whole planner in a short script",
+      "priority": "Essential"
+    },
+    {
+      "name": "NumPy",
+      "why": "Reads the height file and computes slopes for every cell at once",
+      "priority": "Essential"
+    },
+    {
+      "name": "A* search",
+      "why": "Finds the cheapest safe route across the grid",
+      "priority": "Essential"
+    },
+    {
+      "name": "matplotlib",
+      "why": "Draws the height map, the slope map and the route",
+      "priority": "Recommended"
+    },
+    {
+      "name": "NASA PDS and LOLA data",
+      "why": "Free public height measurements of the Moon",
+      "priority": "Essential"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "Why rovers need a safe route",
+      "learn": "What can go wrong for a rover on rough ground, and why planning happens first.",
+      "explain": "A rover can tip over, slip on a slope or get stuck in soft soil, and no one can go and help. So teams plan a route before they drive, using maps made from orbit. NASA tests rovers on Earth first. The picture shows an engineer in the SLOPE lab at NASA Glenn, marking the positions of rocks on simulated lunar soil while a test version of the VIPER rover is being tried out. Your job is the planning half: find a route that stays on safe ground.",
+      "implement": "List three things that could stop a rover on the Moon. Which of them could a map made from orbit show you ahead of time? Keep the list for step 11.",
+      "outcome": "You can say what a route planner is for.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/ai-lunar-rover-pathfinder/viper-test.jpg",
+        "alt": "An engineer in white protective clothing and a face shield crouching on pale simulated lunar soil, which is covered in wheel tracks and patterns, with a rover in the dark behind.",
+        "caption": "An engineer marks rock positions in the simulated lunar surface of NASA Glenn's SLOPE lab during testing of a VIPER rover model.",
+        "credit": "NASA/GRC/Bridget Caswell",
+        "sourceUrl": "https://images.nasa.gov/details/GRC-2022-C-04467"
+      },
+      "resources": [
+        {
+          "label": "NASA: Lunar Reconnaissance Orbiter",
+          "url": "https://science.nasa.gov/mission/lro/"
+        },
+        {
+          "label": "NASA image: Viper Rover in SLOPE Lab",
+          "url": "https://images.nasa.gov/details/GRC-2022-C-04467"
+        }
+      ]
+    },
+    {
+      "title": "How steep is too steep",
+      "learn": "How to turn heights into a slope angle with a little trigonometry.",
+      "explain": "Slope is rise over run. If the ground climbs 3 metres over 20 metres of distance, the angle is the arctangent of 3 divided by 20, which is about 8.5 degrees. A rover has a limit, and the safe value depends on the rover and the soil. We use 8 degrees as a simple teaching limit. Here each cell of the map is the 20 metres in the picture. In our real data it will be about 1.9 kilometres.",
+      "implement": "Work out the slope angle for a rise of 10 m over 100 m, and then for 50 m over 100 m. Use a calculator and the arctan button. Which one passes an 8 degree limit?",
+      "outcome": "You can compute a slope from two heights.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/ai-lunar-rover-pathfinder/slope-from-heights.svg",
+        "alt": "A hill profile with three height samples, a dashed triangle marking a rise of 3 metres over a run of 20 metres, and the angle theta between them.",
+        "caption": "Slope angle equals arctan of rise over run. The same rule works for every neighbouring pair of cells in a height map."
+      },
+      "resources": [
+        {
+          "label": "Math is Fun: Finding an angle in a right triangle",
+          "url": "https://www.mathsisfun.com/algebra/trig-finding-angle-right-triangle.html"
+        }
+      ]
+    },
+    {
+      "title": "Set up and download the Moon's heights",
+      "learn": "What the LOLA data is, and how to download a 33 MB piece of it.",
+      "explain": "LOLA, the Lunar Orbiter Laser Altimeter, rides on NASA's Lunar Reconnaissance Orbiter. It fires laser pulses at the ground and times how long they take to return, which gives the height. NASA turned millions of measurements into maps. The one we use, LDEM_16, covers the whole Moon at 16 pixels per degree, with each pixel about 1.9 km wide. It is small enough to download in a minute. A finer file, LDEM_64, is 531 MB.",
+      "implement": "Run these commands. Check that LDEM_16.IMG is exactly 33,177,600 bytes: in Git Bash, ls -l LDEM_16.IMG shows it. The IMG file is kept out of GitHub, as it is too big.",
+      "outcome": "A project folder with the Moon's height map in it.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "mkdir rover-pathfinder\ncd rover-pathfinder\npython -m venv .venv\nsource .venv/Scripts/activate    # Mac or Linux: source .venv/bin/activate\npip install numpy matplotlib\n\n# LOLA height map of the whole Moon, 33 MB, from NASA's PDS archive\ncurl -L -O https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/cylindrical/img/LDEM_16.IMG\n\n# the label file explains the format (optional, 7 KB)\ncurl -L -O https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/cylindrical/img/LDEM_16.LBL\n\ngit init\necho \".venv/\" > .gitignore\necho \"LDEM_16.IMG\" >> .gitignore",
+        "caption": "The LBL file says each value is a 16-bit integer, with height equal to the value times 0.5 metres."
+      },
+      "resources": [
+        {
+          "label": "LOLA data on the PDS Geosciences Node",
+          "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/cylindrical/img/"
+        },
+        {
+          "label": "NASA: Lunar Reconnaissance Orbiter",
+          "url": "https://science.nasa.gov/mission/lro/"
+        }
+      ]
+    },
+    {
+      "title": "Load a region of the Moon",
+      "learn": "How to read a raw binary height file and cut out a part of it.",
+      "explain": "The file has no header. It is just 2,880 rows by 5,760 columns of 16-bit whole numbers, in little-endian order, which NumPy reads with dtype <i2. Row 0 is the north pole, and column 0 is longitude 0 degrees, counting east. Multiplying by 0.5 gives metres. A small function converts latitude and longitude into rows and columns, so you can cut out a box. We use 14 to 28 degrees north and 18 to 38 degrees east, which includes the Apollo 17 landing site.",
+      "implement": "Save this as pathfinder.py and run it. You should see the shape and the heights printed, then a grey map with the dark plain of Mare Serenitatis. Try another region, such as latitude -60 to -40.",
+      "outcome": "A map of the Moon on your screen, from real data.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import numpy as np\nimport matplotlib.pyplot as plt\n\n# 2880 rows x 5760 columns of 16-bit heights, each one in half-metres\ndem = np.fromfile(\"LDEM_16.IMG\", dtype=\"<i2\").reshape(2880, 5760) * 0.5\nPPD = 16                              # pixels per degree\n\ndef window(lat_min, lat_max, lon_min, lon_max):\n    \"\"\"Cut a box out of the map. Row 0 is 90 N, column 0 is 0 E.\"\"\"\n    row0, row1 = int((90 - lat_max) * PPD), int((90 - lat_min) * PPD)\n    col0, col1 = int(lon_min * PPD), int(lon_max * PPD)\n    return dem[row0:row1, col0:col1]\n\nh = window(14, 28, 18, 38)            # Mare Serenitatis and Apollo 17\nprint(h.shape, h.min(), h.max())      # (224, 320) -4618.5 604.5\nplt.imshow(h, cmap=\"gray\")\nplt.show()",
+        "caption": "pathfinder.py, part 1. The dark region is low ground and the light region is high."
+      },
+      "resources": [
+        {
+          "label": "NumPy: fromfile",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.fromfile.html"
+        }
+      ]
+    },
+    {
+      "title": "Turn heights into a slope map",
+      "learn": "How np.gradient finds the slope of every cell in one go.",
+      "explain": "np.gradient compares each cell with its neighbours and returns the rise per metre going east and going north. We pass it the size of a cell in metres so that the answer is a true slope. East-west cells are narrower than north-south ones at this latitude, by a factor of the cosine of the latitude. The two rises combine into one steepness, which arctan turns into degrees. Each cell averages about 2 km of ground, so small craters hide.",
+      "implement": "Add this to pathfinder.py. Check the numbers: half of all cells under 0.7 degrees, and about 6 percent over 8. Look at the colour map and find the steep ring of a crater.",
+      "outcome": "A slope map where flat ground is dark and steep ground is bright.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "M = 2 * np.pi * 1737400 / 360 / PPD        # metres per pixel, about 1895\ndx = M * np.cos(np.radians(21))            # east-west pixels are narrower\ngy, gx = np.gradient(h, M, dx)             # metres of rise per metre\nslope = np.degrees(np.arctan(np.hypot(gx, gy)))   # in degrees\n\nprint(np.percentile(slope, [50, 90, 99]).round(1))   # [ 0.7  5.8 16.2]\n\nLIMIT = 8                                  # our teaching limit, in degrees\nprint(round((slope > LIMIT).mean(), 2))    # share of cells that are no-go\nplt.imshow(slope, cmap=\"magma\", vmax=16)\nplt.colorbar(label=\"slope (degrees)\")\nplt.show()",
+        "caption": "pathfinder.py, part 2. The tidy plains of Mare Serenitatis are dark. The rough highlands to the east are bright."
+      },
+      "resources": [
+        {
+          "label": "NumPy: gradient",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.gradient.html"
+        }
+      ]
+    },
+    {
+      "title": "How A* finds a route",
+      "learn": "What g, h and f mean, and why A* does not have to look everywhere.",
+      "explain": "A* keeps a list of cells to try. For each one it knows g, the cost of the cheapest way found so far to get there, and h, a guess at the cost left. It always expands the cell with the lowest f, which is g plus h. Steep cells are walls and are never entered. The guess pulls the search towards the goal, so it ignores most of the map. As long as h never overestimates, the answer is the cheapest route.",
+      "implement": "Draw a 6 by 6 grid on paper, add a few walls and trace A* by hand using straight and diagonal steps. Label the first five cells you expand with their g, h and f.",
+      "outcome": "You can explain A* without looking at code.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/ai-lunar-rover-pathfinder/astar-grid.svg",
+        "alt": "A grid with a green start and orange goal, grey wall cells, slightly lighter cells already searched, and a purple path curving around the walls, with f equals g plus h written beside it.",
+        "caption": "A* tests cells near the shortest line first. Walls force the path around, and the shaded cells are all it needed to look at."
+      },
+      "resources": [
+        {
+          "label": "Red Blob Games: Introduction to A*",
+          "url": "https://www.redblobgames.com/pathfinding/a-star/introduction.html"
+        },
+        {
+          "label": "Wikipedia: A* search algorithm",
+          "url": "https://en.wikipedia.org/wiki/A*_search_algorithm"
+        }
+      ]
+    },
+    {
+      "title": "Code the neighbours and their costs",
+      "learn": "How to describe a move: where it goes, if it is allowed, and what it costs.",
+      "explain": "From any cell there are up to eight moves: four straight and four diagonal. A move is not allowed if it leaves the map or lands on a cell steeper than the limit. Otherwise it costs the step length, 1 straight or 1.41 diagonal, multiplied by 1 plus the slope over the limit. So flat ground costs 1 per step and ground at the limit costs 2. The planner will go around hills if that is cheap enough.",
+      "implement": "Add this to pathfinder.py. Test it on one cell with list(neighbours((126, 204), slope, 8)). You should get a list of up to eight cells, each with a cost.",
+      "outcome": "A function that gives A* its legal moves.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import heapq, math\n\ndef neighbours(cell, slope, max_slope):\n    \"\"\"Safe cells beside this one, and what it costs to step there.\"\"\"\n    rows, cols = slope.shape\n    for dr in (-1, 0, 1):\n        for dc in (-1, 0, 1):\n            r, c = cell[0] + dr, cell[1] + dc\n            if (dr, dc) == (0, 0) or not (0 <= r < rows and 0 <= c < cols):\n                continue                    # not a real neighbour\n            if slope[r, c] > max_slope:     # too steep: never allowed\n                continue\n            step = math.hypot(dr, dc)       # 1 straight, 1.41 diagonal\n            yield (r, c), step * (1 + slope[r, c] / max_slope)",
+        "caption": "pathfinder.py, part 3. yield hands back one result at a time, so the loop in step 8 can use it directly."
+      },
+      "resources": [
+        {
+          "label": "Python docs: Generators",
+          "url": "https://docs.python.org/3/howto/functional.html#generators"
+        }
+      ]
+    },
+    {
+      "title": "Write the A* loop",
+      "learn": "How a priority queue and two dictionaries make up the search.",
+      "explain": "heapq keeps the queue so that the lowest f always comes out first. best remembers the lowest g found for each cell, and prev remembers where each cell was reached from. Each time a cheaper route to a cell turns up, both are updated and the cell goes back in the queue. When the goal comes out, we follow prev backwards to the start and reverse the list. If the queue empties, no safe route exists.",
+      "implement": "Add this to pathfinder.py. It should run without error. Read it slowly against the diagram from step 6 and write one comment of your own for each part.",
+      "outcome": "A complete A* planner in under 30 lines.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "def astar(slope, start, goal, max_slope=8.0):\n    h = lambda c: math.hypot(c[0]-goal[0], c[1]-goal[1])   # h: crow-flies guess\n    best = {start: 0.0}                 # g: cost so far\n    prev = {}                           # how each cell was reached\n    queue = [(h(start), start)]         # sorted by f = g + h\n    while queue:\n        _, cur = heapq.heappop(queue)\n        if cur == goal:\n            path = [cur]\n            while cur in prev:          # walk back to start\n                cur = prev[cur]\n                path.append(cur)\n            return path[::-1], best[goal]\n        for nxt, step in neighbours(cur, slope, max_slope):\n            cost = best[cur] + step\n            if cost < best.get(nxt, float(\"inf\")):\n                best[nxt], prev[nxt] = cost, cur\n                heapq.heappush(queue, (cost + h(nxt), nxt))\n    return None, None                   # no route",
+        "caption": "pathfinder.py, part 4. The guess h is straight-line distance. Every step costs at least its own length, so h never overestimates."
+      },
+      "resources": [
+        {
+          "label": "Python docs: heapq",
+          "url": "https://docs.python.org/3/library/heapq.html"
+        }
+      ]
+    },
+    {
+      "title": "Plan a route and test it",
+      "learn": "How to run the planner and check the result against a naive route.",
+      "explain": "We start at the Apollo 17 landing site, 20.2 degrees north and 30.8 east, and aim for a flat patch in the highlands about 250 km to the north-east. A straight line is the shortest way, so we also measure what it would cross. On our map it passes over ground as steep as 13.3 degrees, and about 22 percent of its length is over the limit. The A* route is longer but its steepest cell is only 5.8 degrees.",
+      "implement": "Add this and run it. Your numbers should match the comments. Then pick another start and goal, as long as both sit on flat ground, and see how the route changes.",
+      "outcome": "A safe route and proof that a straight line is not.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "start, goal = (126, 204), (23, 286)    # (row, column): Apollo 17 site\npath, cost = astar(slope, start, goal, max_slope=LIMIT)\nrows, cols = zip(*path)\nkm = sum(math.hypot(a[0] - b[0], a[1] - b[1])\n         for a, b in zip(path, path[1:])) * 1.895\nprint(len(path), \"cells, about\", round(km), \"km\")   # 128 cells, about 302 km\nprint(\"steepest on route:\", round(slope[rows, cols].max(), 1))   # 5.8\n\n# now try driving in a straight line instead\nlr = np.linspace(start[0], goal[0], 200).round().astype(int)\nlc = np.linspace(start[1], goal[1], 200).round().astype(int)\nprint(\"straight line, steepest:\", round(slope[lr, lc].max(), 1))  # 13.3\nprint(\"share over the limit:\", round((slope[lr, lc] > LIMIT).mean(), 2))",
+        "caption": "pathfinder.py, part 5. The route is about 20 percent longer than a straight line, and less than half as steep at its worst."
+      },
+      "resources": [
+        {
+          "label": "NASA: Apollo 17 mission",
+          "url": "https://www.nasa.gov/mission/apollo-17/"
+        }
+      ]
+    },
+    {
+      "title": "See the route on the map",
+      "learn": "How to check a result by looking at it.",
+      "explain": "A map is the best check. Drag the slider. On the left is the slope map, with bright ground steep and dark ground flat. On the right every cell steeper than 8 degrees is painted violet, and the route is the orange line. It threads between the violet walls, passing through gaps rather than over them. Notice that the Apollo 17 site, where the route starts, sits on the edge of rough country, so the route has to wind to find its way out.",
+      "implement": "Draw your own route with plt.plot(cols, rows) on top of plt.imshow(slope), and mark the start and goal. Save it as route.png and put it in your README.",
+      "outcome": "A map you can show people.",
+      "figure": {
+        "kind": "compare",
+        "before": {
+          "src": "/media/ai-lunar-rover-pathfinder/slope-map.jpg",
+          "label": "Slope map"
+        },
+        "after": {
+          "src": "/media/ai-lunar-rover-pathfinder/route-map.jpg",
+          "label": "Safe route"
+        },
+        "alt": "Two maps of the same lunar region: a purple and orange map of slope, and the same area with steep ground in violet, a thick orange route and green and star markers.",
+        "caption": "Left: how steep the ground is. Right: ground over 8 degrees is violet, and the orange line is the A* route. Both are made from NASA LOLA data.",
+        "credit": "NASA LRO LOLA data, rendered by the Apogee project script",
+        "sourceUrl": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/cylindrical/img/"
+      },
+      "resources": [
+        {
+          "label": "matplotlib: imshow",
+          "url": "https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html"
+        }
+      ]
+    },
+    {
+      "title": "Change the limit and read the trade-off",
+      "learn": "How the safety limit changes the route, and what a planner cannot know.",
+      "explain": "Safety and distance pull against each other. With a lower slope limit the route must detour, or no route exists at all. With a higher one the path cuts corners. Each cell is about 2 km wide, so craters hundreds of metres across and boulders do not appear. Real teams add finer images, rock maps, sunlight and radio contact. The Apollo 17 crew drove their rover about 35 km in all, always watching the ground.",
+      "implement": "Run the loop below. Write down what you see. At which limit does the route get shorter, and at which does it get longer? Then name three things this map cannot tell you.",
+      "outcome": "You can say what the planner assumes, and where it could fail.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "for limit in (5, 6, 8, 12):\n    path, cost = astar(slope, start, goal, max_slope=limit)\n    if path is None:\n        print(limit, \"degrees: no safe route\")\n    else:\n        print(limit, \"degrees:\", len(path), \"cells, cost\", round(cost))",
+        "caption": "pathfinder.py, part 6. At 5 degrees the route is 144 cells and costs 217, at 8 it is 128 and 190, and at 12 it is 111 and 170."
+      },
+      "resources": [
+        {
+          "label": "Wikipedia: Lunar Reconnaissance Orbiter",
+          "url": "https://en.wikipedia.org/wiki/Lunar_Reconnaissance_Orbiter"
+        }
+      ]
+    },
+    {
+      "title": "Think about the real thing",
+      "learn": "What real missions add to a planner like yours.",
+      "explain": "The Apollo 17 landing valley, shown here, looks smooth, but the crew still had to choose where to park and drive. A real planner works at a much finer scale: LROC cameras image the ground at as little as half a metre per pixel, and rovers re-plan on board from their own cameras as they go. Your project has the core of it. It turns a map into a graph, rules out unsafe cells, and finds the cheapest path through the rest.",
+      "implement": "Look at the picture. Pick a route from the Lunar Module to the rover, and say which parts of the ground you would avoid and why. Add the answer to your README.",
+      "outcome": "You can connect your code to a real mission problem.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/ai-lunar-rover-pathfinder/apollo17-valley.jpg",
+        "alt": "A grey, rolling lunar plain under a black sky, with the Apollo 17 Lunar Module far left, the Lunar Roving Vehicle far right, and the long shadow of the photographer in the foreground.",
+        "caption": "The Apollo 17 landing site in the Taurus-Littrow valley. The Lunar Module is at left, the rover at right, and the photographer's shadow is in the foreground.",
+        "credit": "NASA/Apollo 17 (AS17-134-20435)",
+        "sourceUrl": "https://images.nasa.gov/details/as17-134-20435"
+      },
+      "resources": [
+        {
+          "label": "NASA image: Apollo 17 landing site",
+          "url": "https://images.nasa.gov/details/as17-134-20435"
+        }
+      ]
+    },
+    {
+      "title": "Write it up and push",
+      "learn": "How to explain a path planner so that others can reproduce it.",
+      "explain": "Your README should state the data (LDEM_16, 16 pixels per degree), the region, the slope limit and the cost rule, since a different choice gives a different route. Show the map with your route, and quote the numbers: route length, steepest cell, and the same for the straight line. Say what the planner ignores. Anyone should then be able to download the file and rerun your script.",
+      "implement": "Save route.png in the repository, write the README, then run the commands below with your own GitHub name.",
+      "outcome": "Your planner is on GitHub, ready for others to run.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "pip freeze > requirements.txt\ngit add .\ngit commit -m \"Lunar rover pathfinder: A* over LOLA slopes\"\ngit branch -M main\ngit remote add origin https://github.com/YOUR-NAME/rover-pathfinder.git\ngit push -u origin main",
+        "caption": "Create an empty repository called rover-pathfinder on GitHub first. The big LDEM_16.IMG file is ignored by Git."
+      },
+      "resources": [
+        {
+          "label": "GitHub: Quickstart for repositories",
+          "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Official documentation",
+      "links": [
+        {
+          "label": "NumPy documentation",
+          "url": "https://numpy.org/doc/stable/"
+        },
+        {
+          "label": "Python heapq module",
+          "url": "https://docs.python.org/3/library/heapq.html"
+        },
+        {
+          "label": "matplotlib documentation",
+          "url": "https://matplotlib.org/stable/"
+        }
+      ]
+    },
+    {
+      "category": "Data",
+      "links": [
+        {
+          "label": "LOLA height maps (PDS Geosciences Node)",
+          "url": "https://pds-geosciences.wustl.edu/lro/lro-l-lola-3-rdr-v1/lrolol_1xxx/data/lola_gdr/cylindrical/img/"
+        },
+        {
+          "label": "NASA: Lunar Reconnaissance Orbiter",
+          "url": "https://science.nasa.gov/mission/lro/"
+        },
+        {
+          "label": "Wikipedia: Lunar Reconnaissance Orbiter",
+          "url": "https://en.wikipedia.org/wiki/Lunar_Reconnaissance_Orbiter"
+        }
+      ]
+    },
+    {
+      "category": "Free courses",
+      "links": [
+        {
+          "label": "Red Blob Games: Introduction to A*",
+          "url": "https://www.redblobgames.com/pathfinding/a-star/introduction.html"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A public GitHub repository with pathfinder.py and requirements.txt",
+    "A map showing the slope data and your A* route, saved as route.png",
+    "A table with route length and steepest cell for the A* route and a straight line",
+    "A README that states your region, slope limit and cost rule, and what the planner ignores"
+  ],
+  "checklist": [
+    {
+      "id": "rover-setup",
+      "label": "Downloaded LDEM_16.IMG and set up the project"
+    },
+    {
+      "id": "rover-load",
+      "label": "Loaded the height map and cut out a region"
+    },
+    {
+      "id": "rover-slope",
+      "label": "Computed a slope map in degrees"
+    },
+    {
+      "id": "rover-neighbours",
+      "label": "Wrote the neighbours function with costs and walls"
+    },
+    {
+      "id": "rover-astar",
+      "label": "Wrote the A* loop"
+    },
+    {
+      "id": "rover-route",
+      "label": "Planned a route and compared it with a straight line"
+    },
+    {
+      "id": "rover-map",
+      "label": "Drew the route on the slope map"
+    },
+    {
+      "id": "rover-limits",
+      "label": "Tried several slope limits and noted the trade-off"
+    },
+    {
+      "id": "rover-published",
+      "label": "Wrote a README and pushed the finished work to GitHub"
+    }
+  ]
+}

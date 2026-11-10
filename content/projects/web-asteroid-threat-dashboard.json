@@ -1,0 +1,462 @@
+{
+  "id": "web-asteroid-threat-dashboard",
+  "hero": {
+    "src": "/media/web-asteroid-threat-dashboard/hero-bennu.jpg",
+    "alt": "A dark grey, rubble-covered asteroid shaped like a spinning top, filling the frame against black space.",
+    "credit": "NASA/Goddard/University of Arizona, OSIRIS-REx mission",
+    "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bennu_mosaic_OSIRIS-REx.jpg"
+  },
+  "overview": {
+    "what": "A dashboard that lists the near-Earth asteroids passing today. Each one shows its size compared to a famous landmark, its speed and how far away it is.",
+    "why": "You work with an API that needs a key, dig numbers out of nested JSON, clean them up and turn them into something people can picture.",
+    "spaceRelevance": "NASA tracks asteroids all year, and its NeoWs service shares that tracking data with anyone for free.",
+    "finalOutput": "A live web page of asteroid cards sorted by closeness, with a landmark comparison and a special style for flagged asteroids.",
+    "difficulty": 2,
+    "estimatedTime": "3 to 4 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "search",
+      "label": "Ask NASA for today",
+      "detail": "fetch sends today's date and your key to NeoWs."
+    },
+    {
+      "icon": "file",
+      "label": "Open the JSON",
+      "detail": "Dig out size, speed, distance and the warning flag."
+    },
+    {
+      "icon": "filter",
+      "label": "Tidy the data",
+      "detail": "Average the sizes, turn text into numbers, sort."
+    },
+    {
+      "icon": "target",
+      "label": "Compare to landmarks",
+      "detail": "Find the closest famous height for each size."
+    },
+    {
+      "icon": "monitor",
+      "label": "Show cards",
+      "detail": "Each asteroid becomes a card on the page."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "API key and rate limit",
+      "meaning": "A key is a free password that tells NASA who is asking. A rate limit caps how often you can ask. NASA's shared DEMO_KEY allows 30 requests an hour per IP address, and a personal key allows 1,000."
+    },
+    {
+      "term": "Nested JSON",
+      "meaning": "Data placed inside data. An asteroid sits in a list, inside a date, inside near_earth_objects. You reach a number by following the path of names down to it."
+    },
+    {
+      "term": "Lunar distance (LD)",
+      "meaning": "The average gap between Earth and the Moon, about 384,400 km. Space people use it as a ruler: an asteroid at 20 LD is 20 times farther away than the Moon."
+    },
+    {
+      "term": "Potentially hazardous asteroid",
+      "meaning": "NASA's label for an asteroid larger than about 140 m whose orbit passes within 0.05 AU (about 7.5 million km) of Earth's orbit. It means worth watching, not about to hit."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "Yp9KIcSKTNo",
+      "title": "Using Async/Await with the Fetch API - JavaScript Tutorial",
+      "channel": "dcode",
+      "why": "Shows the async and await pattern that getAsteroids() uses, step by step with a real API."
+    },
+    {
+      "youtubeId": "N-OvnVdZP_8",
+      "title": "DART Impact",
+      "channel": "Johns Hopkins Applied Physics Laboratory",
+      "why": "Watch NASA's DART spacecraft reach its target asteroid. It is the reason this dashboard is more than a list of rocks."
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "The first project, or comfort with HTML, CSS and fetch",
+      "What an API and JSON are"
+    ],
+    "programming": [
+      "JavaScript functions, arrays and objects",
+      "async and await"
+    ],
+    "mathPhysics": [
+      "Averages, ratios and rounding",
+      "Powers of ten when reading large distances"
+    ],
+    "software": [
+      "A web browser",
+      "Visual Studio Code",
+      "Git and a GitHub account",
+      "A free NASA API key from api.nasa.gov"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "JavaScript (arrays and async)",
+      "why": "map, sort and reduce reshape the data, and await waits for NASA",
+      "priority": "Essential"
+    },
+    {
+      "name": "NASA NeoWs API",
+      "why": "The source of every asteroid on your page",
+      "priority": "Essential"
+    },
+    {
+      "name": "JSON",
+      "why": "The nested data format NASA replies in",
+      "priority": "Essential"
+    },
+    {
+      "name": "CSS Grid",
+      "why": "Lays out the cards and adapts to phones",
+      "priority": "Essential"
+    },
+    {
+      "name": "Browser developer tools",
+      "why": "Lets you inspect the reply and see errors",
+      "priority": "Recommended"
+    },
+    {
+      "name": "GitHub Pages",
+      "why": "Publishes the finished dashboard",
+      "priority": "Recommended"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "Meet near-Earth asteroids",
+      "learn": "What a near-Earth object is, and why NASA keeps count of them.",
+      "explain": "A near-Earth object (NEO) is an asteroid or comet whose orbit brings it close to Earth's. Thousands exist, and nearly all are small and far away. But sometimes one arrives. In 2013 a rock about 20 metres wide blew up over Chelyabinsk, Russia, and its shock wave broke windows across the city. That is why NASA keeps watch, and why your dashboard has a job to do.",
+      "implement": "Open NASA's planetary defence pages and write down, in your own words, what 'near-Earth' and 'potentially hazardous' mean. You will use both words on your page.",
+      "outcome": "You know what your dashboard will show and why.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/web-asteroid-threat-dashboard/chelyabinsk-trail.jpg",
+        "alt": "A long, bright smoke trail curving across a dusky blue sky above snowy rooftops and bare trees.",
+        "caption": "The trail left by the Chelyabinsk meteor on 15 February 2013. The rock that made it was about 20 metres wide.",
+        "credit": "Alex Alishevskikh, CC BY-SA 2.0, Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:2013_Chelyabinsk_meteor_trace.jpg"
+      },
+      "resources": [
+        {
+          "label": "NASA: Planetary defense",
+          "url": "https://www.nasa.gov/planetarydefense/"
+        },
+        {
+          "label": "NASA: Asteroids",
+          "url": "https://science.nasa.gov/solar-system/asteroids/"
+        }
+      ]
+    },
+    {
+      "title": "Get a NASA key and ask for data",
+      "learn": "How the asteroid feed address works, and why it needs a key.",
+      "explain": "The NeoWs feed address takes a start_date and an end_date written like 2026-11-07, plus your api_key. Ask for one day and you get that day's asteroids. DEMO_KEY works for a first try, but everyone shares it, so it runs out fast. Sign up at api.nasa.gov for your own key. It is free and is emailed to you. Developers often test in the terminal first, because it shows the raw reply.",
+      "implement": "Sign up for a NASA key. Run the curl command with your key in place of DEMO_KEY, or paste the address into your browser, and look at the JSON that comes back.",
+      "outcome": "You have a key and have seen real asteroid data.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "# Ask NASA for today's near-Earth asteroids.\n# date +%F prints today's date as YYYY-MM-DD, which is the format NASA wants.\nTODAY=$(date +%F)\n\ncurl \"https://api.nasa.gov/neo/rest/v1/feed?start_date=$TODAY&end_date=$TODAY&api_key=DEMO_KEY\"\n\n# DEMO_KEY is shared by everyone, so it runs out quickly.\n# If you see OVER_RATE_LIMIT, wait, or use your own free key from api.nasa.gov.",
+        "caption": "Run this in your terminal. In Git Bash on Windows, and in the Mac terminal, date +%F works as shown."
+      },
+      "resources": [
+        {
+          "label": "NASA Open APIs and key signup",
+          "url": "https://api.nasa.gov/"
+        },
+        {
+          "label": "NASA: API key rate limits",
+          "url": "https://api.nasa.gov/assets/html/authentication.html"
+        }
+      ]
+    },
+    {
+      "title": "Find your way around the JSON",
+      "learn": "How to follow a path through nested data to the number you want.",
+      "explain": "The reply is boxes inside boxes. Start at near_earth_objects. It has one key per date, and each date holds a list of asteroids. Each asteroid has many fields. We need four: its name, the size range in estimated_diameter.meters, the flag is_potentially_hazardous_asteroid, and, inside close_approach_data (a list with one entry), the miss_distance and relative_velocity. Careful: NASA sends distances and speeds as text in quotes.",
+      "implement": "In the browser console, log one asteroid with console.log(data.near_earth_objects[day][0]). Click the little arrows and find each of the four fields yourself.",
+      "outcome": "You can name the path to every number you need.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-asteroid-threat-dashboard/neo-json.svg",
+        "alt": "A tree: near_earth_objects holds a date, the date holds a list, and one asteroid in the list has fields for name, size, warning flag, distance and speed.",
+        "caption": "Read it from the top down. Every dot in a path such as close_approach_data[0].miss_distance is one step deeper."
+      },
+      "resources": [
+        {
+          "label": "MDN: Working with JSON",
+          "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/JSON"
+        },
+        {
+          "label": "NASA JPL: Small-body database lookup",
+          "url": "https://ssd.jpl.nasa.gov/tools/sbdb_lookup.html"
+        }
+      ]
+    },
+    {
+      "title": "Fetch today's asteroids",
+      "learn": "How to turn NASA's big reply into a small, tidy list.",
+      "explain": "getAsteroids asks NASA, checks the answer, then reshapes each asteroid into a small object holding only what your page needs. Three details matter. toISOString gives today's date in UTC, which suits NASA's calendar. The ?? [] part gives an empty list when a date has no entry. Number() turns text into real numbers. NASA gives a smallest and largest size, because nobody can measure an asteroid exactly, so we use the middle.",
+      "implement": "Save the function in script.js. Call getAsteroids().then(console.log) and check that you get a list of tidy objects. If you see an OVER_RATE_LIMIT error, use your own key.",
+      "outcome": "Clean asteroid data appears in the console.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "const KEY = \"DEMO_KEY\";\n\nasync function getAsteroids() {\n  const day = new Date().toISOString().slice(0, 10);\n  const url = `https://api.nasa.gov/neo/rest/v1/feed?start_date=${day}&end_date=${day}&api_key=${KEY}`;\n  const reply = await fetch(url);\n  if (!reply.ok) throw new Error(`NASA replied ${reply.status}`);\n  const data = await reply.json();\n\n  // One list per date. We asked for one date.\n  return (data.near_earth_objects[day] ?? []).map((rock) => {\n    const m = rock.estimated_diameter.meters;\n    const pass = rock.close_approach_data[0];\n    return {\n      name: rock.name.replace(/[()]/g, \"\"),\n      metres: (m.estimated_diameter_min + m.estimated_diameter_max) / 2,\n      hazardous: rock.is_potentially_hazardous_asteroid,\n      moonDistances: Number(pass.miss_distance.lunar), // sent as text\n      kmPerSecond: Number(pass.relative_velocity.kilometers_per_second),\n    };\n  });\n}",
+        "caption": "script.js. Put your own key in place of DEMO_KEY."
+      },
+      "resources": [
+        {
+          "label": "MDN: Using the Fetch API",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch"
+        },
+        {
+          "label": "MDN: Array map",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map"
+        }
+      ]
+    },
+    {
+      "title": "Picture the size",
+      "learn": "Why a comparison teaches more than a number, and how to choose one.",
+      "explain": "The number 49 metres means little. Beside the Qutub Minar it means something. The chart draws real heights to one scale: a cricket pitch (20 m), the Qutub Minar (73 m), the Statue of Liberty (93 m, ground to torch), the Eiffel Tower (330 m) and the Burj Khalifa (828 m). Orange bars are real asteroids, Dimorphos and Bennu. NASA gives a width, so we compare it with a height, like a tower lying on its side.",
+      "implement": "Choose five or six landmarks that your visitors will know. Look up each height in metres from a trusted source and write them down for the next step.",
+      "outcome": "A list of real heights to compare against.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-asteroid-threat-dashboard/size-scale.svg",
+        "alt": "Seven bars of increasing height: a cricket pitch, Qutub Minar, Statue of Liberty, Dimorphos, Eiffel Tower, Bennu and Burj Khalifa, with asteroids in orange.",
+        "caption": "All seven bars use the same scale. Even small asteroids can match a landmark, and a few are taller than any building."
+      },
+      "resources": [
+        {
+          "label": "NASA: OSIRIS-REx and asteroid Bennu",
+          "url": "https://science.nasa.gov/solar-system/asteroids/101955-bennu/"
+        }
+      ]
+    },
+    {
+      "title": "Compare sizes in code",
+      "learn": "How reduce finds the closest value in a list.",
+      "explain": "reduce walks along a list while holding the best answer so far. At each landmark it asks: is this one closer in size than my current best? The gap between two numbers is Math.abs(a - b). The function ends by dividing, to say how many times taller or shorter the landmark is, and toFixed(1) keeps one decimal place. Your landmark list is data, so you can add more any time without touching the logic.",
+      "implement": "Add compare() to script.js. Test it with 5, 49 and 300 metres and check each answer by hand. Then try a size bigger than your tallest landmark.",
+      "outcome": "Every asteroid gets a human-sized comparison.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "const landmarks = [\n  { name: \"a cricket pitch\", metres: 20 },\n  { name: \"the Qutub Minar\", metres: 73 },\n  { name: \"the Statue of Liberty\", metres: 93 },\n  { name: \"the Eiffel Tower\", metres: 330 },\n  { name: \"the Burj Khalifa\", metres: 828 },\n];\n\nfunction compare(metres) {\n  // Pick the landmark whose size is closest to the asteroid's size.\n  const closest = landmarks.reduce((best, landmark) =>\n    Math.abs(landmark.metres - metres) < Math.abs(best.metres - metres) ? landmark : best,\n  );\n  const times = metres / closest.metres;\n  return `${times.toFixed(1)} times the height of ${closest.name}`;\n}\n\nconsole.log(compare(49)); // 0.7 times the height of the Qutub Minar",
+        "caption": "The last line is a test. A 49 m asteroid is closest in size to the 73 m Qutub Minar."
+      },
+      "resources": [
+        {
+          "label": "MDN: Array reduce",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce"
+        },
+        {
+          "label": "MDN: Math.abs",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/abs"
+        }
+      ]
+    },
+    {
+      "title": "How far is close?",
+      "learn": "What a lunar distance is, and how to read speed.",
+      "explain": "NASA gives miss distance in several units. We use lunar distance, written LD. One LD is the Earth to Moon gap, about 384,400 km. On the day this was written, the asteroids passed at 20 to 130 LD, so none came near the Moon. Speed is in kilometres per second. 5 km/s is about 18,000 km/h, far faster than a jet airliner. A number under 1 would mean closer than the Moon.",
+      "implement": "Show distance as 'X Moon distances away' using miss_distance.lunar, and speed in km/s. Look for the closest asteroid on your page and check it against the chart.",
+      "outcome": "Distances and speeds that people can picture.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-asteroid-threat-dashboard/lunar-distance.svg",
+        "alt": "Horizontal bars measured from Earth: the Moon at 1 lunar distance, then asteroids at 21.7, 78.8 and 129.1 lunar distances.",
+        "caption": "Three real asteroids from 7 November 2026. The Moon's bar is only just visible beside them."
+      },
+      "resources": [
+        {
+          "label": "NASA: Moon facts",
+          "url": "https://science.nasa.gov/moon/facts/"
+        }
+      ]
+    },
+    {
+      "title": "Mark the flagged asteroids",
+      "learn": "What 'potentially hazardous' really means.",
+      "explain": "is_potentially_hazardous_asteroid is true when an asteroid is larger than about 140 metres and its orbit passes within 0.05 AU (about 7.5 million km) of Earth's orbit. It is a watch list label, not a prediction of impact. NASA also tests what to do if one is ever on course. In 2022 its DART spacecraft hit Dimorphos, a 160 m moonlet, and changed its orbit around the larger asteroid Didymos. Neither asteroid threatened Earth.",
+      "implement": "Add a .hazardous CSS class with an orange border, and a small 'Flagged' label on those cards. In your README, explain in one sentence what the flag means.",
+      "outcome": "Flagged asteroids stand out, and your page explains the flag honestly.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/web-asteroid-threat-dashboard/dimorphos-dart.jpg",
+        "alt": "A grey, boulder-strewn asteroid filling the frame, lit from the left, with a bright rock fragment at the lower right.",
+        "caption": "Dimorphos, seen by the DART spacecraft shortly before impact on 26 September 2022. It is about 160 metres across.",
+        "credit": "NASA/Johns Hopkins APL",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Last_image_showing_all_of_Dimorphos_by_DART.png"
+      },
+      "resources": [
+        {
+          "label": "NASA JPL CNEOS: NEO groups and the PHA definition",
+          "url": "https://cneos.jpl.nasa.gov/about/neo_groups.html"
+        },
+        {
+          "label": "NASA: DART mission",
+          "url": "https://science.nasa.gov/mission/dart/"
+        }
+      ]
+    },
+    {
+      "title": "Build the cards",
+      "learn": "How to turn a list of objects into cards, closest first.",
+      "explain": "This is the same createElement idea as your gallery. Make an article, fill it with a heading and two paragraphs, and append it to the page. textContent is the safe way to insert text, because it never runs HTML. Sort the list first so the closest asteroid comes first: a - b makes small numbers come first. For layout, reuse the CSS Grid rule from the gallery, with auto-fit and minmax.",
+      "implement": "Add <p id=\"status\"> and <main id=\"asteroids\"> to your HTML. Write addCard, style .card, then call getAsteroids, sort the result and run addCard on each asteroid.",
+      "outcome": "Today's asteroids appear as cards on your page.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "function addCard(rock) {\n  const card = document.createElement(\"article\");\n  card.className = rock.hazardous ? \"card hazardous\" : \"card\";\n\n  const title = document.createElement(\"h2\");\n  title.textContent = rock.name;\n\n  const size = document.createElement(\"p\");\n  size.textContent = `${Math.round(rock.metres)} m wide: ${compare(rock.metres)}`;\n\n  const where = document.createElement(\"p\");\n  where.textContent = `${rock.moonDistances.toFixed(1)} Moon distances away, at ${rock.kmPerSecond.toFixed(1)} km/s`;\n\n  card.append(title, size, where);\n  document.querySelector(\"#asteroids\").append(card);\n}",
+        "caption": "One function builds one card. The sorting and the loop are in the next step."
+      },
+      "resources": [
+        {
+          "label": "MDN: CSS grid layout",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout"
+        },
+        {
+          "label": "MDN: Array sort",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort"
+        }
+      ]
+    },
+    {
+      "title": "Handle limits and errors",
+      "learn": "What to do when NASA says no, and why keys in browser code are visible.",
+      "explain": "Free keys have limits. Go over them and NASA replies with status 429, which means too many requests. Show a helpful message, and log the real error for yourself. One more thing: anyone can open developer tools and read a key that sits in your JavaScript. For a free NASA key that is a small risk. Never do it with a paid key. In the last project you will hide a key on a server.",
+      "implement": "Wrap the loading in try and catch as shown. Test it twice: once with a nonsense key, and once with Offline switched on in the Network tab of developer tools.",
+      "outcome": "Your dashboard fails politely.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "async function loadDashboard() {\n  const status = document.querySelector(\"#status\");\n  try {\n    const rocks = await getAsteroids();\n    rocks.sort((a, b) => a.moonDistances - b.moonDistances); // closest first\n    rocks.forEach(addCard);\n    status.textContent = rocks.length ? `${rocks.length} asteroids today` : \"No asteroids listed today.\";\n  } catch (error) {\n    console.error(error); // the details, for you\n    status.textContent = error.message.includes(\"429\")\n      ? \"NASA says too many requests. Wait a while, or use your own key.\"\n      : \"Could not load asteroids. Please try again later.\";\n  }\n}\n\nloadDashboard();",
+        "caption": "The sort and the loop live here. Your HTML needs <p id=\"status\">Loading...</p> for the messages."
+      },
+      "resources": [
+        {
+          "label": "MDN: HTTP 429 Too Many Requests",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/429"
+        },
+        {
+          "label": "MDN: try...catch",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch"
+        }
+      ]
+    },
+    {
+      "title": "Publish and explain it",
+      "learn": "How to present a project so that others can use it.",
+      "explain": "Publish as before: push to GitHub, then turn on GitHub Pages. Your README is the front door. Say what the dashboard shows, name the data source and credit NASA, and explain how a visitor can run it with their own key. A screenshot makes a big difference. One more tip: keep the landmark list in its own array at the top of the file, so a friend can add their city's tallest building.",
+      "implement": "Push your work, enable GitHub Pages and open your live address. Write a README with a screenshot, the data source and one paragraph on what 'potentially hazardous' means.",
+      "outcome": "A live dashboard with a README that explains it.",
+      "resources": [
+        {
+          "label": "GitHub Pages",
+          "url": "https://pages.github.com/"
+        },
+        {
+          "label": "GitHub: Creating a Pages site",
+          "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Data",
+      "links": [
+        {
+          "label": "NASA Open APIs (NeoWs is listed here)",
+          "url": "https://api.nasa.gov/"
+        },
+        {
+          "label": "NASA JPL CNEOS: Close approaches",
+          "url": "https://cneos.jpl.nasa.gov/ca/"
+        },
+        {
+          "label": "NASA: Asteroids",
+          "url": "https://science.nasa.gov/solar-system/asteroids/"
+        }
+      ]
+    },
+    {
+      "category": "Official documentation",
+      "links": [
+        {
+          "label": "MDN: Using the Fetch API",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch"
+        },
+        {
+          "label": "MDN: JavaScript Array methods",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array"
+        }
+      ]
+    },
+    {
+      "category": "Free courses",
+      "links": [
+        {
+          "label": "freeCodeCamp",
+          "url": "https://www.freecodecamp.org/learn/"
+        },
+        {
+          "label": "javascript.info: Promises, async/await",
+          "url": "https://javascript.info/async"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A public GitHub repository with your source code",
+    "A README with a screenshot, the data source and a note on what the hazardous flag means",
+    "A link to your live site",
+    "Your landmark list, with a source for each height"
+  ],
+  "checklist": [
+    {
+      "id": "asteroids-learn-neos",
+      "label": "Learned what a near-Earth object and a potentially hazardous asteroid are"
+    },
+    {
+      "id": "asteroids-api-key",
+      "label": "Got a NASA API key and read the raw JSON"
+    },
+    {
+      "id": "asteroids-json-map",
+      "label": "Found the path to name, size, flag, distance and speed"
+    },
+    {
+      "id": "asteroids-fetch",
+      "label": "Fetched today's asteroids and tidied them into a list"
+    },
+    {
+      "id": "asteroids-landmarks",
+      "label": "Compared each size to a landmark"
+    },
+    {
+      "id": "asteroids-distance",
+      "label": "Showed distance in Moon distances and speed in km/s"
+    },
+    {
+      "id": "asteroids-cards",
+      "label": "Built the sorted cards with a style for flagged asteroids"
+    },
+    {
+      "id": "asteroids-errors",
+      "label": "Handled rate limits and failed requests"
+    },
+    {
+      "id": "asteroids-published",
+      "label": "Published the site and pushed the finished work to GitHub"
+    }
+  ]
+}

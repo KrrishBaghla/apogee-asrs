@@ -1,0 +1,541 @@
+{
+  "id": "embedded-iss-pointer",
+  "hero": {
+    "src": "/media/embedded-iss-pointer/hero.jpg",
+    "alt": "The International Space Station as a tiny dark silhouette crossing the bright orange disc of the Sun, photographed through a solar filter.",
+    "credit": "NASA/Joel Kowsky",
+    "sourceUrl": "https://images.nasa.gov/details/NHQ202106250002"
+  },
+  "overview": {
+    "what": "A two-servo arm driven by an ESP32 that finds the ISS's position online, works out where it is in your sky and points a pointer at it.",
+    "why": "It adds motors, Wi-Fi and real maths to your skills. You will turn a position in space into two angles, then into movement.",
+    "spaceRelevance": "Ground stations point dishes at satellites in exactly this way, using a TLE and two angles. Your arm is a toy version of that real job.",
+    "finalOutput": "A pan and tilt arm that follows the ISS around the sky, plus code and a short video.",
+    "difficulty": 2,
+    "estimatedTime": "3 to 4 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "satellite",
+      "label": "The ISS flies over",
+      "detail": "It goes round Earth every 93 minutes at about 420 km up."
+    },
+    {
+      "icon": "wifi",
+      "label": "ESP32 asks the web",
+      "detail": "It gets the ISS latitude, longitude and height as JSON."
+    },
+    {
+      "icon": "compass",
+      "label": "Maths finds the angles",
+      "detail": "Your code turns that into azimuth and elevation."
+    },
+    {
+      "icon": "cog",
+      "label": "Servos turn",
+      "detail": "Pan sets the azimuth and tilt sets the elevation."
+    },
+    {
+      "icon": "target",
+      "label": "The arm points",
+      "detail": "The pointer lines up with the real station."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "Azimuth",
+      "meaning": "The compass direction of something in the sky, from 0 to 360 degrees, measured clockwise from north."
+    },
+    {
+      "term": "Elevation",
+      "meaning": "How high something is above the horizon: 0 degrees at the horizon, 90 degrees straight up."
+    },
+    {
+      "term": "TLE",
+      "meaning": "Two-line element set. Two lines of numbers that describe a satellite's orbit, so software can predict where it will be. It goes stale after a few days."
+    },
+    {
+      "term": "Servo",
+      "meaning": "A small motor that knows its own angle. You send it a repeating pulse, and the pulse width sets the angle it holds."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "IC1JQu9xGHQ",
+      "title": "How Do Satellites Get & Stay in Orbit?",
+      "channel": "SciShow Space",
+      "why": "The sideways-falling idea explained in four minutes. Everything about the ISS follows from it."
+    },
+    {
+      "youtubeId": "sIE0mcOGnms",
+      "title": "International Space Station Orbit Tracker",
+      "channel": "Practical Engineering",
+      "why": "Shows how a real tracker draws the ISS path. Notice how the track shifts each lap."
+    }
+  ],
+  "parts": [
+    {
+      "name": "ESP32 dev board",
+      "why": "Reuse the one from the weather station",
+      "cost": "₹0 (reuse), or ₹400 to ₹600"
+    },
+    {
+      "name": "SG90 micro servo x2",
+      "why": "One pans (azimuth) and one tilts (elevation)",
+      "cost": "₹140 to ₹250 for two"
+    },
+    {
+      "name": "USB power bank",
+      "why": "A clean 5 V supply for the servos",
+      "cost": "₹300 to ₹600"
+    },
+    {
+      "name": "USB breakout or cut USB cable",
+      "why": "Brings the power bank 5 V out to wires",
+      "cost": "₹30 to ₹80"
+    },
+    {
+      "name": "470 microfarad capacitor, 16 V",
+      "why": "Smooths the servo power. Optional but helps",
+      "cost": "₹5 to ₹15"
+    },
+    {
+      "name": "Breadboard and jumper wires",
+      "why": "Reuse from the last project",
+      "cost": "₹0 (reuse)"
+    },
+    {
+      "name": "Cardboard, craft sticks, hot glue, straw",
+      "why": "The arm, base and pointer",
+      "cost": "₹50 to ₹150"
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "Finished the weather station project",
+      "Know what GPIO pins are and how to use the Serial Monitor"
+    ],
+    "programming": [
+      "Basic C++ on the ESP32: setup, loop, functions",
+      "Basic Python: functions and print"
+    ],
+    "mathPhysics": [
+      "Angles in degrees",
+      "Basic trigonometry: sine, cosine and arctangent"
+    ],
+    "software": [
+      "Wokwi account",
+      "Arduino IDE 2 with the ESP32 package",
+      "Python 3 with pip",
+      "Git and a GitHub account"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "ESP32 with Wi-Fi",
+      "why": "Gets live data and drives the servos",
+      "priority": "Essential"
+    },
+    {
+      "name": "ESP32Servo library",
+      "why": "Makes the servo pulses on the ESP32",
+      "priority": "Essential"
+    },
+    {
+      "name": "ArduinoJson",
+      "why": "Reads the position data from the web service",
+      "priority": "Essential"
+    },
+    {
+      "name": "Python and Skyfield",
+      "why": "Predicts passes and checks your maths",
+      "priority": "Recommended"
+    },
+    {
+      "name": "CelesTrak and wheretheiss.at",
+      "why": "Free sources of TLEs and live ISS positions",
+      "priority": "Essential"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "Meet your target",
+      "learn": "How big, how high and how fast the ISS is.",
+      "explain": "The International Space Station is about the size of a football pitch. It orbits roughly 420 km above you at about 27,600 km/h, so it circles Earth once in around 93 minutes. That is 15 or 16 laps a day. From the ground it looks like a bright, fast star that crosses the sky in a few minutes. Your arm will have to keep up with it.",
+      "implement": "Open the live ISS position at wheretheiss.at. Note its altitude and speed, then compare them with the numbers here.",
+      "outcome": "You know what you are pointing at.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/embedded-iss-pointer/iss-flyaround.jpg",
+        "alt": "The International Space Station seen from a departing shuttle, with gold-coloured modules and dark solar panels against blue ocean and white cloud.",
+        "caption": "The ISS from the Space Shuttle in 2005. Its solar panels face the Sun, and the whole station flies at about 7.7 km each second.",
+        "credit": "NASA (STS-114 crew)",
+        "sourceUrl": "https://images.nasa.gov/details/s114e7235"
+      },
+      "resources": [
+        {
+          "label": "Where is the ISS right now?",
+          "url": "https://wheretheiss.at/"
+        },
+        {
+          "label": "NASA: International Space Station",
+          "url": "https://www.nasa.gov/international-space-station/"
+        }
+      ]
+    },
+    {
+      "title": "Why satellites stay up",
+      "learn": "The one idea behind every orbit.",
+      "explain": "An orbit is falling that never lands. The ISS is pulled towards Earth all the time, but it also moves sideways so fast that the ground curves away beneath it as quickly as it falls. Gravity does not switch off up there, and it is still almost 90 percent as strong as at the surface. Astronauts float because they are falling with the station, not because gravity is missing.",
+      "implement": "Watch the video. Then explain, in two sentences to a friend, why the ISS does not fall down.",
+      "outcome": "You can explain what an orbit is.",
+      "figure": {
+        "kind": "video",
+        "youtubeId": "IC1JQu9xGHQ",
+        "title": "How Do Satellites Get & Stay in Orbit?",
+        "channel": "SciShow Space",
+        "caption": "Four minutes on the sideways-speed idea, which is the base for the rest of this project."
+      },
+      "resources": [
+        {
+          "label": "NASA Space Place: What is an orbit?",
+          "url": "https://spaceplace.nasa.gov/orbits/en/"
+        }
+      ]
+    },
+    {
+      "title": "Azimuth and elevation",
+      "learn": "The two angles that say where to look in the sky.",
+      "explain": "To point at something you need two numbers. Azimuth is the compass direction, measured clockwise from north: 0 is north, 90 is east, 180 is south and 270 is west. Elevation is how high above the horizon, from 0 at the horizon to 90 straight up. The ISS is only visible when its elevation is above 0. These two angles will become the angles of your two servos.",
+      "implement": "Stand outside with a phone compass. Point at a tree and write down its azimuth, and guess its elevation. Then check the picture to be sure you can read both angles.",
+      "outcome": "You can describe any point in the sky with two numbers.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-iss-pointer/sky-angles.svg",
+        "alt": "Left: a compass seen from above with an arrow at 60 degrees from north. Right: a side view with a dashed line rising 35 degrees from the horizon to the ISS.",
+        "caption": "Azimuth goes around the compass. Elevation goes up from the horizon. Together they point anywhere."
+      },
+      "resources": [
+        {
+          "label": "Wikipedia: Horizontal coordinate system",
+          "url": "https://en.wikipedia.org/wiki/Horizontal_coordinate_system"
+        }
+      ]
+    },
+    {
+      "title": "TLEs: an orbit in two lines",
+      "learn": "How a few numbers describe where a satellite will be.",
+      "explain": "A TLE, or two-line element set, is two lines of numbers that describe one satellite's orbit. The ISS entry includes its tilt (about 51.6 degrees) and how many laps it makes per day (about 15.5). Feed a TLE into a standard maths model called SGP4 and you get the satellite's position at any time. Drag from air, and now and then a thruster burn, change the orbit, so a TLE goes stale after a few days. Get a new one often.",
+      "implement": "Open the CelesTrak page for the ISS in the resources. Find the line starting with 2 and pick out the tilt, which is the first number after 25544.",
+      "outcome": "You know what a TLE holds and why it needs refreshing.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-iss-pointer/tle-orbit.svg",
+        "alt": "Left: Earth with the ISS orbit drawn as a tilted ellipse, tilted 51.6 degrees from the equator. Right: a TLE feeds orbit maths, which gives the position right now.",
+        "caption": "The orbit is a fixed tilted ring and the Earth turns beneath it. That is why the ISS passes over different places each lap."
+      },
+      "resources": [
+        {
+          "label": "CelesTrak: ISS TLE",
+          "url": "https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=TLE"
+        },
+        {
+          "label": "CelesTrak: What is a TLE?",
+          "url": "https://celestrak.org/NORAD/documentation/tle-fmt.php"
+        }
+      ]
+    },
+    {
+      "title": "Predict a pass with Python",
+      "learn": "How to use a TLE to know when the ISS will be overhead.",
+      "explain": "Python can do the SGP4 maths for you with a library called Skyfield. You give it a TLE and your latitude and longitude, and it finds each time the ISS rises over a minimum height, reaches its highest point and sets. Times come out in UTC. India is 5 hours 30 minutes ahead of UTC, so add that to get local time. Use 10 degrees as the cut-off, because objects near the horizon are hidden by trees and buildings.",
+      "implement": "Install Skyfield with pip install skyfield. Change the latitude and longitude to your own, run this and note the next pass in local time.",
+      "outcome": "You have a list of the next ISS passes over your college.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import urllib.request\nfrom skyfield.api import EarthSatellite, load, wgs84   # pip install skyfield\n\nurl = \"https://celestrak.org/NORAD/elements/gp.php?CATNR=25544&FORMAT=TLE\"\nname, line1, line2 = urllib.request.urlopen(url).read().decode().splitlines()\n\nts = load.timescale()\niss = EarthSatellite(line1, line2, name.strip(), ts)\nyou = wgs84.latlon(28.61, 77.21)          # your latitude and longitude\n\nstart = ts.now()\ntimes, events = iss.find_events(you, start, start + 1, altitude_degrees=10)\nfor t, e in zip(times, events):           # 0 = rises, 1 = highest, 2 = sets\n    print(t.utc_strftime(\"%d %b %H:%M UTC\"), [\"rises\", \"highest\", \"sets\"][e])",
+        "caption": "Prints when the ISS rises, peaks and sets over your location in the next 24 hours. It needs an internet connection to fetch the TLE."
+      },
+      "resources": [
+        {
+          "label": "Skyfield: Earth satellites",
+          "url": "https://rhodesmill.org/skyfield/earth-satellites.html"
+        },
+        {
+          "label": "N2YO: ISS passes for your city",
+          "url": "https://www.n2yo.com/?s=25544"
+        }
+      ]
+    },
+    {
+      "title": "Work out the angles yourself",
+      "learn": "How to turn a latitude and longitude into azimuth and elevation.",
+      "explain": "A live position service gives latitude, longitude and height. You need to turn that into the two angles. Place you and the ISS as points in 3D, subtract them to get the arrow from you to the ISS, then split that arrow into east, north and up. Azimuth is the angle of the east and north parts, and elevation is the angle of the up part. This code does it with plain maths. Skyfield gives the same answer to within a tenth of a degree.",
+      "implement": "Run the code. An ISS at latitude 0, longitude 5, 420 km high, seen from 0, 0, should give azimuth 90 and elevation 33.7. Change the numbers and sanity check each result.",
+      "outcome": "Your own function turns a position into pointing angles.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import math\nR = 6371.0                         # Earth's radius, km\n\ndef xyz(lat, lon, r):              # a point above Earth as x, y, z in km\n    la, lo = math.radians(lat), math.radians(lon)\n    return (r*math.cos(la)*math.cos(lo), r*math.cos(la)*math.sin(lo), r*math.sin(la))\n\ndef az_el(lat, lon, iss_lat, iss_lon, iss_km):\n    me, iss = xyz(lat, lon, R), xyz(iss_lat, iss_lon, R + iss_km)\n    dx, dy, dz = (iss[i] - me[i] for i in range(3))     # arrow from you to the ISS\n    a, b = math.radians(lat), math.radians(lon)\n    flat = math.cos(b)*dx + math.sin(b)*dy\n    east = -math.sin(b)*dx + math.cos(b)*dy\n    north = -math.sin(a)*flat + math.cos(a)*dz\n    up = math.cos(a)*flat + math.sin(a)*dz\n    az = math.degrees(math.atan2(east, north)) % 360\n    return az, math.degrees(math.atan2(up, math.hypot(east, north)))\n\nprint(az_el(0, 0, 0, 5, 420))      # 90.0 and 33.7: east, and well up",
+        "caption": "The same maths you will later put on the ESP32. The Earth is treated as a sphere, which is accurate enough to aim a plastic arm."
+      },
+      "resources": [
+        {
+          "label": "Wikipedia: Geographic coordinate conversion",
+          "url": "https://en.wikipedia.org/wiki/Geographic_coordinate_conversion"
+        }
+      ]
+    },
+    {
+      "title": "How a servo works",
+      "learn": "What a hobby servo does and how it is told where to turn.",
+      "explain": "A servo is a small motor with a gear train and a sensor inside, so it knows its own angle. You tell it where to go with a signal that repeats 50 times a second. The width of each pulse sets the angle, and the servo turns until it gets there and then holds on. An SG90 turns about 180 degrees. That is enough for the arm, as the next steps show.",
+      "implement": "Watch the video. In Wokwi build a circuit with an ESP32 and one servo on GPIO 18. Sweep it from 0 to 180 with a for loop and write(angle).",
+      "outcome": "A virtual servo sweeps back and forth.",
+      "figure": {
+        "kind": "video",
+        "youtubeId": "tHOH-bYjR4k",
+        "title": "What is a Servo Motor and What Does It Do?",
+        "channel": "The Engineering Mindset",
+        "caption": "A clear three minute look inside a servo and how its control signal works."
+      },
+      "resources": [
+        {
+          "label": "ESP32Servo library",
+          "url": "https://github.com/madhephaestus/ESP32Servo"
+        },
+        {
+          "label": "Wokwi: servo",
+          "url": "https://docs.wokwi.com/parts/wokwi-servo"
+        }
+      ]
+    },
+    {
+      "title": "Cover the whole sky with two servos",
+      "learn": "How to point anywhere with parts that turn only 180 degrees.",
+      "explain": "One servo turns the arm around, called pan, and a second tilts it up. A servo turns only 180 degrees, so pan alone covers half the compass. The trick is to let the tilt servo go past vertical. For a target in the other half, turn the pan servo to azimuth minus 180 and tilt 180 minus the elevation. The arm leans over the top and ends up pointing at the right place. Two small servos can now reach the whole sky.",
+      "implement": "Add a second servo on GPIO 19 in Wokwi. Run this code. It should send the arm to the west, 30 degrees up, which means pan 90 and tilt 150.",
+      "outcome": "Two servos can aim at any azimuth and elevation.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "#include <ESP32Servo.h>\nServo pan, tilt;\n\nvoid point(float az, float el) {\n  if (el < 0) return;                  // below the horizon: do nothing\n  float p = az, t = el;\n  if (az > 180) {                      // the other half of the sky:\n    p = az - 180;                      //   turn to the opposite side\n    t = 180 - el;                      //   and lean over the top\n  }\n  pan.write(p);                        // 0 = north, 90 = east, 180 = south\n  tilt.write(t);                       // 0 = flat, 90 = straight up\n}\n\nvoid setup() {\n  pan.attach(18, 500, 2400);           // pin, shortest and longest pulse in us\n  tilt.attach(19, 500, 2400);\n  point(270, 30);                      // test: west, 30 degrees up\n}\nvoid loop() {}",
+        "caption": "Compile and test in Wokwi. After you build the arm, adjust the angles so that pan 0 really points north."
+      },
+      "resources": [
+        {
+          "label": "Arduino: Servo library reference",
+          "url": "https://docs.arduino.cc/libraries/servo/"
+        }
+      ]
+    },
+    {
+      "title": "Build the arm",
+      "learn": "How to mount two servos so they pan and tilt.",
+      "explain": "Glue or screw the pan servo upright to a flat base so its horn spins horizontally. Fix the tilt servo to that horn, and put a long thin pointer, such as a straw or a skewer, on the tilt servo's horn. Add a small weight or tape at the base so it does not tip. Cardboard, craft sticks and hot glue are enough. A 3D-printed bracket is a bonus, not a need.",
+      "implement": "Build the arm. Centre both servos at 90 before you glue the horns, so that the pointer stands straight up. Mark north on the base with tape.",
+      "outcome": "A working pan and tilt arm that can point at a wall.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/embedded-iss-pointer/sg90.jpg",
+        "alt": "A blue SG90 micro servo with a white plastic horn and a three wire lead in orange, red and brown.",
+        "caption": "An SG90 micro servo. The wires are brown for ground, red for power and orange for the signal.",
+        "credit": "Suyash Dwivedi, CC BY-SA 4.0, Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tower_Pro_SG90_micro_servo_motor.jpg"
+      },
+      "resources": [
+        {
+          "label": "SparkFun: Hobby servo tutorial",
+          "url": "https://learn.sparkfun.com/tutorials/hobby-servo-tutorial/all"
+        }
+      ]
+    },
+    {
+      "title": "Wire it and power it safely",
+      "learn": "How to power servos without crashing the ESP32.",
+      "explain": "Servos pull sudden bursts of current, up to several hundred milliamps each when they start or get stuck. Powering them from the ESP32's own supply can make the board reset. Give the servos their own 5 volt supply, such as a USB power bank with a breakout board. Then join the grounds. A signal needs a shared zero volt reference, or the servo sees noise. Never wire a servo's power to a GPIO pin.",
+      "implement": "Wire the arm as shown. Connect the ground of the supply to an ESP32 GND pin. Add a 470 microfarad capacitor across the supply if the board still resets.",
+      "outcome": "The servos run from their own supply and the ESP32 stays steady.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-iss-pointer/pointer-wiring.svg",
+        "alt": "Wiring diagram: ESP32 GPIO 18 goes to the pan servo signal and GPIO 19 to the tilt servo signal. A 5 volt power bank feeds both servos, and its ground joins the ESP32 ground.",
+        "caption": "The signal wires come from the ESP32. The power comes from the power bank. Only the ground is shared."
+      },
+      "resources": [
+        {
+          "label": "SparkFun: Hobby servo tutorial",
+          "url": "https://learn.sparkfun.com/tutorials/hobby-servo-tutorial/all"
+        }
+      ]
+    },
+    {
+      "title": "Fetch the live ISS position",
+      "learn": "How the ESP32 asks the internet where the ISS is.",
+      "explain": "The ESP32 joins Wi-Fi and sends a web request, like a browser would. The service wheretheiss.at answers with JSON that includes latitude, longitude and altitude. ArduinoJson turns the text into numbers. setInsecure() skips checking the site's certificate, which is acceptable for a public data feed and would be wrong for anything with a password. In Wokwi, the network named Wokwi-GUEST is free and has internet.",
+      "implement": "Install ArduinoJson (version 7). Add this function, join Wokwi-GUEST in setup and print the latitude and longitude. Compare them with the website.",
+      "outcome": "Your ESP32 prints the ISS position every few seconds.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "#include <WiFi.h>\n#include <WiFiClientSecure.h>\n#include <HTTPClient.h>\n#include <ArduinoJson.h>             // version 7\n\nbool getIss(float &lat, float &lon, float &altKm) {\n  WiFiClientSecure client;\n  client.setInsecure();              // fine for a public data feed, not for secrets\n  HTTPClient http;\n  http.begin(client, \"https://api.wheretheiss.at/v1/satellites/25544\");\n  if (http.GET() != 200) { http.end(); return false; }\n\n  JsonDocument doc;\n  deserializeJson(doc, http.getString());\n  lat = doc[\"latitude\"];  lon = doc[\"longitude\"];  altKm = doc[\"altitude\"];\n  http.end();\n  return true;\n}\n// In setup(): WiFi.begin(\"Wokwi-GUEST\", \"\", 6);  (use your own network on real hardware)",
+        "caption": "Fetches latitude, longitude and height. If the service is ever down, getIss returns false and the arm simply stays where it is."
+      },
+      "resources": [
+        {
+          "label": "wheretheiss.at API",
+          "url": "https://wheretheiss.at/w/developer"
+        },
+        {
+          "label": "ArduinoJson",
+          "url": "https://arduinojson.org/"
+        },
+        {
+          "label": "Wokwi: ESP32 Wi-Fi",
+          "url": "https://docs.wokwi.com/guides/esp32-wifi"
+        }
+      ]
+    },
+    {
+      "title": "Aim at the ISS",
+      "learn": "How to put the pieces together.",
+      "explain": "The C++ function azEl() is your Python maths ported across. It takes your latitude and longitude, and the ISS position, and gives azimuth and elevation. When the elevation is below 0 the ISS is on the other side of Earth, so the arm stays where it is. The next step calls it in a loop that waits five seconds between requests.",
+      "implement": "Paste azEl above setup and set MY_LAT and MY_LON. Print its result for the live position and compare it with Skyfield or N2YO at the same moment.",
+      "outcome": "The simulated arm follows the ISS around your sky.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "const float R = 6371.0, RAD = PI / 180.0;\n\nvoid azEl(float myLat, float myLon, float lat, float lon, float altKm,\n          float &az, float &el) {\n  float a = myLat * RAD, b = myLon * RAD, c = lat * RAD, d = lon * RAD;\n  float r = R + altKm;\n  // vector from you to the ISS in km, measured from Earth's centre\n  float x = r * cos(c) * cos(d) - R * cos(a) * cos(b);\n  float y = r * cos(c) * sin(d) - R * cos(a) * sin(b);\n  float z = r * sin(c) - R * sin(a);\n  float east  = -sin(b) * x + cos(b) * y;\n  float north = -sin(a) * cos(b) * x - sin(a) * sin(b) * y + cos(a) * z;\n  float up    = cos(a) * cos(b) * x + cos(a) * sin(b) * y + sin(a) * z;\n  az = fmod(atan2(east, north) / RAD + 360, 360);\n  el = atan2(up, sqrt(east * east + north * north)) / RAD;\n}",
+        "caption": "azEl() in C++. Set const float MY_LAT and MY_LON to your own place, with north and east positive."
+      },
+      "resources": [
+        {
+          "label": "N2YO: live satellite tracking",
+          "url": "https://www.n2yo.com/?s=25544"
+        },
+        {
+          "label": "NASA: Spot the Station",
+          "url": "https://spotthestation.nasa.gov/"
+        }
+      ]
+    },
+    {
+      "title": "Calibrate and test outside",
+      "learn": "How to make the arm point at the real ISS.",
+      "explain": "Wokwi cannot tell you if your arm really points north. Put the arm on a flat surface. Use a phone compass to turn the base until pan 0 faces true north, and mark it. Use the phone's level to check that tilt 90 is vertical. Then run the loop at a time when the ISS is high in your sky, ideally just after dusk. Hold a phone sky map beside the arm and compare. Expect an error of a few degrees.",
+      "implement": "Add the loop below, flash the real board and take the arm outside for a visible pass. Adjust offsets in point() until the pointer lines up, then ask a friend to take a photo.",
+      "outcome": "The arm points at the real ISS to within a few degrees.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "void loop() {\n  float lat, lon, altKm, az, el;\n  if (getIss(lat, lon, altKm)) {\n    azEl(MY_LAT, MY_LON, lat, lon, altKm, az, el);\n    Serial.printf(\"ISS az %.0f  el %.0f\\n\", az, el);\n    point(az, el);\n  }\n  delay(5000);                         // the ISS moves about 38 km in 5 s\n}",
+        "caption": "The main loop. It fetches the position, finds the angles, moves the arm and waits."
+      },
+      "resources": [
+        {
+          "label": "N2YO: ISS passes for your city",
+          "url": "https://www.n2yo.com/?s=25544"
+        }
+      ]
+    },
+    {
+      "title": "Publish your pointer",
+      "learn": "How to share a physical project.",
+      "explain": "A hardware project needs more than code. Add the wiring picture, the code, a photo or short video of the arm moving and a note on what you would improve. Mention the limits too: sphere maths, a few degrees of error and a stale clock if your Wi-Fi drops. A reader can then trust your results and rebuild your arm.",
+      "implement": "Push the code, wiring picture, a README and a short video of the arm tracking to GitHub.",
+      "outcome": "The pointer is documented and published.",
+      "resources": [
+        {
+          "label": "GitHub: About READMEs",
+          "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Orbit data",
+      "links": [
+        {
+          "label": "CelesTrak",
+          "url": "https://celestrak.org/"
+        },
+        {
+          "label": "wheretheiss.at API",
+          "url": "https://wheretheiss.at/w/developer"
+        },
+        {
+          "label": "NASA: Spot the Station",
+          "url": "https://spotthestation.nasa.gov/"
+        }
+      ]
+    },
+    {
+      "category": "Libraries",
+      "links": [
+        {
+          "label": "ESP32Servo",
+          "url": "https://github.com/madhephaestus/ESP32Servo"
+        },
+        {
+          "label": "ArduinoJson",
+          "url": "https://arduinojson.org/"
+        },
+        {
+          "label": "Skyfield",
+          "url": "https://rhodesmill.org/skyfield/"
+        }
+      ]
+    },
+    {
+      "category": "Background",
+      "links": [
+        {
+          "label": "NASA: International Space Station",
+          "url": "https://www.nasa.gov/international-space-station/"
+        },
+        {
+          "label": "Wikipedia: Horizontal coordinate system",
+          "url": "https://en.wikipedia.org/wiki/Horizontal_coordinate_system"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A GitHub repository with the Python and ESP32 code",
+    "A wiring picture and a photo of the arm",
+    "A short video of the arm following the ISS or its simulation",
+    "A README that explains azimuth, elevation and how you calibrated the arm"
+  ],
+  "checklist": [
+    {
+      "id": "pointer-angles",
+      "label": "Explained azimuth and elevation in my own words"
+    },
+    {
+      "id": "pointer-pass",
+      "label": "Predicted an ISS pass with Python"
+    },
+    {
+      "id": "pointer-maths",
+      "label": "Turned latitude and longitude into azimuth and elevation, and checked it"
+    },
+    {
+      "id": "pointer-servos-sim",
+      "label": "Moved two servos in Wokwi, including the over-the-top trick"
+    },
+    {
+      "id": "pointer-arm",
+      "label": "Built the arm and powered it from its own 5 V supply"
+    },
+    {
+      "id": "pointer-live",
+      "label": "Fetched the live ISS position on the ESP32"
+    },
+    {
+      "id": "pointer-pushed",
+      "label": "Calibrated the arm, wrote a README and pushed the finished work to GitHub"
+    }
+  ]
+}

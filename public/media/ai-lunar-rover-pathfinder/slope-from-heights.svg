@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="Verdana, Arial, sans-serif">
+<path d="M40 300 H180 L500 150 H680 V350 H40 Z" stroke="none" stroke-width="0" fill="#2c2c2e" />
+<path d="M40 300 H180 L500 150 H680" stroke="#a8a5a0" stroke-width="2.5" fill="none" />
+<circle cx="180" cy="300" r="8" fill="#c8d86a" stroke="none" stroke-width="1.5" />
+<circle cx="340" cy="225" r="8" fill="#c8d86a" stroke="none" stroke-width="1.5" />
+<circle cx="500" cy="150" r="8" fill="#c8d86a" stroke="none" stroke-width="1.5" />
+<line x1="180" y1="300" x2="340" y2="300" stroke="#f5c48a" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="340" y1="300" x2="340" y2="225" stroke="#f5c48a" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="260" y="332" font-size="16" fill="#f5c48a" text-anchor="middle">run: 20 m (one pixel)</text>
+<text x="352" y="272" font-size="16" fill="#f5c48a" text-anchor="start">rise: 3 m</text>
+<path d="M240 300 A60 60 0 0 0 234 275" stroke="#f5c48a" stroke-width="2" fill="none" />
+<text x="256" y="292" font-size="18" fill="#f5c48a" text-anchor="middle">θ</text>
+<text x="40" y="60" font-size="19" fill="#f1eee6" text-anchor="start">slope θ = arctan(rise ÷ run)</text>
+<text x="40" y="92" font-size="16" fill="#a8a5a0" text-anchor="start">arctan(3 ÷ 20) is about 8.5 degrees</text>
+<text x="40" y="120" font-size="16" fill="#a8a5a0" text-anchor="start">Each pixel in the map is one height sample</text>
+</svg>

@@ -1,0 +1,423 @@
+{
+  "id": "web-live-iss-tracker",
+  "hero": {
+    "src": "/media/web-live-iss-tracker/hero-iss.jpg",
+    "alt": "The International Space Station seen from a departing shuttle, with long solar arrays reaching up and the blue curve of Earth below.",
+    "credit": "NASA, STS-132 crew",
+    "sourceUrl": "https://images.nasa.gov/details/s132e013215"
+  },
+  "overview": {
+    "what": "An interactive world map that shows where the International Space Station is right now, moves it every few seconds and draws its orbit path.",
+    "why": "You learn to use a live API, put data on a real map and handle three tricky things: timers, the wrap at the map's edge and the difference between http and https.",
+    "spaceRelevance": "The ISS crosses most of the populated Earth every day. Watching it move on a map makes orbital motion something you can see.",
+    "finalOutput": "A live site with an interactive map: a marker for the ISS, a circle showing what it can see and its predicted orbit path.",
+    "difficulty": 3,
+    "estimatedTime": "4 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "satellite",
+      "label": "The ISS orbits",
+      "detail": "About 27,600 km/h, one lap every 90 minutes."
+    },
+    {
+      "icon": "search",
+      "label": "Ask for its position",
+      "detail": "fetch calls the API every 5 seconds."
+    },
+    {
+      "icon": "map",
+      "label": "Place a marker",
+      "detail": "Latitude and longitude become a spot on the map."
+    },
+    {
+      "icon": "route",
+      "label": "Draw the path",
+      "detail": "Predicted positions join up into an orbit line."
+    },
+    {
+      "icon": "globe",
+      "label": "Publish over https",
+      "detail": "Every address is secure, so it works live."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "Latitude and longitude",
+      "meaning": "Two numbers that name any spot on Earth. Latitude is north or south of the equator, from -90 to 90. Longitude is east or west of Greenwich, from -180 to 180."
+    },
+    {
+      "term": "Map tiles",
+      "meaning": "A web map is a grid of small square pictures called tiles. The map library fetches only the tiles you can see, and fetches new ones as you drag or zoom."
+    },
+    {
+      "term": "Polling",
+      "meaning": "Asking again and again on a timer for fresh data. It is the simplest way to make a page feel live, and you choose how often."
+    },
+    {
+      "term": "Mixed content",
+      "meaning": "A secure https page trying to load data from an http address. Browsers block it. Always check that an API answers over https before you build on it."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "nZaZ2dB6pow",
+      "title": "1.5 Mapping Geolocation with Leaflet.js - Working with Data and APIs in JavaScript",
+      "channel": "The Coding Train",
+      "why": "Draws a Leaflet map and moves an ISS marker on it, step by step. Your code will differ in places, but the ideas are the same."
+    },
+    {
+      "youtubeId": "RvYYCGs45L4",
+      "title": "JavaScript Promise in 100 Seconds",
+      "channel": "Fireship",
+      "why": "A quick reminder of the promises behind await, which every API call in this project uses."
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "The first two projects, or comfort with fetch, JSON and building elements",
+      "How a website is published"
+    ],
+    "programming": [
+      "JavaScript functions, async and await",
+      "Array methods such as map and forEach"
+    ],
+    "mathPhysics": [
+      "Angles in degrees",
+      "A feel for speed and distance"
+    ],
+    "software": [
+      "A web browser",
+      "Visual Studio Code",
+      "Git and a GitHub account"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "Leaflet",
+      "why": "A small, friendly library that draws the interactive map",
+      "priority": "Essential"
+    },
+    {
+      "name": "OpenStreetMap tiles",
+      "why": "Free map pictures, with a credit line you must show",
+      "priority": "Essential"
+    },
+    {
+      "name": "wheretheiss.at API",
+      "why": "Gives the ISS's position over https with no key",
+      "priority": "Essential"
+    },
+    {
+      "name": "JavaScript timers",
+      "why": "setInterval makes the marker move on its own",
+      "priority": "Essential"
+    },
+    {
+      "name": "CSS",
+      "why": "Sizes the map and styles the info panel",
+      "priority": "Recommended"
+    },
+    {
+      "name": "GitHub Pages",
+      "why": "Publishes the tracker for free",
+      "priority": "Recommended"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "Meet the Space Station",
+      "learn": "How high and how fast the ISS travels, and why it stays up.",
+      "explain": "The ISS circles Earth about 420 km up, at roughly 27,600 km/h. One lap takes about 90 minutes, so the crew sees around 16 sunrises a day. It stays up because it is always falling toward Earth while moving sideways so fast that the ground curves away beneath it. Its orbit is tilted 51.6 degrees to the equator, so it never passes over the poles.",
+      "implement": "Open NASA's ISS pages and note the station's altitude and speed. Keep those numbers. You will compare them with your own tracker later.",
+      "outcome": "You know which numbers your tracker should show.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/web-live-iss-tracker/crew-dragon-flyaround.jpg",
+        "alt": "The station's long truss and orange solar arrays, seen through a round spacecraft window against black space, with clouds below at the right.",
+        "caption": "The ISS seen through the window of the SpaceX Crew Dragon Endeavour on 8 November 2021, after it undocked for a fly-around.",
+        "credit": "NASA, photo by ESA astronaut Thomas Pesquet",
+        "sourceUrl": "https://images.nasa.gov/details/iss066e080912"
+      },
+      "resources": [
+        {
+          "label": "NASA: International Space Station",
+          "url": "https://www.nasa.gov/international-space-station/"
+        }
+      ]
+    },
+    {
+      "title": "Place anything with two numbers",
+      "learn": "What latitude and longitude mean, and which comes first.",
+      "explain": "Latitude says how far north or south of the equator a place is, from -90 to 90. Longitude says how far east or west of the prime meridian, a line through Greenwich in London, from -180 to 180. Leaflet and most web APIs write latitude first, then longitude. GeoJSON does the opposite. Mixing them up drops your marker in the wrong ocean, which is the most common map bug.",
+      "implement": "Look up the latitude and longitude of your own city. Check the pair on a map. Then swap the two numbers and see where the pin lands.",
+      "outcome": "You can read a coordinate and spot when it is the wrong way round.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-live-iss-tracker/lat-lon.svg",
+        "alt": "A flat world grid with latitude lines from -90 to 90 and longitude lines from -180 to 180, and a dot for the ISS at latitude 46.6 and longitude -46.",
+        "caption": "The dot is a real ISS reading: latitude 46.6, longitude -46.0."
+      },
+      "resources": [
+        {
+          "label": "NOAA: What are latitude and longitude?",
+          "url": "https://oceanservice.noaa.gov/facts/latlon.html"
+        }
+      ]
+    },
+    {
+      "title": "Choose an API that works online",
+      "learn": "Why some free APIs break after you publish, and how to spot them.",
+      "explain": "A page served over https may not load data from an http address. Browsers block it as mixed content. The well-known Open Notify ISS API answers on http only, so a tracker built on it works on your laptop and breaks once it is published. We use wheretheiss.at, which works over https, needs no key and allows requests from other websites. Check this before you pick any API.",
+      "implement": "Open https://api.wheretheiss.at/v1/satellites/25544 in a tab and see the JSON. Then try https://api.open-notify.org/iss-now.json and watch it fail to load.",
+      "outcome": "You can tell if an API will work on a published site.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-live-iss-tracker/mixed-content.svg",
+        "alt": "An https website sends a secure request that reaches wheretheiss.at, while its plain http request to open-notify.org is crossed out and blocked.",
+        "caption": "Your laptop's local test page is not https, so the blocked request seems to work there. It fails only when you publish."
+      },
+      "resources": [
+        {
+          "label": "MDN: Mixed content",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content"
+        },
+        {
+          "label": "wheretheiss.at developer page",
+          "url": "https://wheretheiss.at/w/developer"
+        }
+      ]
+    },
+    {
+      "title": "Read the ISS reply",
+      "learn": "Which fields the API returns and what each one means.",
+      "explain": "One call returns the station's state right now. latitude and longitude are in degrees, altitude is in km and velocity is in km per hour. visibility says 'daylight' when the station is in sunlight and 'eclipsed' when it is in Earth's shadow. footprint is the width in km of the circle on the ground that can see the station. timestamp is in seconds since 1 January 1970. The API asks for no more than about one request a second.",
+      "implement": "Run the curl command and find all seven fields. Run it again 20 seconds later and compare the longitude. The ISS moves about 7.7 km every second.",
+      "outcome": "You can name every field you will use.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "# 25544 is the ISS's catalogue number. This address needs no key.\ncurl https://api.wheretheiss.at/v1/satellites/25544\n\n# The reply (shortened):\n# {\n#   \"latitude\": 46.64,        degrees, north is positive\n#   \"longitude\": -46.00,      degrees, east is positive\n#   \"altitude\": 422.3,        km above the ground\n#   \"velocity\": 27593,        km per hour\n#   \"visibility\": \"eclipsed\", or \"daylight\"\n#   \"footprint\": 4519,        km across: the circle that can see it\n#   \"timestamp\": 1794011883   seconds since 1 Jan 1970\n# }",
+        "caption": "The numbers in the comments are a real reply. Yours will differ, because the station has moved on."
+      },
+      "resources": [
+        {
+          "label": "MDN: Date and time, and Unix timestamps",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date"
+        }
+      ]
+    },
+    {
+      "title": "Draw the map",
+      "learn": "How Leaflet builds an interactive map from tiles.",
+      "explain": "Leaflet is a free library that draws interactive maps. A map is a grid of tiles, small pictures fetched from a tile server, and we use OpenStreetMap's. setView picks the centre and the zoom: 2 shows the whole world. The licence for the tiles asks you to show the OpenStreetMap credit, and the attribution option does that. OpenStreetMap's tile servers are meant for light use, which is fine for a learning project.",
+      "implement": "Save the HTML as index.html and open it. You should see a world map that you can drag and zoom, with a marker at latitude 0, longitude 0.",
+      "outcome": "A working interactive map.",
+      "figure": {
+        "kind": "code",
+        "language": "html",
+        "code": "<link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.css\" />\n<div id=\"map\" style=\"height: 80vh\"></div>\n<p id=\"info\">Waiting for the ISS...</p>\n\n<script src=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.js\"></script>\n<script>\n  const map = L.map(\"map\").setView([20, 0], 2); // latitude, longitude, zoom\n\n  // Tiles are the small square pictures that make up the map.\n  L.tileLayer(\"https://tile.openstreetmap.org/{z}/{x}/{y}.png\", {\n    maxZoom: 19,\n    attribution: \"&copy; OpenStreetMap contributors\",\n  }).addTo(map);\n\n  const marker = L.marker([0, 0]).addTo(map);\n</script>",
+        "caption": "The map div must have a height, or it is invisible. Version 1.9.4 is the Leaflet release this was tested with."
+      },
+      "resources": [
+        {
+          "label": "Leaflet: Quick start guide",
+          "url": "https://leafletjs.com/examples/quick-start/"
+        },
+        {
+          "label": "OpenStreetMap: Tile usage policy",
+          "url": "https://operations.osmfoundation.org/policies/tiles/"
+        }
+      ]
+    },
+    {
+      "title": "Move the marker every 5 seconds",
+      "learn": "How a timer and a fetch make a page feel live.",
+      "explain": "setInterval runs a function again and again. Each run fetches the position, moves the marker with setLatLng and slides the map to follow it with panTo. The try and catch means one failed request is simply skipped, and the marker waits for the next try. Five seconds keeps well within the one-request-a-second rule. The station covers only about 38 km in that time, so the motion looks smooth.",
+      "implement": "Paste this function below your map code. Reload and watch the marker move. Compare the readout with the numbers you wrote down in step one.",
+      "outcome": "The ISS marker moves on its own.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "const API = \"https://api.wheretheiss.at/v1/satellites/25544\";\n\nasync function updateISS() {\n  try {\n    const response = await fetch(API);\n    if (!response.ok) throw new Error(`ISS API replied ${response.status}`);\n    const iss = await response.json();\n\n    marker.setLatLng([iss.latitude, iss.longitude]);\n    map.panTo([iss.latitude, iss.longitude]);\n    document.querySelector(\"#info\").textContent =\n      `${iss.latitude.toFixed(2)}, ${iss.longitude.toFixed(2)}  |  ` +\n      `${Math.round(iss.altitude)} km up  |  ${Math.round(iss.velocity)} km/h`;\n  } catch (error) {\n    console.error(error); // keep the old position and try again next time\n  }\n}\n\nupdateISS();\nsetInterval(updateISS, 5000); // every 5 seconds is kind to a free API",
+        "caption": "marker and map come from the page before. Calling updateISS() once first avoids a 5 second wait for the first position."
+      },
+      "resources": [
+        {
+          "label": "MDN: setInterval",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/setInterval"
+        },
+        {
+          "label": "Leaflet: Marker reference",
+          "url": "https://leafletjs.com/reference.html#marker"
+        }
+      ]
+    },
+    {
+      "title": "Why the orbit path is a wave",
+      "learn": "What an orbit looks like on a flat map, and the problem at the edge.",
+      "explain": "Flatten a globe onto a map and the ISS's circular orbit becomes a wave. It swings north and south by up to 51.6 degrees, the tilt of its orbit. Earth turns beneath it, so each lap starts roughly 23 degrees further west. There is a catch. At longitude 180 the map ends and the path comes back in at -180. A line between those two points streaks across the entire map. The fix is to cut the line there.",
+      "implement": "Think before you read the next step. Given a list of [lat, lon] points, how could you spot a jump across the edge? Write your idea in a comment.",
+      "outcome": "You can explain why a naive orbit line is wrong.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-live-iss-tracker/ground-track.svg",
+        "alt": "A flat map with a blue wave swinging between 51.6 north and 51.6 south, broken at the map's edge, and a dashed orange line wrongly joining the two ends.",
+        "caption": "The blue wave is right. The dashed orange line is what you get if you join every point in order."
+      },
+      "resources": []
+    },
+    {
+      "title": "Get the points and draw the path",
+      "learn": "How to ask for many positions at once and draw broken lines.",
+      "explain": "wheretheiss.at can give positions for past and future times. Its positions address takes up to 10 timestamps, in seconds, per request. The loop asks for a point every 3 minutes, from 45 minutes ago to 90 minutes ahead, in batches of 10. splitAtEdge starts a new line when the longitude changes by more than 180. Leaflet draws a list of lines as one shape. The future part is a prediction, so it drifts over days.",
+      "implement": "Paste both functions below updateISS and reload. Check the orange path. Then take splitAtEdge out and watch the streak appear. Put it back.",
+      "outcome": "The orbit path is drawn and wraps correctly.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "async function getPath() {\n  const now = Math.floor(Date.now() / 1000);\n  const times = [];\n  for (let m = -45; m <= 90; m += 3) times.push(now + m * 60); // 45 min back, 90 ahead\n  const points = [];\n  for (let i = 0; i < times.length; i += 10) { // the API takes 10 times at once\n    const batch = times.slice(i, i + 10).join(\",\");\n    const reply = await fetch(`${API}/positions?timestamps=${batch}`);\n    points.push(...(await reply.json()));\n  }\n  return points.map((p) => [p.latitude, p.longitude]);\n}\n\n// Start a new line whenever the path jumps across the map's edge.\nfunction splitAtEdge(points) {\n  const lines = [[]];\n  points.forEach(([lat, lon], i) => {\n    if (i > 0 && Math.abs(lon - points[i - 1][1]) > 180) lines.push([]);\n    lines[lines.length - 1].push([lat, lon]);\n  });\n  return lines;\n}\n\ngetPath().then((p) => L.polyline(splitAtEdge(p), { color: \"#e0a33a\" }).addTo(map));",
+        "caption": "API is the address constant from the last step. The reply has many fields, so we keep only latitude and longitude."
+      },
+      "resources": [
+        {
+          "label": "Leaflet: Polyline reference",
+          "url": "https://leafletjs.com/reference.html#polyline"
+        },
+        {
+          "label": "MDN: Array forEach",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach"
+        }
+      ]
+    },
+    {
+      "title": "Show what the station can see",
+      "learn": "How to draw a circle on a map in real distance units.",
+      "explain": "footprint is the width in km of the circle on the ground from which the station is above the horizon. Leaflet's circle wants a radius in metres, so halve the width and multiply by 1000. visibility tells you whether the station is in sunlight ('daylight') or in Earth's shadow ('eclipsed'). You can see it from the ground only when it is sunlit and you are in the dark, a fact the next project uses.",
+      "implement": "Create the circle once, update it inside updateISS and add visibility to the readout. Zoom out and check that the circle covers a big part of a continent.",
+      "outcome": "A circle follows the marker and shows who could see the station.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "// Once, next to the marker: a circle that starts empty.\nconst circle = L.circle([0, 0], { radius: 0, color: \"#3b6fd4\", weight: 1 }).addTo(map);\n\n// Inside updateISS(), after marker.setLatLng(...):\ncircle.setLatLng([iss.latitude, iss.longitude]);\ncircle.setRadius((iss.footprint / 2) * 1000); // footprint is a width in km. Leaflet wants a radius in metres.\n\n// iss.visibility says how to see it: \"daylight\" or \"eclipsed\" (in Earth's shadow).\ndocument.querySelector(\"#info\").textContent += `  |  ${iss.visibility}`;",
+        "caption": "The first two lines go next to your marker code. The rest goes inside updateISS."
+      },
+      "resources": [
+        {
+          "label": "Leaflet: Circle reference",
+          "url": "https://leafletjs.com/reference.html#circle"
+        }
+      ]
+    },
+    {
+      "title": "Polish and publish",
+      "learn": "How to finish a live page and check it on a phone.",
+      "explain": "Polish the page. Add a title, move the readout into a small panel over the map, show 'Waiting for the ISS...' until the first position arrives and show a message if updates keep failing. Add the viewport meta tag and test on your phone, because many visitors will use one. Then publish with GitHub Pages. Every address you call is https, so the live site will work as well as your local one.",
+      "implement": "Push your work, switch on GitHub Pages and open the live address on your phone. Compare the ISS position with NASA's own tracker.",
+      "outcome": "A live ISS tracker you can share.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/web-live-iss-tracker/finished-tracker.jpg",
+        "alt": "A world map centred on the Middle East with a blue pin, a large pale blue circle around it and an orange orbit line crossing the map diagonally.",
+        "caption": "The finished tracker: marker, circle of visibility and orbit path. Your colours can differ.",
+        "credit": "Apogee example, map data OpenStreetMap contributors, ODbL",
+        "sourceUrl": "https://www.openstreetmap.org/copyright"
+      },
+      "resources": [
+        {
+          "label": "NASA: Spot the Station",
+          "url": "https://spotthestation.nasa.gov/"
+        },
+        {
+          "label": "GitHub: Creating a Pages site",
+          "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Data",
+      "links": [
+        {
+          "label": "wheretheiss.at API",
+          "url": "https://wheretheiss.at/w/developer"
+        },
+        {
+          "label": "NASA: International Space Station",
+          "url": "https://www.nasa.gov/international-space-station/"
+        },
+        {
+          "label": "NASA: Spot the Station",
+          "url": "https://spotthestation.nasa.gov/"
+        }
+      ]
+    },
+    {
+      "category": "Official documentation",
+      "links": [
+        {
+          "label": "Leaflet documentation",
+          "url": "https://leafletjs.com/reference.html"
+        },
+        {
+          "label": "MDN: Mixed content",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content"
+        }
+      ]
+    },
+    {
+      "category": "Free courses",
+      "links": [
+        {
+          "label": "freeCodeCamp",
+          "url": "https://www.freecodecamp.org/learn/"
+        },
+        {
+          "label": "javascript.info: Promises, async/await",
+          "url": "https://javascript.info/async"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A public GitHub repository with your source code",
+    "A README that explains the data source and why you chose an https API",
+    "A screenshot of the finished map",
+    "A link to your live site"
+  ],
+  "checklist": [
+    {
+      "id": "iss-lat-lon",
+      "label": "Understood latitude and longitude and which comes first"
+    },
+    {
+      "id": "iss-https-api",
+      "label": "Chose an API that works over https and explained why"
+    },
+    {
+      "id": "iss-read-reply",
+      "label": "Read the ISS reply and named each field"
+    },
+    {
+      "id": "iss-map",
+      "label": "Drew an interactive Leaflet map with a credit line"
+    },
+    {
+      "id": "iss-live-marker",
+      "label": "Moved the marker every 5 seconds, with error handling"
+    },
+    {
+      "id": "iss-orbit-path",
+      "label": "Drew the orbit path and split it at the map edge"
+    },
+    {
+      "id": "iss-footprint",
+      "label": "Added the visibility circle and the daylight or eclipsed note"
+    },
+    {
+      "id": "iss-published",
+      "label": "Published the site and pushed the finished work to GitHub"
+    }
+  ]
+}

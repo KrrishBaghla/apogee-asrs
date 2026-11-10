@@ -1,0 +1,519 @@
+{
+  "id": "embedded-mini-weather-station",
+  "hero": {
+    "src": "/media/embedded-mini-weather-station/hero.jpg",
+    "alt": "A sounding rocket leaves a bright trail as it climbs into the night sky beside a curtain of green aurora over snowy hills, seen through a fisheye lens.",
+    "credit": "NASA/GSFC (GREECE mission)",
+    "sourceUrl": "https://images.nasa.gov/details/GSFC_20171208_Archive_e001188"
+  },
+  "overview": {
+    "what": "A small weather station built on an ESP32 that reads temperature, humidity and light, shows them on your computer and logs them to a file.",
+    "why": "It teaches the basics of electronics and code: wiring, reading a sensor, analog and digital signals, and saving data. You start in a free simulator, so nothing is bought yet.",
+    "spaceRelevance": "Mars rovers carry weather stations, and space weather such as solar storms is found with sensors too. Reading the world through sensors is the first skill of every spacecraft engineer.",
+    "finalOutput": "A working ESP32 weather station, first in Wokwi and then on a breadboard, with a CSV log, a chart and a GitHub repository.",
+    "difficulty": 1,
+    "estimatedTime": "2 to 3 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "thermometer",
+      "label": "Sensors feel the air",
+      "detail": "A DHT22 senses temperature and humidity. An LDR senses light."
+    },
+    {
+      "icon": "cpu",
+      "label": "The ESP32 reads them",
+      "detail": "It asks each sensor for a value every 2 seconds."
+    },
+    {
+      "icon": "monitor",
+      "label": "Numbers appear",
+      "detail": "The Serial Monitor shows one line of readings each time."
+    },
+    {
+      "icon": "file",
+      "label": "A log is saved",
+      "detail": "Copy the lines into a CSV file and open it in a spreadsheet."
+    },
+    {
+      "icon": "chart",
+      "label": "You see the pattern",
+      "detail": "A chart shows how the room warms, cools and brightens."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "Microcontroller",
+      "meaning": "A tiny computer on one chip that runs one program forever and talks to sensors and motors through its pins."
+    },
+    {
+      "term": "GPIO",
+      "meaning": "General purpose input and output. A pin your code can read, such as a sensor signal, or switch on and off. On the ESP32 it works at 3.3 volts."
+    },
+    {
+      "term": "Analog and digital",
+      "meaning": "A digital signal is on or off. An analog signal can be any voltage, and the ESP32 turns it into a number from 0 to 4095 with analogRead."
+    },
+    {
+      "term": "Serial Monitor",
+      "meaning": "A window on your computer that shows the text your board prints. It is your main tool for seeing what the code is doing."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "1ENiVwk8idM",
+      "title": "Arduino in 100 Seconds",
+      "channel": "Fireship",
+      "why": "A fast picture of what this kind of board and code is. The ESP32 uses the same style of program."
+    },
+    {
+      "youtubeId": "hwP7WQkmECE",
+      "title": "Git Explained in 100 Seconds",
+      "channel": "Fireship",
+      "why": "Two minutes on the idea behind commits, so the Git step feels familiar when you reach it."
+    }
+  ],
+  "parts": [
+    {
+      "name": "Wokwi account",
+      "why": "Runs the whole project in your browser first",
+      "cost": "Free"
+    },
+    {
+      "name": "ESP32 dev board (30-pin)",
+      "why": "The brain. Has Wi-Fi, which later projects use",
+      "cost": "₹400 to ₹600"
+    },
+    {
+      "name": "DHT22 sensor on a 3-pin board",
+      "why": "Measures temperature and humidity",
+      "cost": "₹150 to ₹300"
+    },
+    {
+      "name": "LDR light sensor module",
+      "why": "Measures how bright it is",
+      "cost": "₹30 to ₹60"
+    },
+    {
+      "name": "Half-size breadboard",
+      "why": "Lets you wire parts without soldering",
+      "cost": "₹60 to ₹100"
+    },
+    {
+      "name": "Jumper wires, mixed pack",
+      "why": "Connect the parts to each other",
+      "cost": "₹50 to ₹100"
+    },
+    {
+      "name": "USB data cable for your board",
+      "why": "Powers the board and loads your code",
+      "cost": "₹80 to ₹150"
+    },
+    {
+      "name": "BMP280 pressure sensor (optional)",
+      "why": "Adds air pressure. Used again in the CanSat project",
+      "cost": "₹100 to ₹250"
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "How to use a computer and folders",
+      "No electronics experience is needed"
+    ],
+    "programming": [
+      "None. This project is where you start. Every line of code is explained"
+    ],
+    "mathPhysics": [
+      "Basic arithmetic",
+      "Know that voltage is a measure of electrical push"
+    ],
+    "software": [
+      "A web browser and a free Wokwi account",
+      "Visual Studio Code and Git",
+      "Arduino IDE 2 (only for the real board)",
+      "A free GitHub account"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "ESP32",
+      "why": "A cheap board with Wi-Fi that you will use in every project of this domain",
+      "priority": "Essential"
+    },
+    {
+      "name": "C++ with the Arduino framework",
+      "why": "The language of setup() and loop() that runs on the board",
+      "priority": "Essential"
+    },
+    {
+      "name": "Wokwi simulator",
+      "why": "Lets you build and test with no hardware",
+      "priority": "Essential"
+    },
+    {
+      "name": "DHT22 and LDR",
+      "why": "Your first digital and analog sensors",
+      "priority": "Essential"
+    },
+    {
+      "name": "Git and GitHub",
+      "why": "Saves your work and shares it",
+      "priority": "Essential"
+    },
+    {
+      "name": "Arduino IDE",
+      "why": "Uploads the same code to the real board",
+      "priority": "Recommended"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "Why measure weather?",
+      "learn": "What a weather station measures, and why spacecraft carry one.",
+      "explain": "NASA's Perseverance rover carries a set of weather sensors called MEDA. It measures wind, air pressure, temperature, humidity and dust. Every sensor does the same job: it turns something physical into a tiny electrical signal, and a computer reads it. Your station will read temperature, humidity and light. Solar storms, which cause auroras like the one on this page, are called space weather. They are measured with sensors too.",
+      "implement": "Read the NASA MEDA page and list three things it measures. Pick the three your own station will measure.",
+      "outcome": "You know what a sensor is and what yours will measure.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/embedded-mini-weather-station/meda.jpg",
+        "alt": "Close view of the white wind sensor boom of the MEDA weather instrument on the Perseverance rover, with the rover's wheel behind it on dark Martian ground.",
+        "caption": "MEDA's wind sensor on Perseverance, shown while it was being deployed. Your station will use much smaller sensors for the same kind of job.",
+        "credit": "NASA/JPL-Caltech",
+        "sourceUrl": "https://images.nasa.gov/details/PIA24339"
+      },
+      "resources": [
+        {
+          "label": "NASA: MEDA weather instrument",
+          "url": "https://mars.nasa.gov/mars2020/spacecraft/instruments/meda/"
+        }
+      ]
+    },
+    {
+      "title": "Meet the terminal",
+      "learn": "What a terminal is, and the four commands you will use every day.",
+      "explain": "A terminal lets you control your computer by typing instead of clicking. It always sits inside one folder. pwd prints which folder that is, ls lists what is inside, mkdir makes a new folder and cd moves you into one, so cd weather-station goes in and cd .. goes back up. Every developer tool you meet later, including Git, runs from here.",
+      "implement": "Install VS Code and Git. In VS Code choose Terminal, then New Terminal (pick Git Bash on Windows). Make a weather-station folder with mkdir and move into it with cd.",
+      "outcome": "You can move around folders and run commands without fear.",
+      "figure": {
+        "kind": "video",
+        "youtubeId": "id3DGvljhT4",
+        "title": "Linux Command-Line for Beginners: Your First 5 Minutes",
+        "channel": "tutoriaLinux",
+        "caption": "A gentle first look at typing commands. The video uses Linux, and the same commands work in Git Bash on Windows and in the Mac terminal."
+      },
+      "resources": [
+        {
+          "label": "Download Visual Studio Code",
+          "url": "https://code.visualstudio.com/"
+        },
+        {
+          "label": "Download Git",
+          "url": "https://git-scm.com/downloads"
+        },
+        {
+          "label": "VS Code: Integrated terminal",
+          "url": "https://code.visualstudio.com/docs/terminal/getting-started"
+        }
+      ]
+    },
+    {
+      "title": "Save your work with Git",
+      "learn": "What repositories, commits and pushes are.",
+      "explain": "Git is like save points in a game. A commit is one saved snapshot of your whole project, with a short note saying what changed. If you break something, you can go back. GitHub is a website that keeps an online copy of your repository, so your work survives a dead laptop. git add picks the changes, git commit saves them, and git push sends them to GitHub.",
+      "implement": "Create an empty repository on GitHub. In your folder run git init, git add . and git commit -m \"Start weather station\". Then follow the commands GitHub shows to connect and push.",
+      "outcome": "Your folder is a Git repository with a copy on GitHub.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-mini-weather-station/git-flow.svg",
+        "alt": "Three boxes in a row: your folder, local history and GitHub. git add and git commit move work to local history, and git push moves it to GitHub.",
+        "caption": "Your work moves left to right. Commit often, with a short note about what you changed."
+      },
+      "resources": [
+        {
+          "label": "GitHub: Get started",
+          "url": "https://docs.github.com/en/get-started"
+        },
+        {
+          "label": "Git in 100 seconds (video)",
+          "url": "https://www.youtube.com/watch?v=hwP7WQkmECE"
+        }
+      ]
+    },
+    {
+      "title": "Open the free simulator",
+      "learn": "What Wokwi is, and why you can start without any hardware.",
+      "explain": "Wokwi is a website that simulates microcontroller boards and parts inside your browser. You drag in a virtual ESP32, wire virtual sensors to it and run real code. Nothing can burn out, and nothing needs buying. Every step in this project works in Wokwi first. Real parts come later, once you trust your code. A free account lets you save projects and share a link.",
+      "implement": "Go to wokwi.com, sign up for free and choose ESP32. Start a new ESP32 project, press the green Play button and watch the Serial Monitor under the code.",
+      "outcome": "A virtual ESP32 is running your code in the browser.",
+      "figure": {
+        "kind": "video",
+        "youtubeId": "Y5O93lAX2q8",
+        "title": "Wokwi IoT Simulator Tutorial | Simulate Arduino and ESP32 Projects Online Without Hardware",
+        "channel": "Slog Tech",
+        "caption": "A tour of the Wokwi screen. Watch the first part to see where the code, the circuit and the Serial Monitor are."
+      },
+      "resources": [
+        {
+          "label": "Wokwi simulator",
+          "url": "https://wokwi.com/"
+        },
+        {
+          "label": "Wokwi docs: supported hardware",
+          "url": "https://docs.wokwi.com/getting-started/supported-hardware"
+        }
+      ]
+    },
+    {
+      "title": "Meet the ESP32",
+      "learn": "What an ESP32 is and what its pins do.",
+      "explain": "The ESP32 is a tiny computer on one chip, made by Espressif. It has two processor cores, Wi-Fi and Bluetooth, and costs less than a lunch. The dev board you will buy wraps it with a USB socket and a power regulator. Its pins are called GPIO, for general purpose input and output. Each pin works at 3.3 volts. Feeding 5 volts into a GPIO pin can damage the chip.",
+      "implement": "In Wokwi, hover over the pins of the ESP32 and read their names. Find 3V3, GND, GPIO 4 and GPIO 34. You will use all four.",
+      "outcome": "You can name the power pins and the GPIO pins you will use.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/embedded-mini-weather-station/esp32-module.jpg",
+        "alt": "Close photo of an ESP32 module on a circuit board. The square chip with the Espressif logo sits next to a silver crystal and a zig-zag printed antenna.",
+        "caption": "An ESP32 module up close. The square chip is the processor, and the zig-zag trace on the left is its Wi-Fi antenna.",
+        "credit": "Brian Krent, CC BY-SA 4.0, Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:Espressif_ESP-WROOM-32_Wi-Fi_%26_Bluetooth_Module.jpg"
+      },
+      "resources": [
+        {
+          "label": "ESP32 DevKit explained (video)",
+          "url": "https://www.youtube.com/watch?v=n19DJIPB1sE"
+        },
+        {
+          "label": "Espressif: ESP32",
+          "url": "https://www.espressif.com/en/products/socs/esp32"
+        }
+      ]
+    },
+    {
+      "title": "Run your first program",
+      "learn": "The two functions every Arduino-style program has.",
+      "explain": "Every sketch has two parts. setup() runs once when the board starts. loop() then runs again and again, forever. Serial.println sends a line of text to your computer, which is how a board that has no screen can talk to you. The 115200 is the speed of that line, and the Serial Monitor must be set to match.",
+      "implement": "Replace the code in Wokwi's sketch.ino with this program and press Play. Watch the numbers count up in the Serial Monitor.",
+      "outcome": "Your board prints a message every second.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "void setup() {\n  Serial.begin(115200);      // open the line to the Serial Monitor\n}\n\nint count = 0;\n\nvoid loop() {\n  count++;\n  Serial.print(\"Hello from the ESP32, reading number \");\n  Serial.println(count);\n  delay(1000);               // wait one second\n}",
+        "caption": "Your first sketch. Change the delay to 500 and run it again to see the messages come twice as fast."
+      },
+      "resources": [
+        {
+          "label": "Arduino: Serial.println",
+          "url": "https://docs.arduino.cc/language-reference/en/functions/communication/serial/println/"
+        },
+        {
+          "label": "Arduino: delay",
+          "url": "https://docs.arduino.cc/language-reference/en/functions/time/delay/"
+        }
+      ]
+    },
+    {
+      "title": "Meet the DHT22",
+      "learn": "How one small sensor measures both temperature and humidity.",
+      "explain": "Inside the white grille of a DHT22 are two parts: a tiny humidity sensor and a thermistor, a resistor that changes with temperature. A small chip turns both into numbers and sends them down a single data wire. It can only be read once every 2 seconds. Humidity is how much water vapour the air holds compared with the most it could hold at that temperature.",
+      "implement": "In Wokwi click the blue plus, add a DHT22 and wire it as in the wiring picture later in this project: VCC to 3V3, GND to GND, SDA to GPIO 4. Click the sensor to change its readings.",
+      "outcome": "A DHT22 is wired to your virtual ESP32.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/embedded-mini-weather-station/dht22.jpg",
+        "alt": "A cream coloured DHT22 sensor with a grille on top, mounted on a small black circuit board with three pins, on a white background.",
+        "caption": "A DHT22 on its small board. The version on a board has three pins: power, data and ground, and already includes the pull-up resistor.",
+        "credit": "Suyash Dwivedi, CC BY-SA 4.0, Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:AM2302_(DHT22)_digital_temperature_and_humidity_sensor_module.jpg"
+      },
+      "resources": [
+        {
+          "label": "Wokwi: DHT22 part",
+          "url": "https://docs.wokwi.com/parts/wokwi-dht22"
+        }
+      ]
+    },
+    {
+      "title": "Read temperature and humidity",
+      "learn": "How to add a library and read a sensor with it.",
+      "explain": "A library is code someone else wrote so you do not have to. The DHTesp library knows the exact timing a DHT22 needs. Wokwi installs libraries from a list: open the Library Manager tab, press the plus and search DHT sensor library for ESPx. getTempAndHumidity() returns both values. Always check the status, because a loose wire gives an error, not a number.",
+      "implement": "Add the library, paste this sketch and press Play. Click the DHT22 in the circuit and drag its sliders. The printed numbers should follow.",
+      "outcome": "The Serial Monitor shows live temperature and humidity.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "#include \"DHTesp.h\"\n\nconst int DHT_PIN = 4;       // the DHT22 data wire is on GPIO 4\nDHTesp dht;\n\nvoid setup() {\n  Serial.begin(115200);\n  dht.setup(DHT_PIN, DHTesp::DHT22);\n}\n\nvoid loop() {\n  TempAndHumidity d = dht.getTempAndHumidity();\n  if (dht.getStatus() == DHTesp::ERROR_NONE) {\n    Serial.printf(\"%.1f C, %.0f %% humidity\\n\", d.temperature, d.humidity);\n  } else {\n    Serial.println(dht.getStatusString());   // says what went wrong\n  }\n  delay(2000);               // a DHT22 can only be read every 2 seconds\n}",
+        "caption": "Reads the DHT22 every 2 seconds. The library is no longer updated but still works well on the ESP32, and Wokwi recommends it."
+      },
+      "resources": [
+        {
+          "label": "Wokwi: adding libraries",
+          "url": "https://docs.wokwi.com/guides/libraries"
+        },
+        {
+          "label": "DHTesp library",
+          "url": "https://github.com/beegee-tokyo/DHTesp"
+        }
+      ]
+    },
+    {
+      "title": "Add a light sensor",
+      "learn": "How a changing resistance becomes a number the ESP32 can read.",
+      "explain": "A light dependent resistor, or LDR, changes its resistance with brightness. The ESP32 cannot measure resistance, only voltage. So the LDR is paired with a fixed resistor to make a voltage divider, and the middle point gives a voltage that follows the light. analogRead turns 0 to 3.3 volts into a number from 0 to 4095. Use GPIO 34, which suits analog input.",
+      "implement": "Add a photoresistor sensor in Wokwi with VCC on 3V3, GND on GND and AO on GPIO 34. Print analogRead(34) and move the light slider to see which direction the number goes.",
+      "outcome": "You can read how bright it is as a number.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-mini-weather-station/ldr-divider.svg",
+        "alt": "Two voltage dividers, one for a bright room giving 3.0 volts and a reading near 3700, and one for a dark room giving 0.3 volts and a reading near 370.",
+        "caption": "The same circuit in two rooms. The numbers are examples. Real modules may read the other way round, so test yours."
+      },
+      "resources": [
+        {
+          "label": "Wokwi: photoresistor sensor",
+          "url": "https://docs.wokwi.com/parts/wokwi-photoresistor-sensor"
+        },
+        {
+          "label": "Arduino: analogRead",
+          "url": "https://docs.arduino.cc/language-reference/en/functions/analog-io/analogRead/"
+        }
+      ]
+    },
+    {
+      "title": "Turn readings into a log",
+      "learn": "How to print data in a form a spreadsheet can read, and add a simple alert.",
+      "explain": "Raw sentences are hard to graph. A line of values separated by commas, called CSV, opens in any spreadsheet. The sketch prints seconds, temperature, humidity and light on each line. A line starting with # is a note to yourself, and a spreadsheet can skip it. An alert is just an if statement: when a value passes a limit, say so.",
+      "implement": "Run this loop for a few minutes in Wokwi. Copy the Serial Monitor lines into a text file called log.csv, open it in a spreadsheet and draw a chart of temperature over time.",
+      "outcome": "You have a data file and a chart from your own sensors.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "// Add to the sketch above: const int LDR_PIN = 34;  (an ADC1 pin)\nvoid loop() {\n  TempAndHumidity d = dht.getTempAndHumidity();\n  int light = analogRead(LDR_PIN);        // 0 to 4095\n\n  if (dht.getStatus() == DHTesp::ERROR_NONE) {\n    // one line per reading: seconds, temperature, humidity, light\n    Serial.printf(\"%lu,%.1f,%.0f,%d\\n\",\n                  millis() / 1000, d.temperature, d.humidity, light);\n    if (d.temperature > 35) Serial.println(\"# ALERT: hot\");\n  }\n  delay(2000);\n}",
+        "caption": "The full loop. Put this together with the setup from the last step, and add pinMode(LDR_PIN, INPUT) if you like."
+      },
+      "resources": [
+        {
+          "label": "Google Sheets: import a CSV",
+          "url": "https://support.google.com/docs/answer/40608"
+        }
+      ]
+    },
+    {
+      "title": "Wire the real thing",
+      "learn": "How to build the same circuit on a breadboard without damaging anything.",
+      "explain": "Use the 3V3 pin for both sensors, never VIN or 5V. Check every wire against the picture before you plug in the USB cable. Swapping power and ground on a sensor can destroy it in a second. Use a USB cable that carries data, since some cables only charge. If a part gets warm or smells hot, unplug it at once.",
+      "implement": "Plug the ESP32 into a breadboard and wire it as shown. Install the Arduino IDE and the ESP32 boards package, choose ESP32 Dev Module, and upload the same sketch. Compare with Wokwi.",
+      "outcome": "Your station reads real air on a real board.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-mini-weather-station/sensor-wiring.svg",
+        "alt": "Wiring diagram: the ESP32 pin 3V3 goes to VCC on the DHT22 and the light sensor, GND goes to both ground pins, GPIO 4 goes to the DHT22 data pin and GPIO 34 goes to the light sensor analog output.",
+        "caption": "Every sensor power wire goes to the 3.3 V pin. Wiring pictures can vary between boards, so match the pin names printed on your own board."
+      },
+      "resources": [
+        {
+          "label": "Arduino IDE downloads",
+          "url": "https://www.arduino.cc/en/software"
+        },
+        {
+          "label": "Install the ESP32 boards package",
+          "url": "https://docs.espressif.com/projects/arduino-esp32/en/latest/installing.html"
+        }
+      ]
+    },
+    {
+      "title": "Share the project",
+      "learn": "How to describe a project so other people can use it.",
+      "explain": "A README is the front page of a repository. It says what the project does, what you need and how to run it. Add your sketch, a screenshot of the Wokwi circuit, your wiring picture and a chart from your log. Someone who has never met you should be able to rebuild your station from that page alone.",
+      "implement": "Add sketch.ino, a README.md, a screenshot and your chart. Commit with a clear message and push to GitHub.",
+      "outcome": "Your station is documented and on GitHub.",
+      "resources": [
+        {
+          "label": "GitHub: About READMEs",
+          "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Simulator and docs",
+      "links": [
+        {
+          "label": "Wokwi",
+          "url": "https://wokwi.com/"
+        },
+        {
+          "label": "Wokwi documentation",
+          "url": "https://docs.wokwi.com/"
+        },
+        {
+          "label": "Arduino language reference",
+          "url": "https://docs.arduino.cc/language-reference/"
+        }
+      ]
+    },
+    {
+      "category": "ESP32",
+      "links": [
+        {
+          "label": "Arduino-ESP32 documentation",
+          "url": "https://docs.espressif.com/projects/arduino-esp32/en/latest/"
+        },
+        {
+          "label": "Random Nerd Tutorials: ESP32",
+          "url": "https://randomnerdtutorials.com/projects-esp32/"
+        }
+      ]
+    },
+    {
+      "category": "Space link",
+      "links": [
+        {
+          "label": "NASA: MEDA weather instrument",
+          "url": "https://mars.nasa.gov/mars2020/spacecraft/instruments/meda/"
+        },
+        {
+          "label": "NOAA Space Weather Prediction Center",
+          "url": "https://www.swpc.noaa.gov/"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A Wokwi project link showing your circuit running",
+    "A GitHub repository with your sketch and README",
+    "A wiring picture and a screenshot of the Serial Monitor",
+    "A chart made from your own log",
+    "Photos of the real station, if you built it"
+  ],
+  "checklist": [
+    {
+      "id": "weather-terminal-git",
+      "label": "Used the terminal and made a Git repository"
+    },
+    {
+      "id": "weather-wokwi-hello",
+      "label": "Ran a first sketch in Wokwi"
+    },
+    {
+      "id": "weather-dht22",
+      "label": "Read temperature and humidity from a DHT22"
+    },
+    {
+      "id": "weather-light",
+      "label": "Read light with an LDR"
+    },
+    {
+      "id": "weather-log",
+      "label": "Saved a CSV log and drew a chart"
+    },
+    {
+      "id": "weather-hardware",
+      "label": "Built the circuit on a breadboard, or skipped it with a note saying why"
+    },
+    {
+      "id": "weather-pushed",
+      "label": "Wrote a README and pushed the finished work to GitHub"
+    }
+  ]
+}

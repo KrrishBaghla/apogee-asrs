@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Verdana, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ee9a6c"/></marker><marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f5c48a"/></marker></defs>
+<text x="360" y="32" font-size="20" fill="#f1eee6" text-anchor="middle">How far away? Counted in Moon distances</text>
+<text x="360" y="58" font-size="15" fill="#a8a5a0" text-anchor="middle">1 LD = the Earth to Moon gap, about 384,400 km</text>
+<text x="24" y="124" font-size="15" fill="#f1eee6" text-anchor="start">The Moon</text>
+<rect x="180" y="100" width="4" height="36" rx="4" fill="#ee9a6c" stroke="#ee9a6c" stroke-width="1"/>
+<text x="196" y="124" font-size="15" fill="#ee9a6c" text-anchor="start">1 LD</text>
+<text x="24" y="186" font-size="15" fill="#f1eee6" text-anchor="start">2007 VV83</text>
+<rect x="180" y="162" width="67.27" height="36" rx="4" fill="#f5c48a" stroke="#f5c48a" stroke-width="1"/>
+<text x="259.27" y="186" font-size="15" fill="#f5c48a" text-anchor="start">21.7 LD</text>
+<text x="24" y="248" font-size="15" fill="#f1eee6" text-anchor="start">2012 PP28</text>
+<rect x="180" y="224" width="244.28" height="36" rx="4" fill="#f5c48a" stroke="#f5c48a" stroke-width="1"/>
+<text x="436.28" y="248" font-size="15" fill="#f5c48a" text-anchor="start">78.8 LD</text>
+<text x="24" y="310" font-size="15" fill="#f1eee6" text-anchor="start">2016 WB10</text>
+<rect x="180" y="286" width="400.21" height="36" rx="4" fill="#f5c48a" stroke="#f5c48a" stroke-width="1"/>
+<text x="592.21" y="310" font-size="15" fill="#f5c48a" text-anchor="start">129.1 LD</text>
+<line x1="180" y1="90" x2="180" y2="350" stroke="#5e5c58" stroke-width="1.5" stroke-dasharray="4 4"/>
+<text x="180" y="376" font-size="15" fill="#a8a5a0" text-anchor="middle">Earth</text>
+<text x="700" y="376" font-size="15" fill="#a8a5a0" text-anchor="end">Real asteroids from 7 Nov 2026</text>
+</svg>

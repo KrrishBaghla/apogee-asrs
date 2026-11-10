@@ -1,0 +1,461 @@
+{
+  "id": "ai-mars-crater-detector",
+  "hero": {
+    "src": "/media/ai-mars-crater-detector/hero.jpg",
+    "alt": "A rust-coloured plain on Mars dotted with small craters, with a blue and yellow blast pattern spreading around one fresh impact crater.",
+    "credit": "NASA/JPL-Caltech/Univ. of Arizona",
+    "sourceUrl": "https://images.nasa.gov/details/PIA22462"
+  },
+  "overview": {
+    "what": "A Python program that scans a real Mars Reconnaissance Orbiter HiRISE photo, draws a ring around every crater it finds, and counts them by size.",
+    "why": "It teaches classic computer vision with OpenCV: preparing an image, finding edges, detecting shapes and tuning a detector until it is useful. No training data is needed.",
+    "spaceRelevance": "Scientists count craters to tell how old a patch of surface is: the more craters, the older it is. Doing this by hand takes years, so automatic detectors help a great deal.",
+    "finalOutput": "A script and a GitHub repository that circle craters in a HiRISE image, with a size count and an honest note on what it missed.",
+    "difficulty": 2,
+    "estimatedTime": "3 to 4 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "satellite",
+      "label": "Take a HiRISE image",
+      "detail": "A photo from the camera on NASA's Mars orbiter."
+    },
+    {
+      "icon": "filter",
+      "label": "Prepare it",
+      "detail": "Grey, more contrast, a little blur to hide grain."
+    },
+    {
+      "icon": "target",
+      "label": "Find circles",
+      "detail": "Edge pixels vote for where circle centres could be."
+    },
+    {
+      "icon": "eye",
+      "label": "Reject false alarms",
+      "detail": "Keep rings with a shadow on one side, as craters have."
+    },
+    {
+      "icon": "chart",
+      "label": "Count by size",
+      "detail": "Small craters should outnumber big ones."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "HiRISE",
+      "meaning": "The High Resolution Imaging Science Experiment, a camera on NASA's Mars Reconnaissance Orbiter. It photographs small patches of Mars in fine detail."
+    },
+    {
+      "term": "Edge detection",
+      "meaning": "Finding where brightness changes sharply from one pixel to the next. Crater rims show up as edges because one side is lit and the other is in shadow."
+    },
+    {
+      "term": "Hough transform",
+      "meaning": "A voting method for finding shapes. Each edge pixel votes for every circle centre that could explain it, and the spot with the most votes is a circle."
+    },
+    {
+      "term": "False positive",
+      "meaning": "A detection that is not real, such as a round patch of terrain that is not a crater. Tuning a detector is mostly a trade between false positives and missed craters."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "UUMvx9bMWRY",
+      "title": "Line and Circle detection using the Hough Transform",
+      "channel": "Franck Vidal",
+      "why": "A walkthrough of the Hough transform for lines and circles, which is the method your detector uses. Watch it before step 5."
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "The Telescope Image Enhancer project, or the same skills: the terminal, Git and Python basics",
+      "Pictures are grids of numbers"
+    ],
+    "programming": [
+      "Python: variables, lists, loops and functions",
+      "Basic NumPy arrays and loading an image with OpenCV"
+    ],
+    "mathPhysics": [
+      "Circles: centre, radius and diameter",
+      "Why a low Sun makes long shadows"
+    ],
+    "software": [
+      "Python 3.11 or newer",
+      "Visual Studio Code",
+      "Git and a GitHub account",
+      "OpenCV and NumPy, installed in step 3"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "Python",
+      "why": "Holds the whole detector in one short script",
+      "priority": "Essential"
+    },
+    {
+      "name": "OpenCV",
+      "why": "Provides contrast boosting, blur and the Hough circle detector",
+      "priority": "Essential"
+    },
+    {
+      "name": "NumPy",
+      "why": "Lets you measure brightness inside each circle",
+      "priority": "Essential"
+    },
+    {
+      "name": "NASA Image and Video Library",
+      "why": "Free, public HiRISE pictures with their captions",
+      "priority": "Essential"
+    },
+    {
+      "name": "Git and GitHub",
+      "why": "Saves and shares your work",
+      "priority": "Essential"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "Why craters matter",
+      "learn": "What a crater is, and why counting them tells us a surface's age.",
+      "explain": "A crater is a bowl left where a rock from space hit the ground. A fresh surface has none. Over millions of years it collects more and more, so a heavily cratered plain is older than a smooth one. This is how scientists date places on Mars and the Moon without visiting. The picture shows Victoria crater on Mars. NASA's Opportunity rover spent about two years exploring its rim.",
+      "implement": "Look closely at the picture. Find the dark shadows along the rim and the bright slopes opposite them. You will teach a program to spot that pattern.",
+      "outcome": "You can explain why scientists count craters.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/ai-mars-crater-detector/victoria.jpg",
+        "alt": "A round crater with a scalloped, jagged rim seen from above, with rippled sand dunes covering its floor, on a smooth orange-tan plain.",
+        "caption": "Victoria crater, photographed from orbit by HiRISE. Dark shadows sit along one rim and bright slopes along the other.",
+        "credit": "NASA/JPL-Caltech/University of Arizona/Cornell/Ohio State University",
+        "sourceUrl": "https://images.nasa.gov/details/PIA08813"
+      },
+      "resources": [
+        {
+          "label": "NASA: Victoria crater at Meridiani Planum",
+          "url": "https://images.nasa.gov/details/PIA08813"
+        },
+        {
+          "label": "HiRISE: the camera and its images",
+          "url": "https://www.uahirise.org/"
+        }
+      ]
+    },
+    {
+      "title": "How a crater looks from orbit",
+      "learn": "Why light and shadow make a crater easy for a person, and a rule a computer can use.",
+      "explain": "Sunlight comes in at a low angle. The wall of the bowl nearest the Sun is tilted away from it, so it sits in shadow. The far wall faces the Sun and glows. From above, a crater is a dark crescent facing a bright crescent. Your eyes read this as a bowl straight away. If you flipped the picture upside down, a crater would look like a dome. A program can use the same rule.",
+      "implement": "Note which side of the craters in the picture is dark. Which way is the Sun coming from? Keep the answer for step 8, where you test for exactly this.",
+      "outcome": "You know the light pattern that marks a crater.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/ai-mars-crater-detector/crater-lighting.svg",
+        "alt": "A side view of a bowl with the Sun's rays hitting from the upper left, shadowing the near wall, and a top view showing a dark crescent facing a bright crescent.",
+        "caption": "Seen from the side (left) and from above (right). A dark edge facing a bright edge is the signature of a crater."
+      },
+      "resources": [
+        {
+          "label": "Wikipedia: Impact crater",
+          "url": "https://en.wikipedia.org/wiki/Impact_crater"
+        }
+      ]
+    },
+    {
+      "title": "Set up the project and get the image",
+      "learn": "How to start a fresh Python project and download a HiRISE sample.",
+      "explain": "You have done this before, so it goes quickly: a project folder, a virtual environment, two packages. The sample is a NASA picture of a southern mid-latitude crater floor, covered in small impact craters. NASA's caption says they range from about 30 meters across down to the limit of what the camera can see. That makes it a hard but fair test.",
+      "implement": "Run these commands in your terminal. Then open craters.jpg and spot five craters yourself. This is your answer key for later.",
+      "outcome": "A project folder with OpenCV and the sample image.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "mkdir crater-detector\ncd crater-detector\npython -m venv .venv\nsource .venv/Scripts/activate    # Mac or Linux: source .venv/bin/activate\n\npip install opencv-python-headless numpy\n\n# download the sample picture (100 KB) from NASA's image library\ncurl -L -o craters.jpg https://images-assets.nasa.gov/image/PIA14450/PIA14450~medium.jpg\n\ngit init\necho \".venv/\" > .gitignore",
+        "caption": "The .gitignore line keeps your virtual environment out of Git. Windows users run these in Git Bash."
+      },
+      "resources": [
+        {
+          "label": "NASA: Secondary Craters (the sample picture)",
+          "url": "https://images.nasa.gov/details/PIA14450"
+        },
+        {
+          "label": "Python docs: venv",
+          "url": "https://docs.python.org/3/library/venv.html"
+        }
+      ]
+    },
+    {
+      "title": "Prepare the image",
+      "learn": "Why we use one colour layer, boost contrast and blur a little.",
+      "explain": "Crater edges are about brightness, not colour, so we convert to grey. CLAHE then boosts contrast in small tiles, so shadows deep in a dark valley and rims on a bright slope both stand out. A light Gaussian blur averages each pixel with its neighbours, which hides grain and tiny pits. Without it, the detector would see circles in noise. Too much blur also erases the small craters you want.",
+      "implement": "Save this as crater.py and run it. Open prepared.jpg and compare it with the original. Try a blur of (3, 3) and of (15, 15) and see what changes.",
+      "outcome": "A grey, contrast-boosted, smoothed image ready for detection.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import cv2, numpy as np\n\nimg = cv2.imread(\"craters.jpg\")                 # blue, green, red layers\ngray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)    # one layer: brightness only\nprint(img.shape, round(gray.mean(), 1))         # (800, 1280, 3) 111.5\n\n# CLAHE lifts contrast in small tiles, so shadows and rims stand out\nclahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))\nflat = clahe.apply(gray)\n\n# a gentle blur hides tiny pits and grain that confuse the detector\nblur = cv2.GaussianBlur(flat, (7, 7), 1.5)\ncv2.imwrite(\"prepared.jpg\", blur)",
+        "caption": "crater.py, part 1. OpenCV stores colours as blue, green, red, in that order."
+      },
+      "resources": [
+        {
+          "label": "OpenCV: Histograms 2, equalization and CLAHE",
+          "url": "https://docs.opencv.org/4.x/d5/daf/tutorial_py_histogram_equalization.html"
+        },
+        {
+          "label": "Wikipedia: Gaussian blur",
+          "url": "https://en.wikipedia.org/wiki/Gaussian_blur"
+        }
+      ]
+    },
+    {
+      "title": "How the Hough transform finds circles",
+      "learn": "How edge pixels vote for circle centres, and why that works.",
+      "explain": "Picture a crater rim as a ring of edge pixels. Any one pixel could belong to many circles, but if the radius is fixed, its centre must lie on a circle around that pixel. So every edge pixel draws its circle of possible centres and adds one vote to each point it crosses. Pixels that belong to the same real ring all cross at one point, the true centre. The spot with the most votes wins. OpenCV repeats this for a range of radii.",
+      "implement": "Draw it on paper. Mark five points on a circle, draw a circle of the same radius around each one, and see where they meet.",
+      "outcome": "You can explain how a program finds a circle.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/ai-mars-crater-detector/hough-voting.svg",
+        "alt": "A ring with five coloured points on it, each point drawing a dashed circle, and all the dashed circles crossing at the centre of the ring.",
+        "caption": "Each edge point draws a circle of possible centres. They all cross at the true centre, so that spot collects the most votes."
+      },
+      "resources": [
+        {
+          "label": "LearnOpenCV: Hough transform with OpenCV",
+          "url": "https://learnopencv.com/hough-transform-with-opencv-c-python/"
+        },
+        {
+          "label": "Wikipedia: Circle Hough transform",
+          "url": "https://en.wikipedia.org/wiki/Circle_Hough_Transform"
+        }
+      ]
+    },
+    {
+      "title": "Run the circle detector",
+      "learn": "What each setting of HoughCircles means, and how to draw the results.",
+      "explain": "cv2.HoughCircles needs a few settings. minDist stops two rings landing on the same crater. param1 is how strong an edge must be. param2 is how many votes a circle needs: lower finds more circles, including false ones. minRadius and maxRadius set the sizes to look for, in pixels. It returns a list of x, y and radius for each circle. We then draw each one with cv2.circle.",
+      "implement": "Add this to crater.py and run it. You should see 58 circles. Open circles.jpg and look: some rings sit on craters, and some sit on nothing.",
+      "outcome": "A picture with circles drawn on it.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "found = cv2.HoughCircles(\n    blur, cv2.HOUGH_GRADIENT,\n    dp=1.2,          # vote map at slightly lower resolution\n    minDist=25,      # circles closer than this count as one\n    param1=120,      # edge strength (Canny high threshold)\n    param2=20,       # votes needed: LOWER finds more circles\n    minRadius=5, maxRadius=30)\n\ncircles = np.round(found[0]).astype(int)     # rows of x, y, radius\nprint(len(circles), \"circles\")               # 58\n\nout = img.copy()\nfor x, y, r in circles:\n    cv2.circle(out, (x, y), r, (0, 255, 255), 2)   # yellow ring (BGR)\ncv2.imwrite(\"circles.jpg\", out)",
+        "caption": "crater.py, part 2. If found is None, nothing was detected: lower param2."
+      },
+      "resources": [
+        {
+          "label": "Wikipedia: Hough transform",
+          "url": "https://en.wikipedia.org/wiki/Hough_transform"
+        }
+      ]
+    },
+    {
+      "title": "Tune the detector",
+      "learn": "How one setting trades missed craters against false alarms.",
+      "explain": "No setting is perfect, and that is the lesson. A low vote threshold finds nearly every crater and also dozens of fake ones. A high threshold gives clean detections but misses the faint craters. You choose a balance for your goal. Counting craters for dating can tolerate a few misses. A hazard warning for a rover cannot. This trade-off appears in every detector, including the neural networks in the next projects.",
+      "implement": "Run the loop below and see the three counts. Then draw circles for param2 of 15 and of 25, and compare the pictures with the 20 one.",
+      "outcome": "You can pick a threshold on purpose.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "# try three vote thresholds and count what each one finds\nfor votes in (15, 20, 25):\n    f = cv2.HoughCircles(blur, cv2.HOUGH_GRADIENT, 1.2, 25,\n                         param1=120, param2=votes,\n                         minRadius=5, maxRadius=30)\n    print(votes, 0 if f is None else len(f[0]))\n\n# 15 192    too many: terrain wrinkles count as craters\n# 20  58    a fair middle\n# 25  16    only the clearest craters survive",
+        "caption": "The counts here are for this exact image and these settings. A different picture will need different numbers."
+      },
+      "resources": [
+        {
+          "label": "Wikipedia: Precision and recall",
+          "url": "https://en.wikipedia.org/wiki/Precision_and_recall"
+        }
+      ]
+    },
+    {
+      "title": "Reject false alarms with shading",
+      "learn": "How to use the light pattern from step 2 as a test.",
+      "explain": "Now use what you know about craters. In this picture the Sun shines from the left, so the left inner wall is dark and the right inner wall is bright. For each circle we measure the average brightness of its right half and its left half, and keep it only if the right is clearly brighter. Flat patches and round bumps fail this test. It removes about half the circles: mostly false alarms, but also some real craters.",
+      "implement": "Add this to crater.py. You should keep about 30 of the 58 circles. Change the number 12 to 6 and to 25, and see how the count moves.",
+      "outcome": "A cleaner set of detections.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "def shading(g, x, y, r):\n    \"\"\"Right half of the circle minus its left half, in brightness.\"\"\"\n    mask = np.zeros(g.shape, np.uint8)\n    cv2.circle(mask, (x, y), r, 255, -1)         # filled disc\n    cols = np.arange(g.shape[1])[None, :]\n    right = (mask > 0) & (cols > x)\n    left = (mask > 0) & (cols < x)\n    return g[right].mean() - g[left].mean()\n\n# the Sun is on the left here, so the left inner wall is dark\nkeep = [c for c in circles if shading(gray.astype(float), *c) > 12]\nprint(len(keep), \"kept of\", len(circles))      # 30 kept of 58\n\nfinal = img.copy()\nfor x, y, r in keep:\n    cv2.circle(final, (x, y), r, (0, 255, 255), 2)\ncv2.imwrite(\"final.jpg\", final)",
+        "caption": "crater.py, part 3. This rule only works because the Sun is on the left in this picture. Other pictures may need it flipped."
+      },
+      "resources": [
+        {
+          "label": "NumPy: Boolean indexing",
+          "url": "https://numpy.org/doc/stable/user/basics.indexing.html"
+        }
+      ]
+    },
+    {
+      "title": "Compare and check honestly",
+      "learn": "How to judge a detector by looking, and how to report what it got wrong.",
+      "explain": "Drag the slider. Many of the yellow rings sit neatly on craters. In the top left quarter we checked by hand, about 10 of 14 rings were on real craters, and a good number of real craters had no ring at all. That is typical for a classic method, which only knows one thing: round edges with a shadow. It misses craters that are worn down, overlapping or oval. Say this plainly in your report.",
+      "implement": "Check your own result. Zoom into one quarter of final.jpg and count rings on craters, rings on nothing and craters missed. Write the three numbers down.",
+      "outcome": "You can describe what your detector does well and badly.",
+      "figure": {
+        "kind": "compare",
+        "before": {
+          "src": "/media/ai-mars-crater-detector/sample-craters.jpg",
+          "label": "HiRISE original"
+        },
+        "after": {
+          "src": "/media/ai-mars-crater-detector/craters-found.jpg",
+          "label": "Craters found"
+        },
+        "alt": "The same cratered Mars terrain twice: one plain, one with thirty yellow rings drawn around craters.",
+        "caption": "Drag the slider. Yellow rings are the 30 circles that passed the shading test. Many small craters are still missed.",
+        "credit": "NASA/JPL-Caltech/Univ. of Arizona. Yellow rings added by the project script",
+        "sourceUrl": "https://images.nasa.gov/details/PIA14450"
+      },
+      "resources": [
+        {
+          "label": "NASA: Secondary Craters (the sample picture)",
+          "url": "https://images.nasa.gov/details/PIA14450"
+        }
+      ]
+    },
+    {
+      "title": "Count craters by size",
+      "learn": "How to turn detections into a result a scientist could use.",
+      "explain": "Detections only matter once you do something with them. Scientists plot how many craters there are at each size, because a surface's age shows up in that pattern: small craters are far more numerous than large ones. Here we measure the diameters in pixels and count them in bins. To turn pixels into metres you would use the scale in NASA's picture caption. You will see more small craters than large ones, which is what real surfaces show.",
+      "implement": "Add this to crater.py and run it. Describe the pattern in a sentence. Does it fit what you expected? Remember the detector misses the smallest craters, so the true count is higher.",
+      "outcome": "A size count of the craters you found.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "sizes = np.array([2 * r for x, y, r in keep])   # diameters, in pixels\ncounts, edges = np.histogram(sizes, bins=[10, 20, 30, 40, 70])\n\nfor n, lo, hi in zip(counts, edges, edges[1:]):\n    print(f\"{lo:>2} to {hi:>2} px: {'#' * n}\")\n\n# 10 to 20 px: #########\n# 20 to 30 px: ################\n# 30 to 40 px: ##\n# 40 to 70 px: ###",
+        "caption": "crater.py, part 4. A text bar chart is enough for now. matplotlib can draw a nicer one if you want."
+      },
+      "resources": [
+        {
+          "label": "NumPy: histogram",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.histogram.html"
+        },
+        {
+          "label": "Wikipedia: Crater counting",
+          "url": "https://en.wikipedia.org/wiki/Crater_counting"
+        }
+      ]
+    },
+    {
+      "title": "Where this leads: learning to spot craters",
+      "learn": "What neural networks can do that a hand-made rule cannot.",
+      "explain": "Your detector follows a rule you wrote. A neural network instead learns the rule from thousands of labelled examples, so it can handle worn, oval and overlapping craters. In 2020 NASA scientists used a trained network on Mars Context Camera images and it found a new cluster of impact craters. HiRISE then photographed the spot to confirm it, as shown here. You will train your own network in project 4.",
+      "implement": "Read NASA's page on this discovery. Write two sentences: what did the AI do, and what did human scientists still have to do?",
+      "outcome": "You know when to use rules and when to use learning.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/ai-mars-crater-detector/ai-craters.jpg",
+        "alt": "A pale, rippled Mars surface with a small cluster of dark craters in the middle, the largest of them a dark round pit.",
+        "caption": "A crater cluster first spotted by an AI in Context Camera images, then confirmed in this HiRISE photo.",
+        "credit": "NASA/JPL-Caltech/University of Arizona",
+        "sourceUrl": "https://images.nasa.gov/details/PIA24040"
+      },
+      "resources": [
+        {
+          "label": "NASA: AI spots a cluster of Mars craters",
+          "url": "https://images.nasa.gov/details/PIA24040"
+        }
+      ]
+    },
+    {
+      "title": "Write it up and push",
+      "learn": "How to present a result so someone else can trust it.",
+      "explain": "A good README answers four questions. What does it do? How do I run it? What does it find, with a picture? What does it get wrong? Include your three hand counts from step 9, the settings you chose and why. Pushing the finished work is the same routine as before, so it should feel quick now.",
+      "implement": "Save circles.jpg and final.jpg in the repository, write the README, then run the commands below with your own GitHub name.",
+      "outcome": "Your detector is on GitHub with an honest README.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "pip freeze > requirements.txt\ngit add .\ngit commit -m \"Crater detector: Hough circles with a shading check\"\ngit branch -M main\ngit remote add origin https://github.com/YOUR-NAME/crater-detector.git\ngit push -u origin main",
+        "caption": "Create an empty repository named crater-detector on GitHub first, then run these."
+      },
+      "resources": [
+        {
+          "label": "GitHub: Quickstart for repositories",
+          "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Official documentation",
+      "links": [
+        {
+          "label": "OpenCV Python tutorials",
+          "url": "https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html"
+        },
+        {
+          "label": "NumPy documentation",
+          "url": "https://numpy.org/doc/stable/"
+        }
+      ]
+    },
+    {
+      "category": "Data",
+      "links": [
+        {
+          "label": "HiRISE image catalogue",
+          "url": "https://www.uahirise.org/"
+        },
+        {
+          "label": "NASA Image and Video Library",
+          "url": "https://images.nasa.gov/"
+        },
+        {
+          "label": "The sample picture (Secondary Craters)",
+          "url": "https://images.nasa.gov/details/PIA14450"
+        }
+      ]
+    },
+    {
+      "category": "Further reading",
+      "links": [
+        {
+          "label": "Wikipedia: Crater counting",
+          "url": "https://en.wikipedia.org/wiki/Crater_counting"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A public GitHub repository with crater.py and requirements.txt",
+    "A README with the original and final pictures and your settings",
+    "Your hand counts: rings on craters, rings on nothing and craters missed",
+    "A short size count of the craters found, with one sentence on what it shows"
+  ],
+  "checklist": [
+    {
+      "id": "craters-setup",
+      "label": "Set up a project with OpenCV and downloaded the HiRISE sample"
+    },
+    {
+      "id": "craters-prepare",
+      "label": "Made the image grey, boosted contrast and blurred it"
+    },
+    {
+      "id": "craters-hough",
+      "label": "Ran HoughCircles and drew the circles"
+    },
+    {
+      "id": "craters-tune",
+      "label": "Compared three vote thresholds and chose one"
+    },
+    {
+      "id": "craters-shading",
+      "label": "Added the shading test to reject false alarms"
+    },
+    {
+      "id": "craters-check",
+      "label": "Counted hits, false alarms and misses by hand"
+    },
+    {
+      "id": "craters-sizes",
+      "label": "Counted the craters by size"
+    },
+    {
+      "id": "craters-published",
+      "label": "Wrote a README and pushed the finished work to GitHub"
+    }
+  ]
+}

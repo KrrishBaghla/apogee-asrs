@@ -1,0 +1,507 @@
+{
+  "id": "ai-telescope-image-enhancer",
+  "hero": {
+    "src": "/media/ai-telescope-image-enhancer/hero.jpg",
+    "alt": "Two views of the Southern Ring Nebula: an orange and blue shell of gas around a bright star on the left, and a red and blue web of dust on the right.",
+    "credit": "NASA, ESA, CSA, STScI",
+    "sourceUrl": "https://images.nasa.gov/details/southern_ring_nebula"
+  },
+  "overview": {
+    "what": "A Python program that takes a noisy telescope image, cleans it with filters, stacks many frames into one, and shows the before and after side by side.",
+    "why": "It teaches the tools every later AI project uses: the terminal, Git, Python, NumPy and OpenCV, plus the idea that a picture is just numbers you can calculate with.",
+    "spaceRelevance": "Faint galaxies and nebulae send so little light that telescope pictures are full of noise. Astronomers beat it with exactly the stacking and filtering you build here.",
+    "finalOutput": "A GitHub repository with a script that turns a noisy frame into a clean image, and numbers showing how much each method improved it.",
+    "difficulty": 1,
+    "estimatedTime": "2 to 3 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "image",
+      "label": "Start with a clean image",
+      "detail": "A real Hubble photo from NASA, downloaded once."
+    },
+    {
+      "icon": "zap",
+      "label": "Add telescope noise",
+      "detail": "Simulate 16 noisy frames, as a real camera would give."
+    },
+    {
+      "icon": "filter",
+      "label": "Filter one frame",
+      "detail": "A median filter removes the worst speckles."
+    },
+    {
+      "icon": "layers",
+      "label": "Stack all frames",
+      "detail": "Averaging cancels random noise, more with each frame."
+    },
+    {
+      "icon": "chart",
+      "label": "Score and compare",
+      "detail": "A number and a slider show how much cleaner it is."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "Pixel",
+      "meaning": "One tiny square of a picture. In a grey image each pixel is a number from 0 (black) to 255 (white). A colour image stores three numbers per pixel."
+    },
+    {
+      "term": "Noise",
+      "meaning": "Random errors in each pixel. Part comes from light arriving in uneven bursts, part from the camera electronics. It changes from one frame to the next."
+    },
+    {
+      "term": "Stacking",
+      "meaning": "Averaging many frames of the same sky. The stars are the same every time, but the noise is random, so it cancels. Noise drops by the square root of the number of frames."
+    },
+    {
+      "term": "PSNR",
+      "meaning": "Peak signal to noise ratio: one score, in decibels (dB), for how close a cleaned image is to the true one. Higher is better. You will use it to judge each step."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "x7X9w_GIm1s",
+      "title": "Python in 100 Seconds",
+      "channel": "Fireship",
+      "why": "A quick tour of what Python is and why scientists use it. Watch it before step 5, where you write your first lines."
+    },
+    {
+      "youtubeId": "O6oGyFlZgAc",
+      "title": "Shot Noise and Read Noise - Noise in Astrophotography Ep1",
+      "channel": "Cuiv, The Lazy Geek",
+      "why": "Explains the two kinds of noise you will simulate in step 7, using real astrophotography examples."
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "How to use a computer, folders and a web browser",
+      "No coding or AI experience is needed. This project starts from zero"
+    ],
+    "programming": [
+      "None. Step 5 teaches the Python you need"
+    ],
+    "mathPhysics": [
+      "Averages and square roots",
+      "No physics needed. Step 1 explains where noise comes from"
+    ],
+    "software": [
+      "Python 3.11 or newer",
+      "Visual Studio Code",
+      "Git and a free GitHub account",
+      "About 300 MB of free disk space"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "Python",
+      "why": "The language almost all AI and astronomy tools are written in",
+      "priority": "Essential"
+    },
+    {
+      "name": "NumPy",
+      "why": "Holds images as grids of numbers and does maths on them fast",
+      "priority": "Essential"
+    },
+    {
+      "name": "OpenCV",
+      "why": "Reads and writes images, and provides the median filter and a denoiser",
+      "priority": "Essential"
+    },
+    {
+      "name": "The terminal and venv",
+      "why": "Runs your scripts and keeps this project's packages separate",
+      "priority": "Essential"
+    },
+    {
+      "name": "Git and GitHub",
+      "why": "Saves every version of your code and shares it",
+      "priority": "Essential"
+    },
+    {
+      "name": "scikit-image",
+      "why": "Has a ready-made PSNR function and sample images if you want to explore",
+      "priority": "Recommended"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "Why space pictures are noisy",
+      "learn": "Where noise comes from, and why faint objects suffer most.",
+      "explain": "A camera counts particles of light, called photons. From a faint galaxy only a handful reach each pixel, and they arrive at random, so two photos of the same patch of sky never match exactly. That randomness is noise. The picture shown here, the Hubble eXtreme Deep Field, shows how astronomers fought it: they combined 10 years of Hubble photographs of one tiny patch of sky.",
+      "implement": "Open the picture full size. Zoom in on a faint smudge, and think about how many photons it took to draw it.",
+      "outcome": "You can explain why one exposure is not enough.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/ai-telescope-image-enhancer/deep-field.jpg",
+        "alt": "A black field filled with thousands of small galaxies in many colours, some spiral and some round, with a few bright foreground stars.",
+        "caption": "The Hubble eXtreme Deep Field. NASA built it by combining 10 years of Hubble photographs of a patch of sky much smaller than the full Moon.",
+        "credit": "NASA, ESA, G. Illingworth, D. Magee, P. Oesch, R. Bouwens and the HUDF09 Team",
+        "sourceUrl": "https://images.nasa.gov/details/GSFC_20171208_Archive_e001651"
+      },
+      "resources": [
+        {
+          "label": "NASA: Hubble eXtreme Deep Field",
+          "url": "https://images.nasa.gov/details/GSFC_20171208_Archive_e001651"
+        }
+      ]
+    },
+    {
+      "title": "Meet the terminal",
+      "learn": "What a terminal is, and the few commands you will use every day.",
+      "explain": "A terminal lets you control your computer by typing. It always sits inside one folder. pwd shows which folder, ls lists what is inside, mkdir makes a folder and cd moves into one. Python, Git and every tool in this domain run from here. On Windows, use Git Bash (it comes with Git) so the commands match the ones in this guide.",
+      "implement": "Install Python, Git and VS Code. In VS Code open Terminal, then New Terminal (pick Git Bash on Windows). Run python --version and git --version. Both should print a version number.",
+      "outcome": "You can move around folders and run commands.",
+      "figure": {
+        "kind": "video",
+        "youtubeId": "id3DGvljhT4",
+        "title": "Linux Command-Line for Beginners: Your First 5 Minutes",
+        "channel": "tutoriaLinux",
+        "caption": "A gentle first look at typing commands. The same commands work in Git Bash on Windows and in the Mac terminal."
+      },
+      "resources": [
+        {
+          "label": "Download Python",
+          "url": "https://www.python.org/downloads/"
+        },
+        {
+          "label": "Download Git",
+          "url": "https://git-scm.com/downloads"
+        },
+        {
+          "label": "Download Visual Studio Code",
+          "url": "https://code.visualstudio.com/"
+        }
+      ]
+    },
+    {
+      "title": "Set up a project and virtual environment",
+      "learn": "What a virtual environment is, and how to install packages into it.",
+      "explain": "Python gets its power from packages: code other people wrote, installed with pip. A virtual environment is a private folder of packages for one project, so a project never breaks because of another. You create it once, then activate it every time you open a new terminal. You will see (.venv) at the start of the line when it is on.",
+      "implement": "Run these commands in the terminal. On Mac or Linux, activate with source .venv/bin/activate. In PowerShell, use .venv\\Scripts\\Activate.ps1.",
+      "outcome": "NumPy and OpenCV are installed in a clean project folder.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "mkdir telescope-enhancer\ncd telescope-enhancer\n\n# make a private folder of packages called .venv\npython -m venv .venv\n\n# switch it on (Git Bash on Windows)\nsource .venv/Scripts/activate\n\n# install the two packages this project needs\npip install numpy opencv-python-headless\n\n# check that it worked\npython -c \"import cv2; print(cv2.__version__)\"",
+        "caption": "Run these once. After that, only the activate line is needed each time you open a terminal."
+      },
+      "resources": [
+        {
+          "label": "Python docs: venv",
+          "url": "https://docs.python.org/3/library/venv.html"
+        },
+        {
+          "label": "pip: Getting started",
+          "url": "https://pip.pypa.io/en/stable/getting-started/"
+        }
+      ]
+    },
+    {
+      "title": "Save your work with Git",
+      "learn": "What a repository and a commit are, and how to push to GitHub.",
+      "explain": "Git works like save points in a game. A commit is a snapshot of your whole project with a short note. If you break something you can go back. GitHub keeps an online copy so your work survives a dead laptop. The three commands you need are git add (choose changes), git commit (save them) and git push (send them to GitHub). You will use them at every project from here on.",
+      "implement": "Create a free GitHub account and an empty repository called telescope-enhancer. Set your name once with git config --global user.name, and your email with user.email. You will push to it in the last step.",
+      "outcome": "You have a GitHub account and know what a commit is.",
+      "figure": {
+        "kind": "video",
+        "youtubeId": "hwP7WQkmECE",
+        "title": "Git Explained in 100 Seconds",
+        "channel": "Fireship",
+        "caption": "A fast overview of what Git does. You do not need to follow every word. The commands come in the last step."
+      },
+      "resources": [
+        {
+          "label": "GitHub: Get started",
+          "url": "https://docs.github.com/en/get-started"
+        },
+        {
+          "label": "GitHub: Set up Git",
+          "url": "https://docs.github.com/en/get-started/git-basics/set-up-git"
+        }
+      ]
+    },
+    {
+      "title": "Python in ten minutes",
+      "learn": "Variables, lists, loops and functions: the four ideas the rest of the project uses.",
+      "explain": "A variable is a labelled box for a value. A list holds many values in order. A for loop repeats steps once per item, and a function is a named set of steps you can reuse. Everything after this point is built from those four ideas. In Python the indentation matters: the indented lines belong to the loop or function above them.",
+      "implement": "Save this as primer.py inside your project folder and run python primer.py. Change the numbers and run it again until the output makes sense.",
+      "outcome": "You can read and write short Python programs.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "stars = [12, 40, 7, 95]     # a list of brightness values\n\ntotal = 0\nfor s in stars:             # a loop: runs once per item\n    total = total + s       # the indented line is inside the loop\n\ndef average(values):        # a function: reusable steps\n    return sum(values) / len(values)\n\nprint(total)                # 154\nprint(average(stars))       # 38.5",
+        "caption": "primer.py. The lines starting with # are comments. Python ignores them, and they are there for you."
+      },
+      "resources": [
+        {
+          "label": "Python tutorial: An informal introduction",
+          "url": "https://docs.python.org/3/tutorial/introduction.html"
+        },
+        {
+          "label": "Python tutorial",
+          "url": "https://docs.python.org/3/tutorial/"
+        }
+      ]
+    },
+    {
+      "title": "A picture is a grid of numbers",
+      "learn": "How a computer stores an image, and how to load one with OpenCV.",
+      "explain": "Zoom far into any photo and you see squares. Each square is a pixel, stored as a number from 0 (black) to 255 (white). A colour image keeps three numbers per pixel, for blue, green and red. NumPy holds all of them as one array, so you can do maths on a whole image at once. Brighter stars are simply bigger numbers.",
+      "implement": "Download the sample with curl -L -o sombrero.jpg followed by the sample address below, which is a Hubble photo of the galaxy NGC 7814. Then run python -c \"import cv2; i=cv2.imread('sombrero.jpg'); print(i.shape, i[300,600])\".",
+      "outcome": "You have the sample image and can print its pixel values.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/ai-telescope-image-enhancer/image-is-numbers.svg",
+        "alt": "A small grey picture of a bright spot next to the grid of numbers Python stores for it, with 255 at the brightest centre pixel.",
+        "caption": "Left is what you see, right is what Python sees. The shape (636, 1280, 3) means 636 rows, 1280 columns and 3 colours."
+      },
+      "resources": [
+        {
+          "label": "The sample image (NASA, 119 KB)",
+          "url": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e000794/GSFC_20171208_Archive_e000794~orig.jpg"
+        },
+        {
+          "label": "NumPy: Absolute beginners guide",
+          "url": "https://numpy.org/doc/stable/user/absolute_beginners.html"
+        },
+        {
+          "label": "OpenCV: Getting started with images",
+          "url": "https://docs.opencv.org/4.x/db/deb/tutorial_display_image.html"
+        }
+      ]
+    },
+    {
+      "title": "Make your own noisy frames",
+      "learn": "How to simulate shot noise and read noise, and how to score an image.",
+      "explain": "The NASA picture is already clean, so we make it worse on purpose. That way we know the right answer and can measure how well each method does. Shot noise comes from photons arriving at random, and rng.poisson simulates it. Read noise is the camera electronics, a small random wobble from rng.normal. We make 16 frames, each with fresh noise. Then psnr scores how far a frame is from the clean image.",
+      "implement": "Save this as enhance.py and run it. It should print about 21.3. Open noisy.jpg and see how speckled one frame is.",
+      "outcome": "You have 16 noisy frames and a score for the worst one.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import cv2, numpy as np\n\nrng = np.random.default_rng(42)   # fixed seed: same noise every run\nclean = cv2.imread(\"sombrero.jpg\").astype(np.float32) / 255\n\ndef noisy(img):\n    shot = rng.poisson(img * 60) / 60       # photon counting noise\n    read = rng.normal(0, 0.06, img.shape)   # camera electronics noise\n    return np.clip(shot + read, 0, 1).astype(np.float32)\n\nframes = [noisy(clean) for _ in range(16)]\ncv2.imwrite(\"noisy.jpg\", (frames[0] * 255).astype(np.uint8))\n\ndef psnr(a, b):                             # higher is better\n    return 10 * np.log10(1 / np.mean((a - b) ** 2))\n\nprint(round(psnr(clean, frames[0]), 1))     # 21.3",
+        "caption": "enhance.py, part 1. The noise is simulated by this script, not by a telescope. Real frames also need aligning, which these already are."
+      },
+      "resources": [
+        {
+          "label": "NumPy: Random Generator",
+          "url": "https://numpy.org/doc/stable/reference/random/generator.html"
+        },
+        {
+          "label": "Wikipedia: Peak signal-to-noise ratio",
+          "url": "https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio"
+        }
+      ]
+    },
+    {
+      "title": "Clean one frame with a median filter",
+      "learn": "What a filter window is, and why the median beats the average for speckles.",
+      "explain": "A filter looks at each pixel together with its neighbours. A median filter lines up the 9 values in a 3 by 3 window, sorts them and keeps the middle one. A single hot pixel of 255 lands at the end of the sorted list and is thrown away. An average would let that one pixel smear into its neighbours. The cost is some lost detail: fine textures get softer.",
+      "implement": "Work one by hand: sort 5, 9, 200, 7, 6 and find the middle value. Then think what an average would give, and why 200 would hurt it. You will run the real filter in step 10.",
+      "outcome": "You can explain why a median removes speckles.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/ai-telescope-image-enhancer/median-filter.svg",
+        "alt": "A 3 by 3 block of pixel values containing one hot pixel of 255, sorted into a line where the middle value is 14, which replaces the centre pixel.",
+        "caption": "Sort the nine values and take the middle one. The hot pixel of 255 ends up at the far end and disappears."
+      },
+      "resources": [
+        {
+          "label": "OpenCV: Python tutorials",
+          "url": "https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html"
+        },
+        {
+          "label": "Wikipedia: Median filter",
+          "url": "https://en.wikipedia.org/wiki/Median_filter"
+        }
+      ]
+    },
+    {
+      "title": "Stack the frames",
+      "learn": "Why averaging many frames removes noise but keeps the stars.",
+      "explain": "Real stars sit in the same place in every frame, so averaging keeps them. Noise is different in every frame, so it partly cancels. Averaging N frames cuts the noise by the square root of N: 4 frames halve it, 16 frames cut it to a quarter. That is why astronomers add up hundreds of exposures. Stacking cleans without blurring, which is its great advantage over a filter.",
+      "implement": "Work it out: if one frame has noise of 8 units, what is the noise after stacking 4 frames? After 16? Check the table in the picture. You will measure the real gain in step 10.",
+      "outcome": "You can predict how much stacking helps.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/ai-telescope-image-enhancer/stacking-averages-noise.svg",
+        "alt": "Three noisy star frames feeding an average, which gives one clean star field, with a table showing noise at 1/2 for 4 frames, 1/4 for 16 and 1/10 for 100.",
+        "caption": "Noise shrinks by the square root of the number of frames. Going from 16 to 100 frames needs many more exposures for a smaller gain."
+      },
+      "resources": [
+        {
+          "label": "Sky at Night: A guide to astrophotography stacking",
+          "url": "https://www.skyatnightmagazine.com/astrophotography/astrophoto-tips/a-guide-to-astrophotography-stacking/"
+        },
+        {
+          "label": "NumPy: mean",
+          "url": "https://numpy.org/doc/stable/reference/generated/numpy.mean.html"
+        }
+      ]
+    },
+    {
+      "title": "Run all three methods",
+      "learn": "How to apply the filter, the stack and the denoiser, and score each.",
+      "explain": "Now put steps 8 and 9 to work, and add a stronger denoiser. fastNlMeansDenoisingColored looks for patches elsewhere in the picture that resemble the one it is cleaning and averages them. That keeps edges sharper than a plain blur. The numbers 3, 3, 7, 21 set its strength and the patch sizes. Because the stack is already clean, a gentle setting is enough.",
+      "implement": "Add this code to the end of enhance.py and run it. The printed scores should match the comments. If they differ by a little, check your seed of 42.",
+      "outcome": "You have scores for every method.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "single = (frames[0] * 255).astype(np.uint8)\nmed = cv2.medianBlur(single, 3)                       # 3 by 3 median\nprint(\"median\", round(psnr(clean, med / 255), 1))     # 28.4\n\nfor n in (4, 16):                                     # stacking\n    s = np.mean(frames[:n], axis=0)\n    print(\"stack of\", n, round(psnr(clean, s), 1))    # 27.3, then 33.2\n\nstack = np.mean(frames, axis=0)\nsmall = (stack * 255).astype(np.uint8)\nfinal = cv2.fastNlMeansDenoisingColored(small, None, 3, 3, 7, 21)\nprint(\"stack + denoise\", round(psnr(clean, final / 255), 1))   # 37.1\ncv2.imwrite(\"final.jpg\", final)",
+        "caption": "enhance.py, part 2. A median on one frame beats stacking 4, but stacking 16 and denoising beats everything."
+      },
+      "resources": [
+        {
+          "label": "OpenCV: Image denoising",
+          "url": "https://docs.opencv.org/4.x/d5/d69/tutorial_py_non_local_means.html"
+        },
+        {
+          "label": "OpenCV: Python tutorials",
+          "url": "https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html"
+        }
+      ]
+    },
+    {
+      "title": "Compare before and after",
+      "learn": "How to combine methods, and how to read a before and after honestly.",
+      "explain": "A score is useful, but your eyes matter too. Put the worst frame beside the final result and look at the dust lane and the stars. Then be honest about what you did. The noise was simulated, and the 16 frames were perfectly aligned. Real telescope frames drift and need aligning first, and they carry extra faults such as hot pixels. Your method is the right idea. Real data is just messier.",
+      "implement": "Open noisy.jpg and final.jpg side by side. In step 10, change the 3, 3 to 10, 10, run again and see how too much smoothing wipes out faint stars. Then set it back.",
+      "outcome": "A before and after pair that you can judge honestly.",
+      "figure": {
+        "kind": "compare",
+        "before": {
+          "src": "/media/ai-telescope-image-enhancer/noisy-frame.jpg",
+          "label": "One noisy frame"
+        },
+        "after": {
+          "src": "/media/ai-telescope-image-enhancer/stacked-clean.jpg",
+          "label": "16 stacked and denoised"
+        },
+        "alt": "The dust lane of the galaxy NGC 7814: a speckled, grainy version on one side and a smooth, detailed version on the other.",
+        "caption": "Drag the slider. The left side is a real Hubble picture with noise we added ourselves. The right side is the result of this project, at 37.1 dB.",
+        "credit": "NASA, ESA, Hubble. Noise added and stacked by the Apogee project script",
+        "sourceUrl": "https://images.nasa.gov/details/GSFC_20171208_Archive_e000794"
+      },
+      "resources": [
+        {
+          "label": "OpenCV: Image denoising",
+          "url": "https://docs.opencv.org/4.x/d5/d69/tutorial_py_non_local_means.html"
+        },
+        {
+          "label": "scikit-image: PSNR",
+          "url": "https://scikit-image.org/docs/stable/api/skimage.metrics.html"
+        }
+      ]
+    },
+    {
+      "title": "Publish to GitHub",
+      "learn": "How to add a .gitignore and push your project online.",
+      "explain": "Some folders should never be saved, such as .venv, which anyone can rebuild with pip. A .gitignore file lists them. Save the package list with pip freeze, so a visitor can install the same versions. Then commit and push. Finally write a short README: what the project does, how to run it, and your before and after pictures with their scores.",
+      "implement": "Run these commands with your own GitHub name in the address. Open the repository page in your browser and check that your files are there. Add the README on GitHub or in VS Code.",
+      "outcome": "Your project is online with a README.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "# list the packages so others can install them\npip freeze > requirements.txt\n\n# never save the virtual environment\necho \".venv/\" > .gitignore\n\ngit init\ngit add .\ngit commit -m \"Telescope image enhancer\"\ngit branch -M main\ngit remote add origin https://github.com/YOUR-NAME/telescope-enhancer.git\ngit push -u origin main",
+        "caption": "Replace YOUR-NAME with your GitHub username. GitHub shows these same commands on an empty repository page."
+      },
+      "resources": [
+        {
+          "label": "GitHub: Quickstart for repositories",
+          "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Official documentation",
+      "links": [
+        {
+          "label": "Python documentation",
+          "url": "https://docs.python.org/3/"
+        },
+        {
+          "label": "NumPy documentation",
+          "url": "https://numpy.org/doc/stable/"
+        },
+        {
+          "label": "OpenCV Python tutorials",
+          "url": "https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html"
+        }
+      ]
+    },
+    {
+      "category": "Data",
+      "links": [
+        {
+          "label": "NASA Image and Video Library",
+          "url": "https://images.nasa.gov/"
+        },
+        {
+          "label": "The sample image used here",
+          "url": "https://images.nasa.gov/details/GSFC_20171208_Archive_e000794"
+        }
+      ]
+    },
+    {
+      "category": "Free courses",
+      "links": [
+        {
+          "label": "Python for Everybody (free)",
+          "url": "https://www.py4e.com/"
+        },
+        {
+          "label": "freeCodeCamp",
+          "url": "https://www.freecodecamp.org/learn/"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A public GitHub repository with enhance.py and requirements.txt",
+    "A README that explains the project and shows your before and after images",
+    "A table of PSNR scores: one frame, median filter, 4 stacked, 16 stacked, and final",
+    "A short note, in your own words, on what was simulated and what was real"
+  ],
+  "checklist": [
+    {
+      "id": "enhancer-tools-setup",
+      "label": "Installed Python, Git and VS Code, and ran commands in the terminal"
+    },
+    {
+      "id": "enhancer-venv",
+      "label": "Created a virtual environment and installed NumPy and OpenCV"
+    },
+    {
+      "id": "enhancer-python-primer",
+      "label": "Wrote and ran primer.py with a list, a loop and a function"
+    },
+    {
+      "id": "enhancer-load-image",
+      "label": "Downloaded the sample image and printed its pixel values"
+    },
+    {
+      "id": "enhancer-noisy-frames",
+      "label": "Simulated 16 noisy frames and scored one with PSNR"
+    },
+    {
+      "id": "enhancer-median",
+      "label": "Cleaned a frame with a median filter"
+    },
+    {
+      "id": "enhancer-stack",
+      "label": "Stacked the frames and measured the gain"
+    },
+    {
+      "id": "enhancer-compare",
+      "label": "Denoised the stack and made a before and after pair"
+    },
+    {
+      "id": "enhancer-published",
+      "label": "Wrote a README and pushed the finished work to GitHub"
+    }
+  ]
+}

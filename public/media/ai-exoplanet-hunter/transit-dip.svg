@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 360" font-family="Verdana, Arial, sans-serif">
+<circle cx="130" cy="72" r="48" fill="#f5c48a" stroke="none" stroke-width="1.5" />
+<circle cx="50" cy="72" r="14" fill="#161617" stroke="#c8d86a" stroke-width="2.5" />
+<text x="130" y="146" font-size="16" fill="#a8a5a0" text-anchor="middle">Before</text>
+<circle cx="370" cy="72" r="48" fill="#f5c48a" stroke="none" stroke-width="1.5" />
+<circle cx="370" cy="72" r="14" fill="#161617" stroke="#c8d86a" stroke-width="2.5" />
+<text x="370" y="146" font-size="16" fill="#a8a5a0" text-anchor="middle">During</text>
+<circle cx="610" cy="72" r="48" fill="#f5c48a" stroke="none" stroke-width="1.5" />
+<circle cx="690" cy="72" r="14" fill="#161617" stroke="#c8d86a" stroke-width="2.5" />
+<text x="610" y="146" font-size="16" fill="#a8a5a0" text-anchor="middle">After</text>
+<line x1="50" y1="170" x2="50" y2="320" stroke="#5e5c58" stroke-width="1.5" />
+<line x1="50" y1="320" x2="710" y2="320" stroke="#5e5c58" stroke-width="1.5" />
+<path d="M60 192 H300 L332 280 H408 L440 192 H700" stroke="#c8d86a" stroke-width="3.5" fill="none" />
+<text transform="rotate(-90 34 248)" x="34" y="248" font-size="15" fill="#a8a5a0" text-anchor="middle">Brightness</text>
+<text x="380" y="346" font-size="15" fill="#a8a5a0" text-anchor="middle">Time</text>
+<line x1="240" y1="236" x2="240.0" y2="202.0" stroke="#f5c48a" stroke-width="2" /><polygon points="240,196 245.2,206.8 234.8,206.8" fill="#f5c48a"/>
+<line x1="240" y1="236" x2="240.0" y2="272.0" stroke="#f5c48a" stroke-width="2" /><polygon points="240,278 234.8,267.2 245.2,267.2" fill="#f5c48a"/>
+<text x="228" y="240" font-size="15" fill="#f5c48a" text-anchor="end">Depth</text>
+<text x="470" y="232" font-size="15" fill="#f5c48a" text-anchor="start">Depth = (R planet ÷ R star)²</text>
+<text x="470" y="258" font-size="15" fill="#f1eee6" text-anchor="start">Jupiter on the Sun: 1%</text>
+<text x="470" y="282" font-size="15" fill="#f1eee6" text-anchor="start">Earth on the Sun: 0.008%</text>
+</svg>

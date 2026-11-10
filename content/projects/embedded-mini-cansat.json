@@ -1,0 +1,488 @@
+{
+  "id": "embedded-mini-cansat",
+  "hero": {
+    "src": "/media/embedded-mini-cansat/hero.jpg",
+    "alt": "Solar panels of the International Space Station stretch across the top left of the frame, with the curve of Earth and thin clouds below against black space.",
+    "credit": "NASA (ISS crew)",
+    "sourceUrl": "https://images.nasa.gov/details/iss064e002941"
+  },
+  "overview": {
+    "what": "A can-sized satellite with an ESP32, a pressure sensor and a motion sensor that sends live readings by radio to a second ESP32 and a laptop graph.",
+    "why": "You learn I2C sensors, radio links and live plotting. You also meet real design limits, such as size, weight and power.",
+    "spaceRelevance": "Every satellite is sensors, a computer, a radio and power in a small box. CanSats are how students all over the world practise that on a small scale.",
+    "finalOutput": "A working CanSat, a ground station, a live graph on your laptop and a written test report.",
+    "difficulty": 3,
+    "estimatedTime": "4 to 5 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "thermometer",
+      "label": "Sensors measure",
+      "detail": "BMP280 gives pressure and temperature. MPU6050 gives motion."
+    },
+    {
+      "icon": "cpu",
+      "label": "The CanSat packs data",
+      "detail": "An ESP32 puts five numbers into one 20-byte packet."
+    },
+    {
+      "icon": "radio",
+      "label": "Radio sends it",
+      "detail": "ESP-NOW carries the packet to the ground, with no router."
+    },
+    {
+      "icon": "satellite",
+      "label": "Ground station receives",
+      "detail": "A second ESP32 turns each packet into a line of text."
+    },
+    {
+      "icon": "chart",
+      "label": "Laptop draws it live",
+      "detail": "Python plots height and motion as they arrive."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "Telemetry",
+      "meaning": "Measurements sent from a distant machine to people on the ground. Satellites and rovers send telemetry all the time."
+    },
+    {
+      "term": "I2C",
+      "meaning": "A two-wire bus. Many sensors share the same data and clock wires, and each one answers only to its own address."
+    },
+    {
+      "term": "Barometric altitude",
+      "meaning": "Height worked out from air pressure. Pressure falls steadily as you climb, so a pressure sensor works as an altimeter."
+    },
+    {
+      "term": "Packet",
+      "meaning": "A small, fixed-size bundle of bytes sent in one go. Both ends agree on what each byte means."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "auCQMBL6dDc",
+      "title": "CanSat video",
+      "channel": "European Space Agency, ESA",
+      "why": "ESA's own film about the competition. It shows what students build and how the teams work."
+    },
+    {
+      "youtubeId": "qxwXwNS3Avw",
+      "title": "ESP-NOW with ESP32 EXPLAINED: Easiest Wireless Communication Between Boards (ESP8266 Compatible)",
+      "channel": "Rui Santos",
+      "why": "Four minutes on the radio link used in this project, before you write any code for it."
+    }
+  ],
+  "parts": [
+    {
+      "name": "ESP32 dev board x2",
+      "why": "One flies in the can, one is the ground station",
+      "cost": "₹400 to ₹600 each (reuse one)"
+    },
+    {
+      "name": "BMP280 pressure and temperature module",
+      "why": "Gives height from air pressure",
+      "cost": "₹100 to ₹250"
+    },
+    {
+      "name": "MPU6050 (GY-521) motion module",
+      "why": "Measures acceleration, so you can see motion and free fall",
+      "cost": "₹200 to ₹300"
+    },
+    {
+      "name": "Small USB power bank",
+      "why": "A safe power source with protection built in",
+      "cost": "₹300 to ₹600"
+    },
+    {
+      "name": "Short USB cable",
+      "why": "Connects the power bank to the CanSat board",
+      "cost": "₹50 to ₹100"
+    },
+    {
+      "name": "Breadboard (or perfboard) and jumper wires",
+      "why": "Joins the parts. Perfboard is smaller but needs soldering",
+      "cost": "₹100 to ₹250"
+    },
+    {
+      "name": "Can-sized shell: card tube, PVC pipe or a clean can",
+      "why": "Holds everything. 66 mm wide, 115 mm tall",
+      "cost": "₹30 to ₹150"
+    },
+    {
+      "name": "Plastic bag, string, zip ties, foam, tape",
+      "why": "A small parachute and ways to hold the parts",
+      "cost": "₹50 to ₹150"
+    },
+    {
+      "name": "1S LiPo, TP4056 charger, boost converter (optional)",
+      "why": "A smaller battery. Only with supervisor approval",
+      "cost": "₹300 to ₹600"
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "Finished the weather station and ISS pointer projects",
+      "Understand what a library and a GPIO pin are"
+    ],
+    "programming": [
+      "C++ on the ESP32: structs, functions and printf",
+      "Python: lists, loops and installing libraries with pip"
+    ],
+    "mathPhysics": [
+      "Basic units: pascals, metres, metres per second squared",
+      "Know that air pressure falls as you climb"
+    ],
+    "software": [
+      "Arduino IDE 2 with Arduino-ESP32 core 3.0 or newer",
+      "Python 3 with pyserial and matplotlib",
+      "Git and a GitHub account"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "ESP32 and ESP-NOW",
+      "why": "Gives you a radio link with no router",
+      "priority": "Essential"
+    },
+    {
+      "name": "I2C sensors: BMP280 and MPU6050",
+      "why": "Measure pressure, temperature and motion",
+      "priority": "Essential"
+    },
+    {
+      "name": "Adafruit sensor libraries",
+      "why": "Handle the details of talking to the sensors",
+      "priority": "Essential"
+    },
+    {
+      "name": "Python, pyserial and matplotlib",
+      "why": "Read the stream and draw live graphs",
+      "priority": "Essential"
+    },
+    {
+      "name": "Wokwi simulator",
+      "why": "Can test the MPU6050 part, but not the BMP280 or the radio link",
+      "priority": "Recommended"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "What is a CanSat?",
+      "learn": "What a CanSat is, and how it differs from a CubeSat.",
+      "explain": "A CanSat is a model satellite built to fit inside a soda can. Students pack the parts of a real satellite into it: power, sensors, a computer and a radio. It sends its readings to a ground station, where a team watches them. A CubeSat, like the one in the photo, is a real satellite built from 10 cm units. A CanSat is much smaller and is launched only a few hundred metres high, if it is launched at all.",
+      "implement": "Watch the ESA CanSat video. List the four parts every satellite needs, and say which part of your CanSat does each job.",
+      "outcome": "You can explain what a CanSat is and what it needs.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/embedded-mini-cansat/raincube.jpg",
+        "alt": "A small box-shaped satellite on a white background with a large gold umbrella-like radar dish opened on top and flat solar panels folded out along the bottom.",
+        "caption": "RainCube, a real NASA CubeSat with a folding antenna. Its box holds the same kinds of parts as your CanSat: computer, sensors, radio and power.",
+        "credit": "NASA/JPL-Caltech",
+        "sourceUrl": "https://images.nasa.gov/details/PIA22457"
+      },
+      "resources": [
+        {
+          "label": "ESA: What is a CanSat",
+          "url": "https://www.esa.int/Education/CanSat/What_is_a_CanSat"
+        },
+        {
+          "label": "ESA CanSat competition",
+          "url": "https://cansat.esa.int/"
+        }
+      ]
+    },
+    {
+      "title": "Plan the mission and the can",
+      "learn": "What the CanSat should measure, and the size rules that shape it.",
+      "explain": "Real CanSat teams follow ESA's rule: a CanSat fits in 66 mm by 115 mm and weighs 300 to 350 grams. You do not have to compete, but the limits are a good design brief. A good mission is simple and measurable: record temperature, air pressure, height and shaking, and send them live. Height comes from pressure, because air gets thinner the higher you go. Plan how the parts stack before you build.",
+      "implement": "Write a one-line mission, such as: Send temperature, height and motion to a laptop every half second. Draw your own stack inside a 66 by 115 mm outline. Weigh each part.",
+      "outcome": "A written mission and a sketch of the layout.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-mini-cansat/cansat-layout.svg",
+        "alt": "A soda-can-sized shape 66 millimetres wide and 115 millimetres tall, with a sensor board, an ESP32 and a battery stacked inside, an antenna out of the top, and a note of 300 to 350 grams.",
+        "caption": "The ESA size limits drawn as a design brief. Ours will be a shape to work to, not a competition entry."
+      },
+      "resources": [
+        {
+          "label": "ESA: CanSat mission guide",
+          "url": "https://cansat.esa.int/"
+        }
+      ]
+    },
+    {
+      "title": "Wire the sensors",
+      "learn": "How two sensors can share the same two wires.",
+      "explain": "Both sensors talk over I2C, a bus that needs just two wires, called SDA for data and SCL for the clock, plus power and ground. Each device has its own address, like a house number, so many can share the bus. The BMP280 is usually 0x76 and the MPU6050 is 0x68. Both modules run on 3.3 V. The ESP32's default I2C pins are GPIO 21 (SDA) and GPIO 22 (SCL).",
+      "implement": "Wire the ESP32 to the two modules as shown. Check every connection twice before you power up. If the BMP280 is not found later, try address 0x77.",
+      "outcome": "Both sensors are wired to the ESP32.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-mini-cansat/cansat-wiring.svg",
+        "alt": "Wiring diagram: ESP32 3V3, GND, GPIO 22 as SCL and GPIO 21 as SDA each connect to the matching pin on both the BMP280 and the MPU6050.",
+        "caption": "One bus, two sensors. Power goes to 3.3 V only. Many modules have more pins, but these four are all you need."
+      },
+      "resources": [
+        {
+          "label": "Adafruit: I2C explained",
+          "url": "https://learn.adafruit.com/i2c-addresses"
+        },
+        {
+          "label": "Adafruit BMP280 guide",
+          "url": "https://learn.adafruit.com/adafruit-bmp280-barometric-pressure-plus-temperature-sensor-breakout"
+        }
+      ]
+    },
+    {
+      "title": "Why pressure gives height",
+      "learn": "How a barometer works as an altimeter.",
+      "explain": "Air has weight. At sea level, a column of air above you presses with about 1013 hPa. Climb, and there is less air above, so the pressure drops. Near the ground it falls about 1.2 hPa for every 10 metres. A barometric sensor such as the BMP280 measures pressure very finely, and the library turns it into height. Weather moves the pressure too, so the sensor gives height above where it started, not above sea level.",
+      "implement": "Watch the video. Then think of a test that is safe: where could you change height by 10 to 20 metres and see the pressure drop?",
+      "outcome": "You know why the pressure falls with height and how to turn it into metres.",
+      "figure": {
+        "kind": "video",
+        "youtubeId": "rabWc5W84ug",
+        "title": "17 | Measure altitude with the BMP280 barometric sensor",
+        "channel": "Carbon Aeronautics",
+        "caption": "How a BMP280 estimates altitude and what its readings look like."
+      },
+      "resources": [
+        {
+          "label": "Wikipedia: Barometric formula",
+          "url": "https://en.wikipedia.org/wiki/Barometric_formula"
+        }
+      ]
+    },
+    {
+      "title": "Read both sensors",
+      "learn": "How to read the pressure, temperature and motion in one program.",
+      "explain": "Each sensor has a library from Adafruit that handles the details. Install Adafruit BMP280 Library and Adafruit MPU6050, plus the Adafruit Unified Sensor library they need. At rest, the accelerometer reads about 9.8 m/s2, which is gravity. In free fall it reads close to zero, so you can see when your CanSat is falling. The program notes the pressure on the ground at start, so height reads 0 there.",
+      "implement": "Upload this sketch, open the Serial Monitor at 115200 and watch. Lift the board up and down, and tip it. Take it up a flight of stairs and see the height change.",
+      "outcome": "The Serial Monitor shows temperature, pressure, height and motion.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "#include <Wire.h>\n#include <Adafruit_BMP280.h>\n#include <Adafruit_MPU6050.h>\n\nAdafruit_BMP280 bmp;\nAdafruit_MPU6050 mpu;\nfloat groundHpa;                  // pressure on the ground at start\n\nvoid setup() {\n  Serial.begin(115200);\n  Wire.begin();                   // SDA = GPIO 21, SCL = GPIO 22\n  if (!bmp.begin(0x76)) Serial.println(\"No BMP280, try 0x77\");\n  if (!mpu.begin()) Serial.println(\"No MPU6050\");\n  groundHpa = bmp.readPressure() / 100.0;   // Pa to hPa\n}\n\nvoid loop() {\n  sensors_event_t a, g, t;\n  mpu.getEvent(&a, &g, &t);\n  float accel = sqrt(a.acceleration.x * a.acceleration.x +\n                     a.acceleration.y * a.acceleration.y +\n                     a.acceleration.z * a.acceleration.z);   // m/s2\n  Serial.printf(\"%.1f C %.1f hPa %.1f m %.2f m/s2\\n\", bmp.readTemperature(),\n                bmp.readPressure() / 100.0, bmp.readAltitude(groundHpa), accel);\n  delay(500);\n}",
+        "caption": "Reads both sensors every half second. readAltitude() takes the ground pressure in hPa, so it reports height above the start."
+      },
+      "resources": [
+        {
+          "label": "Adafruit BMP280 library",
+          "url": "https://github.com/adafruit/Adafruit_BMP280_Library"
+        },
+        {
+          "label": "Adafruit MPU6050 library",
+          "url": "https://github.com/adafruit/Adafruit_MPU6050"
+        }
+      ]
+    },
+    {
+      "title": "Choose a radio link",
+      "learn": "How data gets from the can to the ground.",
+      "explain": "A telemetry link is the radio path that carries measurements from a spacecraft to the ground. The ESP32 has a built-in way to do this called ESP-NOW. It sends small packets of up to 250 bytes straight between boards, with no router or internet. Ours holds 20 bytes. Reported range is a couple of hundred metres in open air, and far less through walls. A second ESP32 is the ground station: it receives packets and hands them to your laptop by USB.",
+      "implement": "Draw your own copy of the link picture. Label what each box does and what travels between them.",
+      "outcome": "You can trace one reading from a sensor to a laptop screen.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-mini-cansat/telemetry-link.svg",
+        "alt": "A CanSat ESP32 sends radio packets to a ground station ESP32, which passes them by USB to a laptop. Below is a 20-byte packet made of five 4-byte fields, and a sample line of text.",
+        "caption": "The packet is a few numbers in a fixed order. Both boards agree on the order, so no labels need to travel."
+      },
+      "resources": [
+        {
+          "label": "Espressif: ESP-NOW",
+          "url": "https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_now.html"
+        },
+        {
+          "label": "ESP-NOW explained (video)",
+          "url": "https://www.youtube.com/watch?v=qxwXwNS3Avw"
+        }
+      ]
+    },
+    {
+      "title": "Send packets from the CanSat",
+      "learn": "How to pack readings and send them by radio.",
+      "explain": "A struct holds your five numbers in a fixed order. esp_now_send copies its bytes into one radio packet. Sending to the broadcast address FF:FF:FF:FF:FF:FF means any ESP32 listening on the same Wi-Fi channel can receive it, so there is no address to look up. Both boards must be in station mode, which the WiFi.mode call sets. Keep the antenna end of each ESP32 away from metal and your hands.",
+      "implement": "Add the radio code to your sensor sketch. Upload it to the CanSat board and power it from a USB power bank. It will not print anything useful yet. The next step reads it.",
+      "outcome": "The CanSat sends a packet twice a second.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "#include <WiFi.h>\n#include <esp_now.h>\n// ... plus the sensor includes and objects from the last step\n\nstruct Packet { uint32_t ms; float tempC, hPa, altM, accel; };   // 20 bytes\nuint8_t everyone[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};      // broadcast\n\nvoid setup() {\n  // sensor setup from the last step, then the radio:\n  WiFi.mode(WIFI_STA);\n  esp_now_init();\n  esp_now_peer_info_t peer = {};\n  memcpy(peer.peer_addr, everyone, 6);\n  esp_now_add_peer(&peer);\n}\n\nvoid loop() {\n  // read the sensors as before, then fill and send one packet:\n  Packet p = {millis(), bmp.readTemperature(), bmp.readPressure() / 100.0,\n              bmp.readAltitude(groundHpa), accel};\n  esp_now_send(everyone, (uint8_t *)&p, sizeof(p));\n  delay(500);\n}",
+        "caption": "The new parts only. Keep your sensor code in the places the comments show."
+      },
+      "resources": [
+        {
+          "label": "Random Nerd Tutorials: ESP-NOW with the ESP32",
+          "url": "https://randomnerdtutorials.com/esp-now-esp32-arduino-ide/"
+        }
+      ]
+    },
+    {
+      "title": "Build the ground station",
+      "learn": "How a second ESP32 receives the packets.",
+      "explain": "The ground station is a second ESP32, plugged into your laptop. It registers a function that runs each time a packet arrives. That function checks the size, copies the bytes back into the same struct and prints one line of comma-separated text. This sketch uses the callback form from Arduino-ESP32 core 3.0 and newer. If your boards package is older, update it in the Boards Manager.",
+      "implement": "Upload this to the second board, open the Serial Monitor and power the CanSat from the power bank. You should see a new line every half second.",
+      "outcome": "Packets from the CanSat appear on your laptop.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "#include <WiFi.h>\n#include <esp_now.h>\n\nstruct Packet { uint32_t ms; float tempC, hPa, altM, accel; };  // same as the sender\n\n// Needs Arduino-ESP32 core 3.0 or newer, which has this callback shape\nvoid onReceive(const esp_now_recv_info_t *info, const uint8_t *data, int len) {\n  if (len != sizeof(Packet)) return;            // ignore anything else\n  Packet p;\n  memcpy(&p, data, sizeof(p));\n  Serial.printf(\"%lu,%.1f,%.1f,%.1f,%.2f\\n\", (unsigned long)p.ms, p.tempC,\n                p.hPa, p.altM, p.accel);        // one CSV line per packet\n}\n\nvoid setup() {\n  Serial.begin(115200);\n  WiFi.mode(WIFI_STA);\n  esp_now_init();\n  esp_now_register_recv_cb(onReceive);\n}\n\nvoid loop() {}                                  // everything happens in the callback",
+        "caption": "The ground station. It does nothing except pass each packet on as a line of text."
+      },
+      "resources": [
+        {
+          "label": "Arduino-ESP32: ESP-NOW API",
+          "url": "https://docs.espressif.com/projects/arduino-esp32/en/latest/api/espnow.html"
+        }
+      ]
+    },
+    {
+      "title": "Draw live graphs",
+      "learn": "How to plot the stream on your laptop.",
+      "explain": "Python can read the lines through the USB port with pyserial and draw them with matplotlib. The loop reads one line, splits it at the commas, turns the pieces into numbers and adds them to a list of the last 120 packets. Then it redraws the graphs. A try and except skips any half-received line. Find your port name in the Arduino IDE, such as COM5 on Windows.",
+      "implement": "Install with pip install pyserial matplotlib. Close the Serial Monitor first, because only one program can use the port. For a first test, swap in made-up lines for port.readline().",
+      "outcome": "A live graph of height and motion follows the CanSat.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import collections\nimport serial                                    # pip install pyserial\nimport matplotlib.pyplot as plt\n\nport = serial.Serial(\"COM5\", 115200, timeout=1)  # your port, shown in the Arduino IDE\nrows = collections.deque(maxlen=120)             # keep the last 120 packets\n\nplt.ion()\nfig, (top, bottom) = plt.subplots(2, 1, sharex=True)\nwhile plt.fignum_exists(fig.number):\n    parts = port.readline().decode(errors=\"ignore\").strip().split(\",\")\n    try:\n        rows.append([float(x) for x in parts])   # ms, temp, pressure, height, accel\n    except ValueError:\n        continue                                 # skip half-received lines\n    secs = [r[0] / 1000 for r in rows]\n    top.clear();    top.plot(secs, [r[3] for r in rows]);    top.set_ylabel(\"height (m)\")\n    bottom.clear(); bottom.plot(secs, [r[4] for r in rows]); bottom.set_ylabel(\"accel (m/s2)\")\n    plt.pause(0.05)",
+        "caption": "The live view. The first column is milliseconds, then temperature, pressure, height and total acceleration."
+      },
+      "resources": [
+        {
+          "label": "pyserial documentation",
+          "url": "https://pyserial.readthedocs.io/en/latest/"
+        },
+        {
+          "label": "Matplotlib: pyplot",
+          "url": "https://matplotlib.org/stable/api/pyplot_summary.html"
+        }
+      ]
+    },
+    {
+      "title": "Power it safely",
+      "learn": "How to run a CanSat from a battery without risk.",
+      "explain": "The safest way to power it is a small USB power bank, which has protection built in. If you want something smaller, a single lithium polymer (LiPo) cell needs care. Never puncture, crush, short or overcharge one. Use a cell with a protection board and a proper charger. Charge it only where you can watch it, on a hard, non-flammable surface. Retire any cell that swells. Never connect a LiPo straight to the 3V3 pin.",
+      "implement": "Start with a power bank. Watch the LiPo safety video before you ever touch a LiPo, and ask your supervisor first. Tape or cap every exposed wire end.",
+      "outcome": "The CanSat runs from a safe battery.",
+      "figure": {
+        "kind": "video",
+        "youtubeId": "n3urBpFIBgY",
+        "title": "How to keep LiPos from burning down your house (safe lipo charging)",
+        "channel": "Joshua Bardwell",
+        "caption": "Long, but worth it. It shows what goes wrong with LiPo cells and how to avoid it."
+      },
+      "resources": [
+        {
+          "label": "Adafruit: Li-ion and LiPoly batteries",
+          "url": "https://learn.adafruit.com/li-ion-and-lipoly-batteries"
+        }
+      ]
+    },
+    {
+      "title": "Pack it and test it",
+      "learn": "How to fit everything in a can-sized shell and test it safely.",
+      "explain": "Stack the parts to match your sketch and hold them with zip ties or foam. Keep the ESP32 antenna clear of metal. Test in order. First walk upstairs with it and watch the height graph. Then test the range in a corridor or field. Only then, with a supervisor, try a drop from low height onto soft ground with a small bag parachute. Never launch it from a roof, drone, balloon or rocket without expert approval.",
+      "implement": "Do the stairs test and range test, and save screenshots of the graphs. If your supervisor agrees, do a drop test from no more than 2 or 3 metres, with the area clear and nobody below.",
+      "outcome": "A tested CanSat and graphs from real tests.",
+      "resources": [
+        {
+          "label": "ESA CanSat competition",
+          "url": "https://cansat.esa.int/"
+        }
+      ]
+    },
+    {
+      "title": "Publish your CanSat",
+      "learn": "How to document a hardware mission.",
+      "explain": "Space teams write up what they learn. Your report should have the mission, the wiring picture, the code, a photo, your graphs and an honest list of what failed or surprised you. A reader should be able to tell what you measured, how far the radio reached and what you would change on a second build. Include the weight too.",
+      "implement": "Push the code for both boards, the Python graph script, a README with photos and screenshots, and your test notes to GitHub.",
+      "outcome": "Your mission is documented on GitHub.",
+      "resources": [
+        {
+          "label": "GitHub: About READMEs",
+          "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "CanSat",
+      "links": [
+        {
+          "label": "ESA CanSat",
+          "url": "https://cansat.esa.int/"
+        },
+        {
+          "label": "ESA: What is a CanSat",
+          "url": "https://www.esa.int/Education/CanSat/What_is_a_CanSat"
+        }
+      ]
+    },
+    {
+      "category": "Libraries and docs",
+      "links": [
+        {
+          "label": "Arduino-ESP32: ESP-NOW",
+          "url": "https://docs.espressif.com/projects/arduino-esp32/en/latest/api/espnow.html"
+        },
+        {
+          "label": "Adafruit BMP280 library",
+          "url": "https://github.com/adafruit/Adafruit_BMP280_Library"
+        },
+        {
+          "label": "Adafruit MPU6050 library",
+          "url": "https://github.com/adafruit/Adafruit_MPU6050"
+        }
+      ]
+    },
+    {
+      "category": "Safety",
+      "links": [
+        {
+          "label": "Adafruit: Li-ion and LiPoly batteries",
+          "url": "https://learn.adafruit.com/li-ion-and-lipoly-batteries"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A GitHub repository with the CanSat code, ground station code and Python script",
+    "A wiring picture and photos of the CanSat",
+    "Screenshots of live graphs from your stairs and range tests",
+    "A short report: mission, mass, range and what you would change"
+  ],
+  "checklist": [
+    {
+      "id": "cansat-plan",
+      "label": "Wrote the mission and sketched the layout inside 66 by 115 mm"
+    },
+    {
+      "id": "cansat-sensors",
+      "label": "Wired and read the BMP280 and MPU6050"
+    },
+    {
+      "id": "cansat-height",
+      "label": "Saw the height change when walking up stairs"
+    },
+    {
+      "id": "cansat-radio",
+      "label": "Sent packets from the CanSat to the ground station"
+    },
+    {
+      "id": "cansat-graph",
+      "label": "Drew a live graph on my laptop"
+    },
+    {
+      "id": "cansat-power",
+      "label": "Powered it safely and had the build checked by a supervisor"
+    },
+    {
+      "id": "cansat-pushed",
+      "label": "Tested it, wrote a report and pushed the finished work to GitHub"
+    }
+  ]
+}

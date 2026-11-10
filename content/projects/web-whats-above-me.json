@@ -1,0 +1,471 @@
+{
+  "id": "web-whats-above-me",
+  "hero": {
+    "src": "/media/web-whats-above-me/hero-star-trails.jpg",
+    "alt": "Circular arcs of star trails around a centre point in an orange-brown sky, with a blurred piece of station equipment at the bottom.",
+    "credit": "NASA, International Space Station crew",
+    "sourceUrl": "https://images.nasa.gov/details/iss073e0427643"
+  },
+  "overview": {
+    "what": "A page that tells anyone what they can see tonight from where they are: the Moon's phase, how clear and dark the sky is, and when the space station passes.",
+    "why": "You combine several APIs, use the browser's location feature and do real calculations, instead of only displaying data someone else prepared.",
+    "spaceRelevance": "Satellite trackers predict where a spacecraft will be from a few lines of numbers called a TLE. You use the same method that amateur satellite spotters use.",
+    "finalOutput": "A live page that takes a location and shows a score for tonight's sky, the Moon's phase and a list of possible ISS passes in local time.",
+    "difficulty": 4,
+    "estimatedTime": "5 to 6 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "map",
+      "label": "Find the visitor",
+      "detail": "Browser location, or a city they type."
+    },
+    {
+      "icon": "cloud",
+      "label": "Check the sky",
+      "detail": "Cloud cover and twilight times from free APIs."
+    },
+    {
+      "icon": "moon",
+      "label": "Work out the Moon",
+      "detail": "A short formula gives its age and phase."
+    },
+    {
+      "icon": "satellite",
+      "label": "Predict ISS passes",
+      "detail": "An orbit description and satellite.js give times."
+    },
+    {
+      "icon": "target",
+      "label": "Give one verdict",
+      "detail": "Combine it all into a score and a list."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "Twilight",
+      "meaning": "The glow after sunset, split into steps by how far the Sun is below the horizon. Civil is 0 to 6 degrees, nautical 6 to 12 and astronomical 12 to 18. After that it is fully dark."
+    },
+    {
+      "term": "Azimuth and elevation",
+      "meaning": "Two angles that place something in your sky. Azimuth is the compass bearing, with 0 at north and 90 at east. Elevation is the height above the horizon, from 0 up to 90 overhead."
+    },
+    {
+      "term": "TLE",
+      "meaning": "Two-line element set: two lines of numbers that describe a satellite's orbit. A library such as satellite.js turns them into a position for any moment. They drift, so fetch fresh ones."
+    },
+    {
+      "term": "Moon age",
+      "meaning": "The number of days since the last new moon, from 0 to about 29.5. The Moon's shape follows from its age, and the same age repeats every month."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "8pS_S3Pxoto",
+      "title": "Spot the International Space Station",
+      "channel": "NASA",
+      "why": "NASA's own short guide to finding the station in the sky. It shows what your list of passes is for."
+    },
+    {
+      "youtubeId": "3f_21N3wcX8",
+      "title": "NASA | Moon Phase and Libration",
+      "channel": "NASA Goddard",
+      "why": "The Moon's real phase and wobble over time. Watch the lit part grow and shrink, as in the chart in this project."
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "The earlier web projects, or comfort with APIs, JSON and async code",
+      "How the day and night cycle and the Moon's orbit work"
+    ],
+    "programming": [
+      "async and await",
+      "Loops, objects and the Date object",
+      "Reading a library's documentation"
+    ],
+    "mathPhysics": [
+      "Degrees and radians",
+      "Remainders (the % operator)",
+      "Time zones and UTC"
+    ],
+    "software": [
+      "A web browser",
+      "Visual Studio Code",
+      "Git and a GitHub account"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "Browser Geolocation API",
+      "why": "Gets the visitor's position, with permission",
+      "priority": "Essential"
+    },
+    {
+      "name": "Open-Meteo",
+      "why": "Free weather and city lookup with no key",
+      "priority": "Essential"
+    },
+    {
+      "name": "sunrise-sunset.org API",
+      "why": "Gives sunset and twilight times for any place",
+      "priority": "Essential"
+    },
+    {
+      "name": "wheretheiss.at TLE endpoint",
+      "why": "Supplies the ISS orbit description",
+      "priority": "Essential"
+    },
+    {
+      "name": "satellite.js",
+      "why": "Turns a TLE into azimuth and elevation",
+      "priority": "Essential"
+    },
+    {
+      "name": "JavaScript Date and Intl",
+      "why": "Shows times correctly in the right time zone",
+      "priority": "Recommended"
+    },
+    {
+      "name": "GitHub Pages",
+      "why": "Publishes the page over https, which location needs",
+      "priority": "Recommended"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "Plan the sky report",
+      "learn": "What makes a good night for looking up.",
+      "explain": "Three things decide what you can see. Is the sky clear? Is it dark? Is the Moon bright? Clouds hide everything. Twilight and city lights wash out faint stars, and a full moon lights the sky like a lamp. The ISS adds a fourth: you can see it only when the Sun has set where you are, yet the station is still lit by the Sun high above. This project answers each question with data, then scores the night.",
+      "implement": "Write down the questions your page will answer: where am I, how cloudy, how dark, what is the Moon doing and when does the ISS pass. Guess which data could answer each.",
+      "outcome": "You have a plan with one data source per question.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/web-whats-above-me/city-lights-trails.jpg",
+        "alt": "A long exposure from space: curved star trails above the dark limb of Earth, bright streaks of city lights below, and spacecraft parts lit in red, blue and gold.",
+        "caption": "A 9.5 minute exposure from the ISS in February 2026. Stars and city lights both smear into streaks as the station moves.",
+        "credit": "NASA, International Space Station crew",
+        "sourceUrl": "https://images.nasa.gov/details/iss074e0319988"
+      },
+      "resources": [
+        {
+          "label": "NASA: Spot the Station",
+          "url": "https://spotthestation.nasa.gov/"
+        }
+      ]
+    },
+    {
+      "title": "Find the visitor",
+      "learn": "How to get a visitor's position, with a backup plan.",
+      "explain": "A browser can share a visitor's position, but only after they agree, and only on an https page or localhost. Never assume a yes, so always offer a second route. Here it is a city search. Open-Meteo's geocoding service turns a place name into latitude and longitude, and needs no key. When nothing matches, data.results is missing, and the ?. operator stops that from crashing.",
+      "implement": "Add a button that calls getLocation and a box that calls findCity. Show the chosen place name. Test by blocking location in your browser's site settings.",
+      "outcome": "Your page knows where the visitor is, or lets them say.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "// Ask the browser. It shows a permission pop-up, and only works on https or localhost.\nfunction getLocation() {\n  return new Promise((resolve, reject) => {\n    navigator.geolocation.getCurrentPosition(\n      (pos) => resolve({ lat: pos.coords.latitude, lon: pos.coords.longitude, name: \"your location\" }),\n      () => reject(new Error(\"Location was blocked\")),\n    );\n  });\n}\n\n// Plan B: the visitor types a city and we look it up.\nasync function findCity(name) {\n  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(name)}&count=1`;\n  const data = await (await fetch(url)).json();\n  const place = data.results?.[0]; // missing when nothing matches\n  if (!place) throw new Error(`No city called ${name}`);\n  return { lat: place.latitude, lon: place.longitude, name: `${place.name}, ${place.country}` };\n}",
+        "caption": "Both functions return the same shape, so the rest of your code does not care which one was used."
+      },
+      "resources": [
+        {
+          "label": "MDN: Geolocation API",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API"
+        },
+        {
+          "label": "Open-Meteo: Geocoding API",
+          "url": "https://open-meteo.com/en/docs/geocoding-api"
+        }
+      ]
+    },
+    {
+      "title": "Check the clouds",
+      "learn": "How to read cloud cover from a weather API.",
+      "explain": "Open-Meteo is a free weather API for non-commercial use, with no key. We ask for three current values. cloud_cover is the percent of sky covered. visibility is how far you can see, in metres. is_day is 1 or 0. timezone=auto makes the reply name the place's time zone, which we use later. Under 20 percent cloud is a good night, and over 80 percent means stay in.",
+      "implement": "Call getSky with your coordinates and show the cloud cover. Compare it with a weather app. Credit Open-Meteo.com in your footer, as their licence asks.",
+      "outcome": "Your page shows live cloud cover for the visitor's place.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "async function getSky(lat, lon) {\n  const url =\n    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +\n    `&current=cloud_cover,visibility,is_day&timezone=auto`;\n  const reply = await fetch(url);\n  if (!reply.ok) throw new Error(`Weather replied ${reply.status}`);\n  const data = await reply.json();\n\n  return {\n    clouds: data.current.cloud_cover,              // percent of sky covered\n    visibilityKm: data.current.visibility / 1000,  // the reply is in metres\n    isDay: data.current.is_day === 1,              // 1 for day, 0 for night\n    timezone: data.timezone,                       // like \"Asia/Kolkata\"\n  };\n}",
+        "caption": "Two small conversions matter here: metres to km, and 1 or 0 to true or false."
+      },
+      "resources": [
+        {
+          "label": "Open-Meteo: Weather forecast API",
+          "url": "https://open-meteo.com/en/docs"
+        }
+      ]
+    },
+    {
+      "title": "Understand twilight",
+      "learn": "Why 'after sunset' is not the same as 'dark'.",
+      "explain": "When the Sun sets, the sky does not go black at once. Astronomers split the evening by how far the Sun sits below the horizon: civil twilight at 0 to 6 degrees, nautical at 6 to 12 and astronomical at 12 to 18. Below that it is fully dark. For the ISS, the end of nautical twilight is dark enough to see a bright moving light, and the station still catches sunlight high above.",
+      "implement": "Predict first: will the evening twilight last longer in London or in Chennai in June? Write your guess, then check it with the data in the next step.",
+      "outcome": "You know the difference between sunset and real darkness.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-whats-above-me/twilight.svg",
+        "alt": "Five stacked bands from bright gold to dark navy: day, civil twilight, nautical twilight, astronomical twilight and night, each with the Sun's angle below the horizon.",
+        "caption": "The deeper the Sun sits below the horizon, the darker the sky."
+      },
+      "resources": [
+        {
+          "label": "NWS: Definitions of twilight",
+          "url": "https://www.weather.gov/fsd/twilight"
+        }
+      ]
+    },
+    {
+      "title": "Ask for the twilight times",
+      "learn": "How to get sunset and twilight times, and make a darkness test.",
+      "explain": "sunrise-sunset.org needs no key and returns many times for a place. With formatted=0 they arrive in UTC, in a format that JavaScript's Date understands. We keep the end of nautical twilight in the evening and its start in the morning. isDark says: it is after the evening time or before the morning time. Near midnight UTC, the date the API picks can differ from the local one, so test several places. Credit the site on your page.",
+      "implement": "Run getTwilight for two cities on opposite sides of the world and compare isDark with the real local time there. Then check your London versus Chennai guess.",
+      "outcome": "Your page can say whether it is dark enough yet.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "async function getTwilight(lat, lon) {\n  // formatted=0 gives times in a standard format that Date understands.\n  const url = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0`;\n  const { results } = await (await fetch(url)).json();\n  return {\n    sunset: new Date(results.sunset),\n    nauticalEnd: new Date(results.nautical_twilight_end),     // evening\n    nauticalBegin: new Date(results.nautical_twilight_begin), // next morning\n  };\n}\n\n// Dark enough to see the ISS: Sun at least 6 degrees below the horizon.\nfunction isDark(t, now = new Date()) {\n  return now >= t.nauticalEnd || now <= t.nauticalBegin;\n}",
+        "caption": "Dates that are compared as moments in time work in every time zone, with no conversion needed."
+      },
+      "resources": [
+        {
+          "label": "Sunrise-Sunset API",
+          "url": "https://sunrise-sunset.org/api"
+        }
+      ]
+    },
+    {
+      "title": "Why the Moon changes shape",
+      "learn": "What causes the phases of the Moon.",
+      "explain": "The Moon is always half lit by the Sun. What changes is how much of that lit half faces us as the Moon travels round Earth. At new moon the lit side faces away. At full moon we see all of it. In between come crescents, quarters and gibbous shapes, over about 29.5 days. Waxing means growing and waning means shrinking. In the northern hemisphere the lit part grows from the right. In the south it looks flipped.",
+      "implement": "Look at the real Moon tonight, or find it in a moon app. Match it to one of the eight pictures in the chart and note its name.",
+      "outcome": "You can name tonight's phase.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-whats-above-me/moon-phases.svg",
+        "alt": "Eight moons in two rows showing new moon, waxing crescent, first quarter, waxing gibbous, full moon, waning gibbous, last quarter and waning crescent, with their age in days.",
+        "caption": "Days are counted from the new moon. The chart shows the view from the northern hemisphere."
+      },
+      "resources": [
+        {
+          "label": "NASA: Moon phases",
+          "url": "https://science.nasa.gov/moon/moon-phases/"
+        }
+      ]
+    },
+    {
+      "title": "Calculate the moon phase",
+      "learn": "How to work out the Moon's age with a little maths.",
+      "explain": "No API is needed. A new moon happened on 6 January 2000 at 18:14 UTC, and the cycle repeats every 29.53 days. Divide the time since then by 29.53 and keep the remainder with %. That is the Moon's age. The lit share follows a cosine curve. The cycle's length varies a little from month to month, so the answer can be off by up to about a day. That is fine for a sky report.",
+      "implement": "Run moonPhase() today and compare it with a moon app. Then try dates you know. The last line tests the full moon of 24 November 2026, which should say 100 percent.",
+      "outcome": "Your page names the Moon's phase and how much of it is lit.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "const SYNODIC = 29.530588853;                        // days from one new moon to the next\nconst KNOWN_NEW_MOON = Date.UTC(2000, 0, 6, 18, 14); // a new moon we know for certain\n\nfunction moonPhase(date = new Date()) {\n  const days = (date - KNOWN_NEW_MOON) / 86400000;   // milliseconds in a day\n  const age = ((days % SYNODIC) + SYNODIC) % SYNODIC; // days since the last new moon\n  const lit = (1 - Math.cos((2 * Math.PI * age) / SYNODIC)) / 2; // 0 new, 1 full\n\n  const names = [\"New moon\", \"Waxing crescent\", \"First quarter\", \"Waxing gibbous\",\n    \"Full moon\", \"Waning gibbous\", \"Last quarter\", \"Waning crescent\"];\n  const name = names[Math.round((age / SYNODIC) * 8) % 8];\n\n  return { age, percentLit: Math.round(lit * 100), name };\n}\n\nconsole.log(moonPhase(new Date(\"2026-11-24T14:53Z\"))); // full moon, 100%",
+        "caption": "The % operator on its own can give a negative answer for old dates, so the code adds SYNODIC and takes % again."
+      },
+      "resources": [
+        {
+          "label": "MDN: Date.UTC",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/UTC"
+        }
+      ]
+    },
+    {
+      "title": "Understand a pass",
+      "learn": "What azimuth, elevation and a pass are.",
+      "explain": "Astronomers place something in your sky with two angles. Azimuth is the compass direction, with 0 at north and 90 at east. Elevation is the height above the horizon: 0 at the horizon, 90 straight up. A pass is the time between the ISS rising and setting for you, which is about 10 minutes at best. Passes that never get above roughly 10 degrees are usually hidden by buildings and trees, so we skip them.",
+      "implement": "Go outside, or use a phone compass. Find north, east, south and west and note the azimuth of any tall building near you. That is your own horizon.",
+      "outcome": "You can describe where to look for a pass.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-whats-above-me/pass-geometry.svg",
+        "alt": "A side view of an arc rising from the horizon at the left, peaking above an observer at 49 degrees, and setting at the right, with a dashed band near the horizon.",
+        "caption": "This is a real pass from Delhi on 7 November 2026: it rises at azimuth 233, peaks at 49 degrees and sets at azimuth 37."
+      },
+      "resources": [
+        {
+          "label": "NASA: Spot the Station, to find passes for your city",
+          "url": "https://spotthestation.nasa.gov/"
+        }
+      ]
+    },
+    {
+      "title": "Find the ISS in your sky",
+      "learn": "How to turn an orbit description into a position in your sky.",
+      "explain": "A TLE is two lines of numbers that describe an orbit. wheretheiss.at serves the ISS's TLE. The satellite.js library does the hard maths. propagate gives the position in space for any time. eciToEcf turns that to match the spinning Earth. ecfToLookAngles gives azimuth and elevation for your spot. The library works in radians, so we convert. TLEs drift over weeks, so fetch a fresh one each visit.",
+      "implement": "Add the satellite.js 5.0.0 script from cdnjs, paste the code and log skyPosition(await loadISS(), new Date(), me). An elevation below 0 means it is under your horizon.",
+      "outcome": "You can ask where the ISS is in your sky right now.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "// satellite.js turns an orbit description (a TLE) into a position.\nasync function loadISS() {\n  const url = \"https://api.wheretheiss.at/v1/satellites/25544/tles\";\n  const tle = await (await fetch(url)).json();\n  return satellite.twoline2satrec(tle.line1, tle.line2);\n}\n\n// Where is the ISS in your sky? Angles in degrees.\nfunction skyPosition(satrec, date, me) {\n  const eci = satellite.propagate(satrec, date).position;      // km from Earth's centre\n  const ecf = satellite.eciToEcf(eci, satellite.gstime(date)); // follow the Earth's spin\n  const look = satellite.ecfToLookAngles(me, ecf);\n  return {\n    elevation: satellite.radiansToDegrees(look.elevation),\n    azimuth: satellite.radiansToDegrees(look.azimuth),\n  };\n}\n\n// You: radians, and height in km.\nconst me = {\n  latitude: satellite.degreesToRadians(28.61),\n  longitude: satellite.degreesToRadians(77.21),\n  height: 0.2,\n};",
+        "caption": "Put your own latitude and longitude in me. ecfToLookAngles needs height in km, so 0.2 means 200 metres."
+      },
+      "resources": [
+        {
+          "label": "satellite.js on GitHub",
+          "url": "https://github.com/shashwatak/satellite-js"
+        },
+        {
+          "label": "cdnjs: satellite.js",
+          "url": "https://cdnjs.com/libraries/satellite.js"
+        }
+      ]
+    },
+    {
+      "title": "Find the passes",
+      "learn": "How to search the next day for passes.",
+      "explain": "We have a 'where at this moment' function, not a 'when' one. So we ask 'where' many times. Step through the next 24 hours in jumps of 30 seconds, about 2,900 checks that run in an instant. While elevation is above 0, we are inside a pass: remember when it began and its highest point. When it drops below 0, the pass ends. Keep the ones above 10 degrees. ??= sets pass only when it is empty.",
+      "implement": "Run findPasses for your city and print the times. Compare them with NASA's Spot the Station for the same day. They should be close. If not, check your time zone.",
+      "outcome": "A list of the next day's ISS passes for the visitor.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "function findPasses(satrec, me, hours = 24) {\n  const passes = [];\n  let pass = null;\n  const start = Date.now();\n\n  for (let t = start; t < start + hours * 3600 * 1000; t += 30 * 1000) { // every 30 s\n    const sky = skyPosition(satrec, new Date(t), me);\n    if (sky.elevation > 0) {\n      pass ??= { rise: new Date(t), maxElevation: 0 }; // it just rose above the horizon\n      pass.set = new Date(t);\n      pass.maxElevation = Math.max(pass.maxElevation, sky.elevation);\n    } else if (pass) {\n      if (pass.maxElevation >= 10) passes.push(pass); // ignore low, hidden passes\n      pass = null;\n    }\n  }\n  return passes;\n}",
+        "caption": "For Delhi on 7 November 2026 this found passes peaking at about 48, 82, 77 and 44 degrees across two days."
+      },
+      "resources": [
+        {
+          "label": "MDN: Logical nullish assignment",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_nullish_assignment"
+        }
+      ]
+    },
+    {
+      "title": "Score the night",
+      "learn": "How to combine several facts into one clear answer.",
+      "explain": "Visitors want an answer, not a table. Combine the facts into a score. Clouds block the most, so they cost up to 80 points. Moonlight costs up to 20. If it is not dark, the score is 0. These weights are your choices, so say so in your README. One honest warning: a pass can happen in Earth's shadow, where the station is dark. Label yours 'possible', and link to NASA's Spot the Station for a sure answer.",
+      "implement": "Write tonight(). Show the score, the moon phase and the next possible pass in one card. Try three cities and check that the verdicts make sense.",
+      "outcome": "Your page gives a simple verdict for tonight.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "function tonight({ clouds, percentLit, isDark }) {\n  if (!isDark) return { score: 0, text: \"Wait for darkness\" };\n\n  let score = 100 - clouds * 0.8;      // clouds matter most\n  score -= percentLit * 0.2;           // bright moonlight washes out faint stars\n  score = Math.max(0, Math.round(score));\n\n  const text = score >= 70 ? \"Great night to look up\"\n    : score >= 40 ? \"Fair: bright things only\"\n    : \"Poor: clouds or glare\";\n  return { score, text };\n}\n\nconsole.log(tonight({ clouds: 10, percentLit: 5, isDark: true }));  // 91, great\nconsole.log(tonight({ clouds: 90, percentLit: 100, isDark: true })); // 8, poor",
+        "caption": "The last two lines are tests: a clear dark night with a thin Moon, and a cloudy night with a full Moon."
+      },
+      "resources": [
+        {
+          "label": "NASA: Spot the Station",
+          "url": "https://spotthestation.nasa.gov/"
+        }
+      ]
+    },
+    {
+      "title": "Show times and publish",
+      "learn": "How to show times in the right time zone, and why https matters.",
+      "explain": "A JavaScript Date is an exact moment. How it looks depends on the time zone. toLocaleTimeString accepts a timeZone such as 'Asia/Kolkata', which Open-Meteo already gave you, so every time on your page can match the place being described. Credit Open-Meteo and sunrise-sunset.org in the footer. Then publish. Location only works on https pages, so test the live site on your phone, not just on localhost.",
+      "implement": "Show every time with showTime and write the zone beside it. Publish with GitHub Pages and test location, city search and a failed request on your phone.",
+      "outcome": "A live page that works anywhere in the world.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "// Show a moment in the viewer's chosen place, not in the server's time zone.\nfunction showTime(date, timezone) {\n  return date.toLocaleTimeString(\"en-GB\", {\n    hour: \"2-digit\",\n    minute: \"2-digit\",\n    timeZone: timezone, // from the weather reply, like \"Asia/Kolkata\"\n  });\n}\n\nconsole.log(showTime(new Date(\"2026-11-07T22:32:27Z\"), \"Asia/Kolkata\")); // 04:02",
+        "caption": "22:32 UTC is 04:02 the next morning in India, which is UTC plus 5 hours 30 minutes."
+      },
+      "resources": [
+        {
+          "label": "MDN: toLocaleTimeString",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleTimeString"
+        },
+        {
+          "label": "GitHub: Creating a Pages site",
+          "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Data",
+      "links": [
+        {
+          "label": "Open-Meteo",
+          "url": "https://open-meteo.com/"
+        },
+        {
+          "label": "Sunrise-Sunset API",
+          "url": "https://sunrise-sunset.org/api"
+        },
+        {
+          "label": "wheretheiss.at API",
+          "url": "https://wheretheiss.at/w/developer"
+        },
+        {
+          "label": "NASA: Spot the Station",
+          "url": "https://spotthestation.nasa.gov/"
+        }
+      ]
+    },
+    {
+      "category": "Official documentation",
+      "links": [
+        {
+          "label": "MDN: Geolocation API",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API"
+        },
+        {
+          "label": "satellite.js on GitHub",
+          "url": "https://github.com/shashwatak/satellite-js"
+        }
+      ]
+    },
+    {
+      "category": "Free courses",
+      "links": [
+        {
+          "label": "freeCodeCamp",
+          "url": "https://www.freecodecamp.org/learn/"
+        },
+        {
+          "label": "javascript.info: Date and time",
+          "url": "https://javascript.info/date"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A public GitHub repository with your source code",
+    "A README that explains each data source and how your score is worked out",
+    "A screenshot of the finished page for two different cities",
+    "A link to your live site"
+  ],
+  "checklist": [
+    {
+      "id": "above-plan",
+      "label": "Planned the questions and the data source for each"
+    },
+    {
+      "id": "above-location",
+      "label": "Got the visitor's location, with a city search as backup"
+    },
+    {
+      "id": "above-clouds",
+      "label": "Showed live cloud cover from Open-Meteo"
+    },
+    {
+      "id": "above-twilight",
+      "label": "Fetched twilight times and wrote an isDark test"
+    },
+    {
+      "id": "above-moon",
+      "label": "Calculated the moon phase and checked it against a real date"
+    },
+    {
+      "id": "above-iss-position",
+      "label": "Found the ISS's azimuth and elevation with satellite.js"
+    },
+    {
+      "id": "above-passes",
+      "label": "Listed the next day's ISS passes"
+    },
+    {
+      "id": "above-verdict",
+      "label": "Combined everything into a score and a verdict"
+    },
+    {
+      "id": "above-published",
+      "label": "Published the site and pushed the finished work to GitHub"
+    }
+  ]
+}

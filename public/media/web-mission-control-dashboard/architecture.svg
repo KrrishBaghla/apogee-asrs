@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Verdana, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ee9a6c"/></marker><marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f5c48a"/></marker></defs>
+<text x="360" y="30" font-size="20" fill="#f1eee6" text-anchor="middle">Three data sources, one dashboard</text>
+<rect x="500" y="52" width="196" height="330" rx="10" fill="none" stroke="#ee9a6c" stroke-width="2.5"/>
+<text x="598" y="76" font-size="15" fill="#ee9a6c" text-anchor="middle" font-weight="bold">Browser</text>
+<rect x="516" y="100" width="164" height="70" rx="10" fill="none" stroke="#5e5c58" stroke-width="2"/>
+<text x="598" y="142" font-size="17" fill="#f1eee6" text-anchor="middle">Asteroids</text>
+<rect x="516" y="190" width="164" height="70" rx="10" fill="none" stroke="#5e5c58" stroke-width="2"/>
+<text x="598" y="232" font-size="17" fill="#f1eee6" text-anchor="middle">ISS map</text>
+<rect x="516" y="280" width="164" height="70" rx="10" fill="none" stroke="#5e5c58" stroke-width="2"/>
+<text x="598" y="322" font-size="17" fill="#f1eee6" text-anchor="middle">Solar</text>
+<rect x="20" y="100" width="200" height="70" rx="10" fill="none" stroke="#5e5c58" stroke-width="2"/>
+<text x="120" y="130" font-size="17" fill="#f1eee6" text-anchor="middle">NASA NeoWs</text>
+<text x="120" y="154" font-size="15" fill="#a8a5a0" text-anchor="middle">needs an API key</text>
+<rect x="20" y="190" width="200" height="70" rx="10" fill="none" stroke="#5e5c58" stroke-width="2"/>
+<text x="120" y="220" font-size="17" fill="#f1eee6" text-anchor="middle">wheretheiss.at</text>
+<text x="120" y="244" font-size="15" fill="#a8a5a0" text-anchor="middle">no key</text>
+<rect x="20" y="280" width="200" height="70" rx="10" fill="none" stroke="#5e5c58" stroke-width="2"/>
+<text x="120" y="310" font-size="17" fill="#f1eee6" text-anchor="middle">NOAA SWPC</text>
+<text x="120" y="334" font-size="15" fill="#a8a5a0" text-anchor="middle">no key</text>
+<rect x="268" y="92" width="190" height="86" rx="10" fill="none" stroke="#f5c48a" stroke-width="2.5"/>
+<text x="363" y="122" font-size="17" fill="#f5c48a" text-anchor="middle">Your server</text>
+<text x="363" y="146" font-size="15" fill="#f1eee6" text-anchor="middle" font-family="Consolas, Courier New, monospace">/api/asteroids</text>
+<text x="363" y="168" font-size="15" fill="#a8a5a0" text-anchor="middle">holds the key</text>
+<line x1="222" y1="135" x2="264" y2="135" stroke="#f5c48a" stroke-width="2.5" marker-end="url(#g)"/>
+<line x1="460" y1="135" x2="512" y2="135" stroke="#f5c48a" stroke-width="2.5" marker-end="url(#g)"/>
+<line x1="222" y1="225" x2="512" y2="225" stroke="#ee9a6c" stroke-width="2.5" marker-end="url(#a)"/>
+<line x1="222" y1="315" x2="512" y2="315" stroke="#ee9a6c" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="360" y="262" font-size="15" fill="#a8a5a0" text-anchor="middle">straight from the browser</text>
+<text x="360" y="362" font-size="15" fill="#a8a5a0" text-anchor="middle">Keys stay on the server.</text>
+<text x="360" y="386" font-size="15" fill="#a8a5a0" text-anchor="middle">Open data goes direct.</text>
+</svg>

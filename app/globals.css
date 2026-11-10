@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0c0c0d;
+  --foreground: #f1eee6;
+  --muted: #a8a5a0;
+  --line: rgba(255, 250, 240, 0.12);
+  --surface: rgba(40, 39, 38, 0.55);
+  --accent: #f5c48a;
+  --domain: #d6d3cd;
+}
+
+[data-domain="web"] {
+  --domain: #ee9a6c;
+}
+
+[data-domain="ai-ml"] {
+  --domain: #c8d86a;
+}
+
+[data-domain="embedded"] {
+  --domain: #86d8c9;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --color-domain: var(--domain);
+  --font-sans: var(--font-atkinson);
+  --font-display: var(--font-jost);
+}
+
+html {
+  background: var(--background);
+  color-scheme: dark;
+}
+
+body {
+  background:
+    radial-gradient(80rem 46rem at 92% -8%, rgba(245, 196, 138, 0.07), transparent 62%),
+    radial-gradient(60rem 40rem at -8% 48%, rgba(255, 255, 255, 0.03), transparent 62%),
+    var(--background);
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* Three star layers with different tile sizes, so the repeat doesn't show. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 40px 60px, #fff, transparent),
+    radial-gradient(1px 1px at 210px 170px, #e8e6e1, transparent),
+    radial-gradient(1.5px 1.5px at 130px 300px, #fff, transparent),
+    radial-gradient(1px 1px at 330px 90px, #ffe9cf, transparent),
+    radial-gradient(1px 1px at 470px 380px, #dedbd5, transparent),
+    radial-gradient(1.5px 1.5px at 590px 210px, #fff, transparent);
+  background-size: 370px 410px, 430px 350px, 530px 470px, 610px 520px, 690px 590px, 770px 640px;
+  opacity: 0.75;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+input[type="range"] {
+  accent-color: var(--accent);
+  height: 1.75rem;
+  cursor: ew-resize;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 0.875rem;
+}
+
+/* A dotted line that drifts along, so a flow diagram reads as things moving through it. */
+.flow-link {
+  --dots: repeating-linear-gradient(to bottom, var(--domain) 0 4px, transparent 4px 10px);
+  background: var(--dots);
+  background-size: 100% 20px;
+  animation: flow-down 1.2s linear infinite;
+}
+
+@keyframes flow-down {
+  to {
+    background-position-y: 20px;
+  }
+}
+
+@media (min-width: 48rem) {
+  .flow-link {
+    --dots: repeating-linear-gradient(to right, var(--domain) 0 4px, transparent 4px 10px);
+    background: var(--dots);
+    background-size: 20px 100%;
+    animation-name: flow-right;
+  }
+
+  @keyframes flow-right {
+    to {
+      background-position-x: 20px;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-link {
+    animation: none;
+  }
+}

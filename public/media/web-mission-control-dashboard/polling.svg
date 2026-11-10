@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Verdana, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ee9a6c"/></marker><marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f5c48a"/></marker></defs>
+<text x="360" y="30" font-size="20" fill="#f1eee6" text-anchor="middle">Each panel refreshes at its own pace</text>
+<text x="60" y="92" font-size="17" fill="#f1eee6" text-anchor="start">ISS position</text>
+<text x="660" y="92" font-size="15" fill="#ee9a6c" text-anchor="end">every 5 seconds</text>
+<line x1="60" y1="120" x2="660" y2="120" stroke="#5e5c58" stroke-width="2"/>
+<circle cx="60" cy="120" r="7" fill="#ee9a6c"/>
+<circle cx="110" cy="120" r="7" fill="#ee9a6c"/>
+<circle cx="160" cy="120" r="7" fill="#ee9a6c"/>
+<circle cx="210" cy="120" r="7" fill="#ee9a6c"/>
+<circle cx="260" cy="120" r="7" fill="#ee9a6c"/>
+<circle cx="310" cy="120" r="7" fill="#ee9a6c"/>
+<circle cx="360" cy="120" r="7" fill="#ee9a6c"/>
+<circle cx="410" cy="120" r="7" fill="#ee9a6c"/>
+<circle cx="460" cy="120" r="7" fill="#ee9a6c"/>
+<circle cx="510" cy="120" r="7" fill="#ee9a6c"/>
+<circle cx="560" cy="120" r="7" fill="#ee9a6c"/>
+<circle cx="610" cy="120" r="7" fill="#ee9a6c"/>
+<circle cx="660" cy="120" r="7" fill="#ee9a6c"/>
+<text x="60" y="182" font-size="17" fill="#f1eee6" text-anchor="start">Solar data</text>
+<text x="660" y="182" font-size="15" fill="#ee9a6c" text-anchor="end">every minute</text>
+<line x1="60" y1="210" x2="660" y2="210" stroke="#5e5c58" stroke-width="2"/>
+<circle cx="60" cy="210" r="7" fill="#ee9a6c"/>
+<circle cx="660" cy="210" r="7" fill="#ee9a6c"/>
+<text x="60" y="272" font-size="17" fill="#f1eee6" text-anchor="start">Asteroids</text>
+<text x="660" y="272" font-size="15" fill="#f5c48a" text-anchor="end">once an hour</text>
+<line x1="60" y1="300" x2="660" y2="300" stroke="#5e5c58" stroke-width="2"/>
+<circle cx="60" cy="300" r="7" fill="#f5c48a"/>
+<line x1="60" y1="326" x2="60" y2="340" stroke="#5e5c58" stroke-width="1.5"/>
+<line x1="660" y1="326" x2="660" y2="340" stroke="#5e5c58" stroke-width="1.5"/>
+<text x="60" y="362" font-size="15" fill="#a8a5a0" text-anchor="middle">0 s</text>
+<text x="660" y="362" font-size="15" fill="#a8a5a0" text-anchor="middle">60 s</text>
+<text x="360" y="362" font-size="15" fill="#a8a5a0" text-anchor="middle">one minute on screen</text>
+<text x="360" y="392" font-size="15" fill="#a8a5a0" text-anchor="middle">Fast data gets fast refreshes. Slow data does not need them.</text>
+</svg>

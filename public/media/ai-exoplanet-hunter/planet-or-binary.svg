@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="Verdana, Arial, sans-serif">
+<text x="190" y="40" font-size="17" fill="#c8d86a" text-anchor="middle">Planet</text>
+<text x="530" y="40" font-size="16" fill="#f5c48a" text-anchor="middle">Eclipsing binary (false alarm)</text>
+<line x1="40" y1="80" x2="340" y2="80" stroke="#5e5c58" stroke-width="1.5" stroke-dasharray="3 5"/>
+<line x1="380" y1="80" x2="680" y2="80" stroke="#5e5c58" stroke-width="1.5" stroke-dasharray="3 5"/>
+<path d="M40 80 H120 Q130 80 136 130 Q138 144 150 144 H230 Q242 144 244 130 Q250 80 260 80 H340" stroke="#c8d86a" stroke-width="3.5" fill="none" />
+<path d="M380 80 H470 L530 230 L590 80 H680" stroke="#f5c48a" stroke-width="3.5" fill="none" />
+<text x="190" y="196" font-size="16" fill="#f1eee6" text-anchor="middle">Flat bottom, U shape</text>
+<text x="190" y="222" font-size="16" fill="#a8a5a0" text-anchor="middle">Shallow, often under 1%</text>
+<text x="190" y="248" font-size="16" fill="#a8a5a0" text-anchor="middle">Same depth every time</text>
+<text x="530" y="272" font-size="16" fill="#f1eee6" text-anchor="middle">Sharp V shape</text>
+<text x="530" y="298" font-size="15" fill="#a8a5a0" text-anchor="middle">Often deep, depths may alternate</text>
+</svg>

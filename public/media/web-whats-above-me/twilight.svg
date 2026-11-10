@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Verdana, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ee9a6c"/></marker><marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f5c48a"/></marker></defs>
+<text x="360" y="32" font-size="19" fill="#f1eee6" text-anchor="middle">How dark is it? Check the Sun's depth below the horizon</text>
+<rect x="30" y="56" width="660" height="52" rx="8" fill="#d9a94a" stroke="#5e5c58" stroke-width="1.5"/>
+<text x="46" y="78" font-size="15" fill="#2a2205" text-anchor="start" font-weight="bold">Day</text>
+<text x="46" y="99" font-size="15" fill="#2a2205" text-anchor="start">Sun above the horizon</text>
+<rect x="30" y="116" width="660" height="52" rx="8" fill="#a8743f" stroke="#5e5c58" stroke-width="1.5"/>
+<text x="46" y="138" font-size="15" fill="#1d1406" text-anchor="start" font-weight="bold">Civil twilight</text>
+<text x="46" y="159" font-size="15" fill="#1d1406" text-anchor="start">0 to -6 degrees: the brightest stars appear</text>
+<rect x="30" y="176" width="660" height="52" rx="8" fill="#4d5a99" stroke="#5e5c58" stroke-width="1.5"/>
+<text x="46" y="198" font-size="15" fill="#f1eee6" text-anchor="start" font-weight="bold">Nautical twilight</text>
+<text x="46" y="219" font-size="15" fill="#f1eee6" text-anchor="start">-6 to -12: a good time to spot the ISS</text>
+<rect x="30" y="236" width="660" height="52" rx="8" fill="#2f3668" stroke="#5e5c58" stroke-width="1.5"/>
+<text x="46" y="258" font-size="15" fill="#f1eee6" text-anchor="start" font-weight="bold">Astronomical twilight</text>
+<text x="46" y="279" font-size="15" fill="#f1eee6" text-anchor="start">-12 to -18: fainter stars come out</text>
+<rect x="30" y="296" width="660" height="52" rx="8" fill="#1b1d46" stroke="#5e5c58" stroke-width="1.5"/>
+<text x="46" y="318" font-size="15" fill="#f1eee6" text-anchor="start" font-weight="bold">Night</text>
+<text x="46" y="339" font-size="15" fill="#f1eee6" text-anchor="start">below -18: as dark as it gets</text>
+<text x="360" y="378" font-size="15" fill="#a8a5a0" text-anchor="middle">sunrise-sunset.org returns each of these times for any place.</text>
+</svg>

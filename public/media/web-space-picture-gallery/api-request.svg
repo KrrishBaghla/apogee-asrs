@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Verdana, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ee9a6c"/></marker><marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f5c48a"/></marker><marker id="n" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#5e5c58"/></marker></defs>
+<text x="360" y="34" font-size="20" fill="#f1eee6" text-anchor="middle">An API: ask at an address, data comes back</text>
+<rect x="30" y="80" width="170" height="170" rx="12" fill="none" stroke="#ee9a6c" stroke-width="2.5"/><text x="115" y="161" font-size="17" fill="#f1eee6" text-anchor="middle">Your page</text><text x="115" y="187" font-size="15" fill="#a8a5a0" text-anchor="middle">in the browser</text>
+<rect x="520" y="80" width="170" height="170" rx="12" fill="none" stroke="#5e5c58" stroke-width="2"/><text x="605" y="161" font-size="17" fill="#f1eee6" text-anchor="middle">NASA server</text><text x="605" y="187" font-size="15" fill="#a8a5a0" text-anchor="middle">picture archive</text>
+<line x1="204" y1="120" x2="516" y2="120" stroke="#ee9a6c" stroke-width="2.5" marker-end="url(#a)"/>
+<text x="360" y="106" font-size="16" fill="#ee9a6c" text-anchor="middle">1. Request: a web address</text>
+<line x1="516" y1="210" x2="204" y2="210" stroke="#f5c48a" stroke-width="2.5" marker-end="url(#g)"/>
+<text x="360" y="196" font-size="16" fill="#f5c48a" text-anchor="middle">2. Reply: JSON text</text>
+<rect x="140" y="278" width="440" height="96" rx="10" fill="none" stroke="#5e5c58" stroke-width="1.5"/>
+<text x="164" y="312" font-size="17" fill="#f1eee6" text-anchor="start" font-family="Consolas, Courier New, monospace">"title": "Enceladus in Silhouette",</text>
+<text x="164" y="346" font-size="17" fill="#f1eee6" text-anchor="start" font-family="Consolas, Courier New, monospace">"media_type": "image"</text>
+</svg>

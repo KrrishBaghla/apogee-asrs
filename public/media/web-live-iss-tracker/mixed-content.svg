@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Verdana, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ee9a6c"/></marker><marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f5c48a"/></marker></defs>
+<text x="360" y="32" font-size="20" fill="#f1eee6" text-anchor="middle">A secure page can only talk to secure addresses</text>
+<rect x="24" y="110" width="210" height="170" rx="10" fill="none" stroke="#ee9a6c" stroke-width="2.5"/>
+<text x="129" y="176" font-size="18" fill="#f1eee6" text-anchor="middle">Your site</text>
+<text x="129" y="204" font-size="17" fill="#ee9a6c" text-anchor="middle" font-family="Consolas, Courier New, monospace">https://</text>
+<text x="129" y="228" font-size="15" fill="#a8a5a0" text-anchor="middle" font-family="Consolas, Courier New, monospace">you.github.io</text>
+<line x1="238" y1="150" x2="470" y2="150" stroke="#ee9a6c" stroke-width="3" marker-end="url(#a)"/>
+<text x="354" y="136" font-size="15" fill="#ee9a6c" text-anchor="middle">https request</text>
+<rect x="476" y="110" width="220" height="70" rx="10" fill="none" stroke="#ee9a6c" stroke-width="2"/>
+<text x="586" y="140" font-size="15" fill="#f1eee6" text-anchor="middle" font-family="Consolas, Courier New, monospace">api.wheretheiss.at</text>
+<text x="586" y="164" font-size="15" fill="#ee9a6c" text-anchor="middle">Works</text>
+<line x1="238" y1="240" x2="420" y2="240" stroke="#f5c48a" stroke-width="3" stroke-dasharray="8 6"/>
+<text x="329" y="226" font-size="15" fill="#f5c48a" text-anchor="middle">http request</text>
+<g stroke="#f5c48a" stroke-width="5" stroke-linecap="round"><line x1="430" y1="226" x2="456" y2="254"/><line x1="456" y1="226" x2="430" y2="254"/></g>
+<rect x="476" y="210" width="220" height="70" rx="10" fill="none" stroke="#f5c48a" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="586" y="240" font-size="15" fill="#f1eee6" text-anchor="middle" font-family="Consolas, Courier New, monospace">api.open-notify.org</text>
+<text x="586" y="264" font-size="15" fill="#f5c48a" text-anchor="middle">Blocked by browser</text>
+<text x="360" y="338" font-size="15" fill="#a8a5a0" text-anchor="middle">Open Notify answers on http only, so it breaks once your site is online.</text>
+<text x="360" y="364" font-size="15" fill="#a8a5a0" text-anchor="middle">It works on your laptop, which makes the bug easy to miss.</text>
+</svg>

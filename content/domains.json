@@ -1,0 +1,47 @@
+[
+  {
+    "id": "web",
+    "name": "Web Development",
+    "tagline": "Put live space data on the screen.",
+    "description": "Start with your first web page and finish with a real-time mission control dashboard, all powered by real NASA data.",
+    "icon": "web",
+    "skills": ["HTML, CSS and JavaScript", "REST APIs and JSON", "React and Next.js", "Maps and live data", "Deployment"],
+    "projects": [
+      { "id": "web-space-picture-gallery", "level": 1, "title": "Space Picture Gallery", "summary": "Build your first website: a gallery of NASA's Astronomy Picture of the Day." },
+      { "id": "web-asteroid-threat-dashboard", "level": 2, "title": "Asteroid Threat Dashboard", "summary": "Show today's near-Earth asteroids, with their sizes compared to famous landmarks." },
+      { "id": "web-live-iss-tracker", "level": 3, "title": "Live ISS Tracker", "summary": "Follow the International Space Station in real time on an interactive map." },
+      { "id": "web-whats-above-me", "level": 4, "title": "What's Above Me", "summary": "Tell anyone what they can see tonight: station passes, moon phase and sky conditions." },
+      { "id": "web-mission-control-dashboard", "level": 5, "title": "Mission Control Dashboard", "summary": "Combine asteroids, the ISS and solar activity into one real-time app." }
+    ]
+  },
+  {
+    "id": "ai-ml",
+    "name": "AI & Machine Learning",
+    "tagline": "Teach computers to read the sky.",
+    "description": "Go from cleaning up telescope images to training neural networks and planning safe routes across the Moon.",
+    "icon": "ai",
+    "skills": ["Python and NumPy", "OpenCV and image processing", "scikit-learn", "Deep learning with PyTorch", "Search algorithms"],
+    "projects": [
+      { "id": "ai-telescope-image-enhancer", "level": 1, "title": "Telescope Image Enhancer", "summary": "Denoise and stack telescope images, then compare the before and after." },
+      { "id": "ai-mars-crater-detector", "level": 2, "title": "Mars Crater Detector", "summary": "Find and circle craters in NASA HiRISE images using computer vision." },
+      { "id": "ai-exoplanet-hunter", "level": 3, "title": "Exoplanet Hunter", "summary": "Spot planets around other stars in real Kepler telescope data." },
+      { "id": "ai-galaxy-classifier", "level": 4, "title": "Galaxy Classifier", "summary": "Train a neural network that sorts galaxy images by their shape." },
+      { "id": "ai-lunar-rover-pathfinder", "level": 5, "title": "Lunar Rover Pathfinder", "summary": "Plan safe rover routes across real lunar terrain using A* search." }
+    ]
+  },
+  {
+    "id": "embedded",
+    "name": "Embedded & Robotics",
+    "tagline": "Build hardware that moves and senses.",
+    "description": "Begin with a single sensor and work up to a camera-guided rover crossing your own mock moonscape.",
+    "icon": "embedded",
+    "skills": ["Electronics basics", "C++ on Arduino and ESP32", "Sensors and motors", "Wireless telemetry", "Autonomous navigation"],
+    "projects": [
+      { "id": "embedded-mini-weather-station", "level": 1, "title": "Mini Space Weather Station", "summary": "Read real sensors on an ESP32, starting in a free online simulator." },
+      { "id": "embedded-iss-pointer", "level": 2, "title": "ISS Pointer", "summary": "Build a servo arm that physically points at the International Space Station." },
+      { "id": "embedded-mini-cansat", "level": 3, "title": "Mini CanSat", "summary": "Pack sensors into a can-sized satellite and stream telemetry to a laptop." },
+      { "id": "embedded-autonomous-rover", "level": 4, "title": "Autonomous Rover", "summary": "Build a small rover that senses obstacles and drives around them on its own." },
+      { "id": "embedded-vision-guided-rover", "level": 5, "title": "Vision-Guided Rover", "summary": "Use an overhead camera and A* to steer a rover across a mock moonscape." }
+    ]
+  }
+]

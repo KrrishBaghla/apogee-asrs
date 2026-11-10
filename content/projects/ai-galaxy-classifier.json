@@ -1,0 +1,517 @@
+{
+  "id": "ai-galaxy-classifier",
+  "hero": {
+    "src": "/media/ai-galaxy-classifier/hero.jpg",
+    "alt": "The barred spiral galaxy NGC 1300: a glowing bar of golden stars across the centre, with blue spiral arms curling around it against a dark sky.",
+    "credit": "NASA, ESA, and The Hubble Heritage Team (STScI/AURA)",
+    "sourceUrl": "https://images.nasa.gov/details/GSFC_20171208_Archive_e002154"
+  },
+  "overview": {
+    "what": "A convolutional neural network, built in PyTorch, that looks at a small picture of a galaxy and says which of 10 shapes it has, such as round, cigar-shaped, edge-on or spiral.",
+    "why": "It takes you from using ready-made tools to training your own deep learning model: preparing data, building layers, training, testing on unseen pictures and reading the results honestly.",
+    "spaceRelevance": "Modern sky surveys photograph hundreds of millions of galaxies, far too many for people to sort. Shape tells astronomers how a galaxy formed and what has happened to it.",
+    "finalOutput": "A trained network that sorts galaxy pictures at roughly 75 percent accuracy, with a confusion matrix showing where it does well and where it fails.",
+    "difficulty": 4,
+    "estimatedTime": "5 to 6 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "database",
+      "label": "Load Galaxy10",
+      "detail": "21,785 labelled galaxy pictures, 69 by 69 pixels."
+    },
+    {
+      "icon": "layers",
+      "label": "Build a CNN",
+      "detail": "Three convolution layers, then a small decision layer."
+    },
+    {
+      "icon": "brain",
+      "label": "Train it",
+      "detail": "Show it pictures in batches and nudge its weights."
+    },
+    {
+      "icon": "target",
+      "label": "Test on unseen galaxies",
+      "detail": "3,000 pictures it never trained on."
+    },
+    {
+      "icon": "chart",
+      "label": "Read the mistakes",
+      "detail": "A confusion matrix shows which shapes get mixed up."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "Convolution",
+      "meaning": "Sliding a small grid of numbers, a kernel, over an image and multiplying as you go. Each kernel picks out one pattern, such as an edge. The network learns its own kernels."
+    },
+    {
+      "term": "Epoch and batch",
+      "meaning": "An epoch is one full pass over the training pictures. A batch is a small group of them, here 128, used for one adjustment of the network's weights."
+    },
+    {
+      "term": "Overfitting",
+      "meaning": "When a network memorises its training pictures instead of learning the general rule. Training accuracy keeps climbing, but accuracy on new pictures stalls."
+    },
+    {
+      "term": "Data augmentation",
+      "meaning": "Showing the network flipped and turned copies of the training pictures. A galaxy has no up or down, so every copy is still a valid example, and the network cannot memorise positions."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "aircAruvnKk",
+      "title": "But what is a neural network? | Deep learning chapter 1",
+      "channel": "3Blue1Brown",
+      "why": "The clearest picture of what a neural network is and how it recognises handwritten digits. Watch it before you start."
+    },
+    {
+      "youtubeId": "QzY57FaENXg",
+      "title": "What are Convolutional Neural Networks (CNNs)?",
+      "channel": "IBM Technology",
+      "why": "A short explanation of how convolution layers find edges and then bigger shapes. Watch it before step 3."
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "The Exoplanet Hunter project, or the same skills: Python, NumPy, scikit-learn basics and Git",
+      "What training and testing a model means"
+    ],
+    "programming": [
+      "Python classes and methods, at a basic level",
+      "NumPy arrays and their shapes",
+      "Running a script that takes several minutes"
+    ],
+    "mathPhysics": [
+      "Averages and percentages",
+      "Multiplying and adding grids of numbers",
+      "No calculus is needed"
+    ],
+    "software": [
+      "Python 3.11 or newer",
+      "PyTorch, h5py, NumPy and OpenCV, installed in step 4",
+      "About 1 GB of free disk space",
+      "A laptop CPU is enough. Training takes about 5 to 10 minutes per run"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "PyTorch",
+      "why": "Builds the network, computes its gradients and trains it",
+      "priority": "Essential"
+    },
+    {
+      "name": "NumPy",
+      "why": "Holds the pictures and labels before they become tensors",
+      "priority": "Essential"
+    },
+    {
+      "name": "h5py",
+      "why": "Reads the Galaxy10 data file",
+      "priority": "Essential"
+    },
+    {
+      "name": "OpenCV",
+      "why": "Loads and resizes a NASA photo for the final test",
+      "priority": "Recommended"
+    },
+    {
+      "name": "matplotlib",
+      "why": "Plots training curves and the confusion matrix",
+      "priority": "Recommended"
+    },
+    {
+      "name": "Galaxy10 SDSS",
+      "why": "The labelled galaxy pictures to learn from",
+      "priority": "Essential"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "How astronomers sort galaxies",
+      "learn": "What galaxy shapes exist, and who labelled the data you will use.",
+      "explain": "Galaxies come in a few basic shapes. Ellipticals are smooth blobs. Spirals have arms, and some have a bar of stars across the middle. Astronomers arranged these on a chart called the Hubble Tuning Fork, with ellipticals on the handle and spirals on the two prongs. The galaxy in the picture sits right where the fork divides. Galaxy10's labels come from Galaxy Zoo, where volunteers looked at pictures online and voted on each shape.",
+      "implement": "Find a spiral, an elliptical and an edge-on galaxy in NASA's image library. Write down the clues that tell them apart. A computer will have to learn the same clues.",
+      "outcome": "You know the main galaxy shapes and where the labels come from.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/ai-galaxy-classifier/tuning-fork.jpg",
+        "alt": "A round, hazy galaxy with faint spiral structure at the centre of a dark field filled with many smaller galaxies of different shapes.",
+        "caption": "Mrk 820, a lenticular galaxy, sits where the Hubble Tuning Fork divides. Smaller galaxies of many shapes surround it.",
+        "credit": "ESA/Hubble & NASA, N. Gorin (STScI), J. Schmidt",
+        "sourceUrl": "https://images.nasa.gov/details/GSFC_20171208_Archive_e000506"
+      },
+      "resources": [
+        {
+          "label": "NASA: A Galaxy at the Center of the Hubble Tuning Fork",
+          "url": "https://images.nasa.gov/details/GSFC_20171208_Archive_e000506"
+        },
+        {
+          "label": "Galaxy Zoo",
+          "url": "https://www.zooniverse.org/projects/zookeeper/galaxy-zoo/"
+        }
+      ]
+    },
+    {
+      "title": "How a computer sees an edge",
+      "learn": "What a convolution is, and why it finds patterns.",
+      "explain": "A convolution slides a small grid of numbers, the kernel, over the image. At each spot it multiplies the pixels under the kernel by the kernel's numbers and adds them up. A kernel with minus ones on one side and plus ones on the other gives a big answer where dark meets bright, and zero over flat areas. So it finds edges. A neural network does not use hand-made kernels. It starts with random ones and learns which ones are useful.",
+      "implement": "Work out the output by hand for the second position of the kernel, one cell to the right. You should get 27. Then try a window of all 9s and see why you get 0.",
+      "outcome": "You can calculate one step of a convolution.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/ai-galaxy-classifier/convolution.svg",
+        "alt": "A 5 by 5 grid of pixels with a dark left side and bright right side, a 3 by 3 kernel of minus ones, zeros and ones, and a 3 by 3 output where the first two columns read 27 and the third reads 0.",
+        "caption": "The kernel responds where the image goes from dark to bright, and gives zero on flat areas."
+      },
+      "resources": [
+        {
+          "label": "CNN Explainer (interactive)",
+          "url": "https://poloclub.github.io/cnn-explainer/"
+        }
+      ]
+    },
+    {
+      "title": "Stack layers to see shapes",
+      "learn": "How layers of convolutions turn edges into whole shapes.",
+      "explain": "One layer finds edges. Pooling then shrinks the picture, keeping the strongest response in each small patch, so the next layer sees a wider area. A second layer combines edges into curves and blobs, and a third combines those into things like a bar or an arm. At the end, a normal layer turns the last features into 10 scores, one per galaxy class, and the highest score is the answer. This stack is a convolutional neural network, or CNN.",
+      "implement": "Predict: if a 69 by 69 picture is halved by pooling three times, how many pixels wide is it at the end? You will check this in step 7. Hint: odd sizes round down.",
+      "outcome": "You can describe what each layer of a CNN does.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/ai-galaxy-classifier/cnn-pipeline.svg",
+        "alt": "Five stages left to right: a square image, a stack of feature maps from a convolution, smaller maps after pooling, more maps from a second convolution, and a bar chart of ten scores with one bar tall.",
+        "caption": "Each stage builds on the one before. The tallest bar at the end is the network's answer."
+      },
+      "resources": [
+        {
+          "label": "PyTorch: Build the neural network",
+          "url": "https://docs.pytorch.org/tutorials/beginner/basics/buildmodel_tutorial.html"
+        }
+      ]
+    },
+    {
+      "title": "Set up and download Galaxy10",
+      "learn": "How to install PyTorch and get the 210 MB dataset.",
+      "explain": "Galaxy10 SDSS has 21,785 galaxy pictures, each 69 by 69 pixels in 3 colour bands. Henry Leung and Jo Bovy built it from Sloan Digital Sky Survey images and Galaxy Zoo labels. It is small enough for a laptop. A larger version, Galaxy10 DECaLS, has sharper 256 pixel pictures but is 2.5 GB, so we do not use it. PyTorch is a big install, so give it a few minutes.",
+      "implement": "Run these commands. The download is 210,234,548 bytes: check with ls -l. If Zenodo is slow, try again later. The .h5 file is kept out of GitHub, as it is too big.",
+      "outcome": "PyTorch works and Galaxy10.h5 is in your folder.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "mkdir galaxy-classifier\ncd galaxy-classifier\npython -m venv .venv\nsource .venv/Scripts/activate    # Mac or Linux: source .venv/bin/activate\n\n# PyTorch is big (a few hundred MB). The CPU version is enough here.\npip install torch h5py numpy opencv-python-headless\n\n# Galaxy10: 21,785 labelled galaxy pictures, 210 MB, from Zenodo\ncurl -L -O https://zenodo.org/records/10844811/files/Galaxy10.h5\n\npython -c \"import torch; print(torch.__version__)\"\n\ngit init\necho \".venv/\" > .gitignore\necho \"Galaxy10.h5\" >> .gitignore",
+        "caption": "Windows users run these in Git Bash. On Linux with an NVIDIA card, PyTorch's install page shows the right command."
+      },
+      "resources": [
+        {
+          "label": "PyTorch: Get started locally",
+          "url": "https://pytorch.org/get-started/locally/"
+        },
+        {
+          "label": "Galaxy10 SDSS on Zenodo",
+          "url": "https://zenodo.org/records/10844811"
+        }
+      ]
+    },
+    {
+      "title": "Look at the data first",
+      "learn": "How to open an HDF5 file and check your classes before training.",
+      "explain": "Always look at your data before you train. The file holds two arrays: images, with shape 21785 by 69 by 69 by 3, and ans, a class number from 0 to 9 for each. Check the counts. They are very uneven: 6,997 smooth round galaxies, but only 17 of class 5, edge-on with a boxy bulge. If you always guessed the biggest class you would be right 32 percent of the time. Your network has to beat that.",
+      "implement": "Save this as galaxies.py and run it. Which class is rarest? Which would you expect the network to find hardest, and why?",
+      "outcome": "You know what is in the dataset and how unbalanced it is.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import h5py, numpy as np\n\nwith h5py.File(\"Galaxy10.h5\", \"r\") as f:\n    images = np.array(f[\"images\"])   # 21785 galaxies, 69 x 69 pixels, 3 colours\n    labels = np.array(f[\"ans\"])      # a class number, 0 to 9, for each\n\nNAMES = [\"Face-on, no spiral\", \"Smooth, round\", \"Smooth, in-between\",\n         \"Smooth, cigar\", \"Edge-on, rounded bulge\", \"Edge-on, boxy bulge\",\n         \"Edge-on, no bulge\", \"Face-on, tight spiral\",\n         \"Face-on, medium spiral\", \"Face-on, loose spiral\"]\n\nprint(images.shape)                  # (21785, 69, 69, 3)\nfor k, n in enumerate(np.bincount(labels)):\n    print(k, NAMES[k], n)            # from 6997 round ones down to 17 boxy",
+        "caption": "galaxies.py, part 1. The ten class names follow the Galaxy10 documentation."
+      },
+      "resources": [
+        {
+          "label": "Galaxy10 SDSS documentation (astroNN)",
+          "url": "https://astronn.readthedocs.io/en/latest/galaxy10sdss.html"
+        },
+        {
+          "label": "h5py: Quick start",
+          "url": "https://docs.h5py.org/en/stable/quick.html"
+        }
+      ]
+    },
+    {
+      "title": "Split the data and make tensors",
+      "learn": "Why you hold back test pictures, and what a tensor is.",
+      "explain": "You must test on pictures the network has never trained on, or you cannot tell learning from memorising. So we shuffle once and set 3,000 pictures aside as the test set. The rest, 18,785, train the network. PyTorch wants pictures as tensors with the colour channels first, so permute reorders the axes. We also divide by 255, so each value is between 0 and 1, which makes training steadier.",
+      "implement": "Add this to galaxies.py and run it. Check that the printed shapes match the comments. Then change 3000 to 5000 and see which numbers change.",
+      "outcome": "Training and test sets are ready.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import torch\n\nrng = np.random.default_rng(0)\norder = rng.permutation(len(images))      # shuffle once, same every run\ntest_idx, train_idx = order[:3000], order[3000:]\n\ndef to_tensor(idx):\n    x = torch.tensor(images[idx]).permute(0, 3, 1, 2)   # N, 3, 69, 69\n    return x.float() / 255, torch.tensor(labels[idx]).long()\n\nx_train, y_train = to_tensor(train_idx)\nx_test, y_test = to_tensor(test_idx)\nprint(x_train.shape, x_test.shape)\n# torch.Size([18785, 3, 69, 69]) torch.Size([3000, 3, 69, 69])",
+        "caption": "galaxies.py, part 2. The seed 0 means that you get the same split on every run, which helps when comparing experiments."
+      },
+      "resources": [
+        {
+          "label": "PyTorch: Tensors",
+          "url": "https://docs.pytorch.org/tutorials/beginner/basics/tensorqs_tutorial.html"
+        }
+      ]
+    },
+    {
+      "title": "Build the network",
+      "learn": "How to write a CNN in PyTorch as a class with a forward method.",
+      "explain": "Three blocks of convolution, ReLU and pooling grow the number of feature maps from 3 to 16 to 32 to 64, while the picture shrinks from 69 to 34 to 17 to 8 pixels. ReLU turns negative numbers into zero, which lets the network learn curves. The head then flattens 64 maps of 8 by 8 into one long list of 4,096 numbers, and two linear layers turn it into 10 scores. Dropout switches off 30 percent of units at random during training, so none can be relied on.",
+      "implement": "Add this to galaxies.py. It prints about 549,000 weights. Check your answer from step 3: 69, 34, 17, 8. Then try nn.Conv2d(3, 8, 3, padding=1) and see what must change after it.",
+      "outcome": "A small CNN with about half a million weights.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "from torch import nn\n\nclass GalaxyNet(nn.Module):\n    def __init__(self):\n        super().__init__()\n        self.features = nn.Sequential(\n            nn.Conv2d(3, 16, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),\n            nn.Conv2d(16, 32, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2),\n            nn.Conv2d(32, 64, 3, padding=1), nn.ReLU(), nn.MaxPool2d(2))\n        self.head = nn.Sequential(\n            nn.Flatten(), nn.Linear(64 * 8 * 8, 128), nn.ReLU(),\n            nn.Dropout(0.3), nn.Linear(128, 10))     # 10 scores out\n\n    def forward(self, x):\n        return self.head(self.features(x))\n\nmodel = GalaxyNet()\nprint(sum(p.numel() for p in model.parameters()), \"weights\")   # 549290",
+        "caption": "galaxies.py, part 3. padding=1 keeps each convolution the same size, and MaxPool2d(2) halves it, rounding down."
+      },
+      "resources": [
+        {
+          "label": "PyTorch: nn.Conv2d",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.nn.Conv2d.html"
+        }
+      ]
+    },
+    {
+      "title": "Train it",
+      "learn": "What the training loop does, line by line.",
+      "explain": "For each batch of 128 pictures, the network makes 10 scores per picture. The loss function, cross entropy, measures how wrong they are. loss.backward() works out how to change each weight to make the loss smaller, and opt.step() makes that small change. This repeated adjusting is the learning. After each epoch we measure accuracy on the 3,000 test pictures, with model.eval() so dropout is off. Expect the numbers to climb, and to bounce a little.",
+      "implement": "Add this and run it. It takes about 4 to 8 minutes on a laptop CPU. You should reach roughly 70 to 75 percent on the test pictures. Guessing the biggest class would give 33.",
+      "outcome": "A trained network that beats guessing by a wide margin.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "model = GalaxyNet()\nopt = torch.optim.Adam(model.parameters(), lr=1e-3)\nloss_fn = nn.CrossEntropyLoss()\n\ndef accuracy(x, y):\n    model.eval()                                  # switch dropout off\n    with torch.no_grad():\n        return (model(x).argmax(1) == y).float().mean().item()\n\nfor epoch in range(12):\n    model.train()\n    order = torch.randperm(len(x_train))\n    for i in range(0, len(order), 128):           # batches of 128\n        b = order[i:i + 128]\n        loss = loss_fn(model(x_train[b]), y_train[b])\n        opt.zero_grad(); loss.backward(); opt.step()\n    print(epoch + 1, round(loss.item(), 2), round(accuracy(x_test, y_test), 3))",
+        "caption": "galaxies.py, part 4. Our run reached 72.6 percent after epoch 12. Yours will differ by a point or two, because the weights start random."
+      },
+      "resources": [
+        {
+          "label": "PyTorch: Optimizing model parameters",
+          "url": "https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html"
+        }
+      ]
+    },
+    {
+      "title": "Fight overfitting with flips and turns",
+      "learn": "How data augmentation makes the network learn the shape, not the picture.",
+      "explain": "In our run, training accuracy was 77 percent while test accuracy was 73 percent. That gap is a sign of overfitting: the network is starting to remember its training pictures. A galaxy has no up, so a flipped or turned copy is just as valid an example. Showing the network a randomly flipped and turned batch each time gives it endless new pictures, and it can no longer memorise exact pixels. Training gets slower, but it generalises better.",
+      "implement": "Add the augment function and train a fresh model with it, using the same 12 epochs. Compare the final test accuracy and the training accuracy with your first run.",
+      "outcome": "A second network, and a measured comparison with the first.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "def augment(x):\n    \"\"\"Randomly mirror and turn a batch. A galaxy has no 'up'.\"\"\"\n    if torch.rand(1) < 0.5:\n        x = x.flip(3)                                   # mirror left-right\n    turns = int(torch.randint(0, 4, (1,)))              # 0, 90, 180, 270\n    return torch.rot90(x, turns, dims=(2, 3))\n\nmodel = GalaxyNet()\nopt = torch.optim.Adam(model.parameters(), lr=1e-3)\n\nfor epoch in range(12):\n    model.train()\n    order = torch.randperm(len(x_train))\n    for i in range(0, len(order), 128):\n        b = order[i:i + 128]\n        loss = loss_fn(model(augment(x_train[b])), y_train[b])   # new line\n        opt.zero_grad(); loss.backward(); opt.step()\n    print(epoch + 1, round(accuracy(x_test, y_test), 3))",
+        "caption": "galaxies.py, part 5. The only new line is the call to augment. Test pictures are never augmented."
+      },
+      "resources": [
+        {
+          "label": "PyTorch: torch.rot90",
+          "url": "https://docs.pytorch.org/docs/stable/generated/torch.rot90.html"
+        }
+      ]
+    },
+    {
+      "title": "Read the training curves",
+      "learn": "How to tell if a network is learning, overfitting or stuck.",
+      "explain": "Plot accuracy against epoch, for training and for unseen pictures. If the two lines move together, the network is learning general rules. If the training line runs far above the test line, it is memorising. In our run the plain network (violet) opened a gap of about 4 points, while the augmented one (orange) stayed level, ending at 75.6 percent. Do not over-read small differences: test accuracy bounces by a couple of points, and one run is one sample.",
+      "implement": "Save your own accuracy per epoch in two lists and plot them with matplotlib. Is your gap larger or smaller than ours? Run twice with different seeds to see how much it varies.",
+      "outcome": "You can judge a training run from its curves.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/ai-galaxy-classifier/training-curves.jpg",
+        "alt": "A line graph of accuracy against epoch for four runs. Plain training accuracy ends near 77 percent and plain test accuracy near 73. The augmented training and test lines end together near 75 percent.",
+        "caption": "Training curves from our two runs on Galaxy10. Dashed lines are the training pictures, solid lines are the 3,000 unseen test pictures.",
+        "credit": "Galaxy10 SDSS: images from the Sloan Digital Sky Survey, labels from Galaxy Zoo. Plot made by the Apogee project script",
+        "sourceUrl": "https://astronn.readthedocs.io/en/latest/galaxy10sdss.html"
+      },
+      "resources": [
+        {
+          "label": "Wikipedia: Overfitting",
+          "url": "https://en.wikipedia.org/wiki/Overfitting"
+        }
+      ]
+    },
+    {
+      "title": "Score each class",
+      "learn": "Why overall accuracy hides what the network gets wrong.",
+      "explain": "Overall accuracy is an average, and the large classes dominate it. A confusion matrix counts, for each true class, what the network said. Its diagonal holds the right answers. Reading rows shows which shapes are mixed up. In our run the network was 94 percent right on round smooth galaxies but only 16 to 42 percent right on the three spiral classes. With only 69 pixels across, the fine spiral arms are barely visible, and those classes had few examples.",
+      "implement": "Add this and run it. List the three classes your network does best on and the three it does worst. Is the number of training examples part of the reason?",
+      "outcome": "A per-class report card.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "model.eval()\nwith torch.no_grad():\n    pred = model(x_test).argmax(1)\n\nconfusion = torch.zeros(10, 10, dtype=torch.int)\nfor t, p in zip(y_test, pred):\n    confusion[t, p] += 1                    # row = truth, column = guess\n\nfor k in range(10):\n    total = confusion[k].sum().item()\n    right = confusion[k, k].item() / max(total, 1)\n    print(f\"{NAMES[k]:<24} {total:>4} test images, {right:.0%} right\")",
+        "caption": "galaxies.py, part 6. Run it with the network you trained last. Your percentages will be close to ours, but not equal."
+      },
+      "resources": [
+        {
+          "label": "scikit-learn: Confusion matrix",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html"
+        }
+      ]
+    },
+    {
+      "title": "Read the confusion matrix",
+      "learn": "How to see the pattern in the mistakes.",
+      "explain": "Each row is a true class and each column what the network said, so correct answers sit on the diagonal. Look at row 0, face-on discs with no spiral: 134 were called smooth in-between, and 68 smooth round, because a face-on disc seen at low resolution is a round blob. Rows 7 to 9, the spirals, are often called class 0. These are sensible confusions, since the classes blend into each other. Class 5, with 17 examples in the whole data, has no chance.",
+      "implement": "Draw your own matrix with plt.imshow(confusion). Find the biggest number off the diagonal. Write one sentence on why you think those two classes get mixed up.",
+      "outcome": "You can explain the network's mistakes, not just count them.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/ai-galaxy-classifier/confusion-matrix.jpg",
+        "alt": "A ten by ten grid of numbers. A bright diagonal of correct answers is strong for classes 1, 2 and 4, and weak for classes 3 and 5 to 9, with scattered numbers off the diagonal.",
+        "caption": "Confusion matrix of our augmented network on 3,000 test pictures. Rows are the true class, columns are the answer, and brighter means a bigger share of that row.",
+        "credit": "Galaxy10 SDSS: images from the Sloan Digital Sky Survey, labels from Galaxy Zoo. Plot made by the Apogee project script",
+        "sourceUrl": "https://astronn.readthedocs.io/en/latest/galaxy10sdss.html"
+      },
+      "resources": [
+        {
+          "label": "Google: Classification, accuracy and the confusion matrix",
+          "url": "https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall"
+        }
+      ]
+    },
+    {
+      "title": "Try it on a Hubble photo and watch it fail",
+      "learn": "Why a network only works on data like the data it learned from.",
+      "explain": "Now try your network on a real NASA picture. Crop the centre of the Hubble photo of NGC 1300, shrink it to 69 by 69 and run it. In our run, the network called this barred spiral an edge-on galaxy with 34 percent confidence, which is wrong. It also got an edge-on galaxy and an elliptical wrong. This is domain shift: Hubble photos have different colours, sharpness and scale from the SDSS pictures it learned on. A model is only as general as its data.",
+      "implement": "Download the picture from the link, then run this. Try other galaxy pictures from NASA's image library as well. Write down what the network says for each and whether it is right.",
+      "outcome": "You know the limits of what your network learned.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import cv2\n\nphoto = cv2.cvtColor(cv2.imread(\"ngc1300.jpg\"), cv2.COLOR_BGR2RGB)\nh, w = photo.shape[:2]\ns = min(h, w)                                    # crop to a centre square\nphoto = photo[(h - s) // 2:(h + s) // 2, (w - s) // 2:(w + s) // 2]\nphoto = cv2.resize(photo, (69, 69), interpolation=cv2.INTER_AREA)\nx = torch.tensor(photo).permute(2, 0, 1).float().unsqueeze(0) / 255\n\nmodel.eval()\nwith torch.no_grad():\n    probs = model(x).softmax(1)[0]               # scores to percentages\nfor k in probs.argsort(descending=True)[:3]:\n    print(NAMES[k], f\"{probs[k]:.0%}\")",
+        "caption": "galaxies.py, part 7. Download ngc1300.jpg from the link in this step. The scores your network gives may differ from ours."
+      },
+      "resources": [
+        {
+          "label": "NGC 1300 in the NASA image library (2.8 MB)",
+          "url": "https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e002154/GSFC_20171208_Archive_e002154~orig.jpg"
+        },
+        {
+          "label": "Wikipedia: Domain adaptation",
+          "url": "https://en.wikipedia.org/wiki/Domain_adaptation"
+        }
+      ]
+    },
+    {
+      "title": "Write it up and push",
+      "learn": "How to report a machine learning result so that others can trust it.",
+      "explain": "A good report says what data you used, how you split it, your model, and your results with their limits. Include the training curves, the confusion matrix and your honest note about spirals and the Hubble photos. Also state the random seed and the number of epochs, so someone else can repeat it. Save the trained weights with torch.save so you do not have to retrain. They are small enough to keep on GitHub.",
+      "implement": "Run torch.save(model.state_dict(), \"galaxy_net.pt\") in Python, write the README, then run the commands below with your own GitHub name.",
+      "outcome": "Your classifier is on GitHub, with an honest README.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "pip freeze > requirements.txt\ngit add .\ngit commit -m \"Galaxy classifier: a small CNN on Galaxy10\"\ngit branch -M main\ngit remote add origin https://github.com/YOUR-NAME/galaxy-classifier.git\ngit push -u origin main",
+        "caption": "Create an empty repository called galaxy-classifier on GitHub first. Galaxy10.h5 is ignored by Git."
+      },
+      "resources": [
+        {
+          "label": "PyTorch: Save and load a model",
+          "url": "https://docs.pytorch.org/tutorials/beginner/basics/saveloadrun_tutorial.html"
+        },
+        {
+          "label": "GitHub: Quickstart for repositories",
+          "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Official documentation",
+      "links": [
+        {
+          "label": "PyTorch tutorials: Learn the basics",
+          "url": "https://docs.pytorch.org/tutorials/beginner/basics/intro.html"
+        },
+        {
+          "label": "NumPy documentation",
+          "url": "https://numpy.org/doc/stable/"
+        },
+        {
+          "label": "h5py documentation",
+          "url": "https://docs.h5py.org/en/stable/"
+        }
+      ]
+    },
+    {
+      "category": "Data",
+      "links": [
+        {
+          "label": "Galaxy10 SDSS (astroNN docs)",
+          "url": "https://astronn.readthedocs.io/en/latest/galaxy10sdss.html"
+        },
+        {
+          "label": "Galaxy10 SDSS on Zenodo",
+          "url": "https://zenodo.org/records/10844811"
+        },
+        {
+          "label": "Galaxy Zoo",
+          "url": "https://www.zooniverse.org/projects/zookeeper/galaxy-zoo/"
+        }
+      ]
+    },
+    {
+      "category": "Free courses",
+      "links": [
+        {
+          "label": "CNN Explainer (interactive)",
+          "url": "https://poloclub.github.io/cnn-explainer/"
+        },
+        {
+          "label": "Google: Machine Learning Crash Course",
+          "url": "https://developers.google.com/machine-learning/crash-course"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A public GitHub repository with galaxies.py, requirements.txt and your saved weights",
+    "Training curves for a plain network and an augmented one",
+    "A confusion matrix with a paragraph on which classes fail and why",
+    "A README that states your split, seed, epochs, accuracy and the Hubble-photo test result"
+  ],
+  "checklist": [
+    {
+      "id": "galaxy-setup",
+      "label": "Installed PyTorch and downloaded Galaxy10"
+    },
+    {
+      "id": "galaxy-data",
+      "label": "Loaded the data and checked the class counts"
+    },
+    {
+      "id": "galaxy-split",
+      "label": "Split the data and made tensors"
+    },
+    {
+      "id": "galaxy-model",
+      "label": "Built the CNN and checked its layer sizes"
+    },
+    {
+      "id": "galaxy-train",
+      "label": "Trained the network and beat the guessing baseline"
+    },
+    {
+      "id": "galaxy-augment",
+      "label": "Added augmentation and compared the two runs"
+    },
+    {
+      "id": "galaxy-evaluate",
+      "label": "Scored every class and read the confusion matrix"
+    },
+    {
+      "id": "galaxy-hubble-test",
+      "label": "Tested the network on a Hubble photo and noted the result"
+    },
+    {
+      "id": "galaxy-published",
+      "label": "Wrote a README and pushed the finished work to GitHub"
+    }
+  ]
+}

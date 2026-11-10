@@ -1,0 +1,506 @@
+{
+  "id": "embedded-autonomous-rover",
+  "hero": {
+    "src": "/media/embedded-autonomous-rover/hero.jpg",
+    "alt": "Two small test rovers with orange wheels drive across pale sand in front of dark boulders at NASA's Mars Yard.",
+    "credit": "NASA/JPL-Caltech",
+    "sourceUrl": "https://images.nasa.gov/details/PIA26168"
+  },
+  "overview": {
+    "what": "A two-wheeled rover built on an ESP32 that measures the distance ahead with an ultrasonic sensor, looks left and right with a servo and drives around obstacles by itself.",
+    "why": "You learn motors, motor drivers, a new kind of sensor and how to turn readings into decisions. Together these are the core of every robot.",
+    "spaceRelevance": "Planetary rovers cannot be steered live, because radio takes minutes. They sense and decide on their own, using the same loop you will build in small form.",
+    "finalOutput": "A rover that drives across a mock moonscape of boxes without hitting them, with code, wiring pictures and a video.",
+    "difficulty": 4,
+    "estimatedTime": "4 to 6 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "radio",
+      "label": "Sensor pings",
+      "detail": "The HC-SR04 sends sound and times the echo."
+    },
+    {
+      "icon": "cpu",
+      "label": "ESP32 decides",
+      "detail": "If the way is blocked, it looks both ways and picks a side."
+    },
+    {
+      "icon": "zap",
+      "label": "Driver switches power",
+      "detail": "The L298N feeds the motors from the battery."
+    },
+    {
+      "icon": "cog",
+      "label": "Wheels turn",
+      "detail": "Different speeds on each side steer the rover."
+    },
+    {
+      "icon": "route",
+      "label": "It avoids the obstacle",
+      "detail": "The loop repeats many times a second."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "Motor driver",
+      "meaning": "A board that switches battery power to motors on command. The ESP32 pins give too little current to run a motor."
+    },
+    {
+      "term": "PWM",
+      "meaning": "Pulse width modulation. Switching a signal on and off very fast. The longer it stays on in each cycle, the faster the motor runs."
+    },
+    {
+      "term": "Differential drive",
+      "meaning": "Steering with two wheels driven at different speeds. Equal speeds go straight, and opposite speeds spin the rover on the spot."
+    },
+    {
+      "term": "Time of flight",
+      "meaning": "Measuring distance from how long a signal takes to go out and come back. The ultrasonic sensor does this with sound."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "iwD9RiqIHQw",
+      "title": "How Ultrasonic Sensor Works ? | 3D Animated",
+      "channel": "Blue Butterfly",
+      "why": "An animation of the echo idea. It makes the timing picture easy to follow before you read any code."
+    },
+    {
+      "youtubeId": "5uJ9-6B8Qi8",
+      "title": "L298 Motor Driver Module Explained in 5 Minutes | Arduino Robotics Made Easy",
+      "channel": "TEKNOISTIX",
+      "why": "A tour of every terminal and jumper on the L298N, which is where most wiring mistakes happen."
+    }
+  ],
+  "parts": [
+    {
+      "name": "ESP32 dev board",
+      "why": "Reuse the one from earlier projects",
+      "cost": "₹0 (reuse)"
+    },
+    {
+      "name": "2WD or 4WD robot chassis kit with 2 or more TT motors",
+      "why": "Frame, wheels and gear motors, with a caster for the front",
+      "cost": "₹400 to ₹800"
+    },
+    {
+      "name": "L298N motor driver module",
+      "why": "Switches battery power to the motors",
+      "cost": "₹130 to ₹200"
+    },
+    {
+      "name": "HC-SR04 ultrasonic sensor",
+      "why": "Measures the distance ahead",
+      "cost": "₹70 to ₹120"
+    },
+    {
+      "name": "SG90 servo",
+      "why": "Turns the sensor to look left and right. Reuse one from the ISS pointer",
+      "cost": "₹0 (reuse), or ₹70 to ₹120"
+    },
+    {
+      "name": "4 x AA battery holder and cells",
+      "why": "6 V for the motors. NiMH rechargeable cells save money",
+      "cost": "₹150 to ₹450"
+    },
+    {
+      "name": "Resistors: one 1k and one 2k",
+      "why": "Make the ECHO divider that protects the ESP32",
+      "cost": "₹10 to ₹30"
+    },
+    {
+      "name": "USB power bank and cable",
+      "why": "Powers the ESP32 separately. Reuse from earlier",
+      "cost": "₹0 (reuse)"
+    },
+    {
+      "name": "Slide switch",
+      "why": "A battery switch you can reach quickly",
+      "cost": "₹10 to ₹30"
+    },
+    {
+      "name": "Breadboard, jumper wires, zip ties, tape",
+      "why": "Wiring and mounting. Reuse what you have",
+      "cost": "₹100 to ₹250"
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "Finished the earlier three projects",
+      "Know how to read a wiring diagram",
+      "Know that a shared ground is needed between parts"
+    ],
+    "programming": [
+      "C++ on the ESP32: functions, loops and if statements",
+      "Arduino pinMode, digitalWrite and delay"
+    ],
+    "mathPhysics": [
+      "Speed, distance and time",
+      "Voltage division with two resistors"
+    ],
+    "software": [
+      "Wokwi account",
+      "Arduino IDE 2 with Arduino-ESP32 core 3.0 or newer",
+      "Git and a GitHub account"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "ESP32",
+      "why": "The brain: reads the sensor and runs the decision loop",
+      "priority": "Essential"
+    },
+    {
+      "name": "L298N motor driver",
+      "why": "Lets the ESP32 control motor direction and speed",
+      "priority": "Essential"
+    },
+    {
+      "name": "HC-SR04 ultrasonic sensor",
+      "why": "Measures the distance to obstacles",
+      "priority": "Essential"
+    },
+    {
+      "name": "PWM with LEDC",
+      "why": "Sets motor speed from the ESP32",
+      "priority": "Essential"
+    },
+    {
+      "name": "ESP32Servo",
+      "why": "Turns the sensor to scan left and right",
+      "priority": "Essential"
+    },
+    {
+      "name": "Wokwi simulator",
+      "why": "Tests the sensor and the decision logic, but cannot simulate the motors",
+      "priority": "Recommended"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "Why rovers must think",
+      "learn": "Why a rover cannot be driven by a joystick from Earth.",
+      "explain": "Radio signals take time to cross space. Between Earth and Mars the one-way delay is between about 3 and 22 minutes, depending on where the planets are. So a rover cannot be steered live. Engineers send plans, and the rover makes small decisions itself, such as stopping before it hits a rock. This is called autonomy. The Perseverance selfie shows how alone a rover is on the surface.",
+      "implement": "Look at the photo and write down three things a rover would have to sense to drive safely on its own.",
+      "outcome": "You know why rovers need autonomy.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/embedded-autonomous-rover/selfie.jpg",
+        "alt": "A wide selfie of the Perseverance rover on rust-coloured rocky ground, with its camera mast raised and rocky hills behind it.",
+        "caption": "Perseverance's selfie on Mars in July 2024. Its commands come from Earth hours before it acts, so it has to look after itself.",
+        "credit": "NASA/JPL-Caltech/MSSS",
+        "sourceUrl": "https://images.nasa.gov/details/PIA26344"
+      },
+      "resources": [
+        {
+          "label": "NASA: Mars 2020 Perseverance",
+          "url": "https://science.nasa.gov/mission/mars-2020-perseverance/"
+        }
+      ]
+    },
+    {
+      "title": "Sense, think, act",
+      "learn": "The three-part loop behind every robot.",
+      "explain": "Every robot runs the same loop: sense the world, think about what it means, and act. Perseverance does this with its AutoNav system. Cameras see the ground, software marks which areas are safe, and the wheels follow the safest path. The picture shows the path it picked through a field of boulders. Your rover will do a tiny version: an ultrasonic sensor senses, your code decides and the motors act.",
+      "implement": "Write the sense, think, act loop for your rover in three lines. Say which part of the hardware does each job.",
+      "outcome": "You can describe your rover as a sense, think, act loop.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/embedded-autonomous-rover/autonav.jpg",
+        "alt": "A view from a Mars rover of a boulder-strewn slope with pale blue lines marking the winding path the rover chose between the rocks.",
+        "caption": "The blue lines mark Perseverance's own path through a boulder field in 2023, picked by its AutoNav software.",
+        "credit": "NASA/JPL-Caltech",
+        "sourceUrl": "https://images.nasa.gov/details/PIA26071"
+      },
+      "resources": [
+        {
+          "label": "NASA image library: AutoNav picture",
+          "url": "https://images.nasa.gov/details/PIA26071"
+        }
+      ]
+    },
+    {
+      "title": "How a motor driver works",
+      "learn": "Why the ESP32 cannot drive motors directly, and what does the job instead.",
+      "explain": "A pin on the ESP32 gives only a few milliamps. A small motor needs hundreds. So the ESP32 sends signals to a motor driver, which switches the battery power to the motor. The L298N has an H-bridge for each motor: four switches that let current flow either way, so the motor goes forward or back. Two input pins choose the direction. An enable pin, fed with PWM, switches fast on and off to set the speed.",
+      "implement": "Watch the video. Then write down which L298N pin sets direction and which sets speed.",
+      "outcome": "You know what IN1, IN2 and ENA each do.",
+      "figure": {
+        "kind": "video",
+        "youtubeId": "Ey4xoG970Go",
+        "title": "How to control a DC motor with L298N driver and Arduino Uno",
+        "channel": "educ8s.tv",
+        "caption": "Shows an L298N driving a motor. It uses an Arduino Uno, but the pins do the same job on an ESP32."
+      },
+      "resources": [
+        {
+          "label": "Last Minute Engineers: L298N tutorial",
+          "url": "https://lastminuteengineers.com/l298n-dc-stepper-driver-arduino-tutorial/"
+        }
+      ]
+    },
+    {
+      "title": "Wire the motors and battery",
+      "learn": "How to connect the driver safely.",
+      "explain": "Take care here: a wrong wire can burn a driver. The motor battery goes only to the 12V terminal and GND of the L298N. The ESP32 gives the logic 5 V through the 5V terminal, so remove the 5V-EN jumper. Remove the ENA and ENB jumpers so PWM can control speed. Join all three grounds: battery, driver and ESP32. Power the ESP32 from a USB power bank, not from the L298N. The driver loses about 2 V, so motors see about 4 V from 6 V.",
+      "implement": "Build the chassis. Wire it as shown with the battery switch off. Check polarity twice, then switch on with the wheels off the table.",
+      "outcome": "The wiring is checked and the wheels are lifted for testing.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-autonomous-rover/rover-motor-wiring.svg",
+        "alt": "Wiring diagram: ESP32 GPIO 25 to ENA, 26 to IN1, 27 to IN2, 32 to IN3, 33 to IN4, 13 to ENB, VIN to the 5V terminal and GND to GND. The L298N outputs go to two motors and a 6 volt battery feeds the 12V terminal.",
+        "caption": "The six control wires, the 5 V logic feed and a shared ground. The battery connects only to the driver."
+      },
+      "resources": [
+        {
+          "label": "Last Minute Engineers: L298N wiring",
+          "url": "https://lastminuteengineers.com/l298n-dc-stepper-driver-arduino-tutorial/"
+        }
+      ]
+    },
+    {
+      "title": "Make the wheels turn",
+      "learn": "How to turn pin signals into forward, back and turns.",
+      "explain": "Two small functions hide the details. motor() sets two direction pins and a PWM duty, and drive(left, right) calls it twice. A rover with one motor on each side turns by driving the sides at different speeds. This is called differential drive. If one wheel goes the wrong way, swap that motor's two wires at the driver. Run slowly at first, with the wheels off the ground.",
+      "implement": "Upload this sketch. Check that both wheels go forward, then stop. If one is backwards, swap its wires. Then try drive(150, -150) to see the rover spin on the spot.",
+      "outcome": "The rover goes forward, stops and turns on command.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "const int ENA = 25, IN1 = 26, IN2 = 27;     // left motor\nconst int ENB = 13, IN3 = 32, IN4 = 33;     // right motor\n\n// speed from -255 (full reverse) to 255 (full forward)\nvoid motor(int en, int a, int b, int speed) {\n  digitalWrite(a, speed > 0);\n  digitalWrite(b, speed < 0);\n  ledcWrite(en, abs(speed));                // PWM on the enable pin\n}\n\nvoid drive(int left, int right) {\n  motor(ENA, IN1, IN2, left);\n  motor(ENB, IN3, IN4, right);\n}\n\nvoid setup() {\n  pinMode(IN1, OUTPUT); pinMode(IN2, OUTPUT);\n  pinMode(IN3, OUTPUT); pinMode(IN4, OUTPUT);\n  ledcAttach(ENA, 1000, 8);                 // 1 kHz PWM, values 0 to 255\n  ledcAttach(ENB, 1000, 8);                 // (Arduino-ESP32 core 3.x)\n}\n\nvoid loop() {\n  drive(180, 180); delay(1000);             // forward\n  drive(0, 0);     delay(1000);             // stop\n}",
+        "caption": "Uses the ESP32 Arduino core 3.x PWM calls ledcAttach and ledcWrite, which take a pin number. Older cores use different names."
+      },
+      "resources": [
+        {
+          "label": "Arduino-ESP32: LEDC PWM",
+          "url": "https://docs.espressif.com/projects/arduino-esp32/en/latest/api/ledc.html"
+        }
+      ]
+    },
+    {
+      "title": "Meet the ultrasonic sensor",
+      "learn": "How a rover can feel what is in front of it.",
+      "explain": "The HC-SR04 has a speaker and a microphone for sound too high to hear, at 40 kHz. It sends a short burst, and listens for the echo. Bats do the same thing. It works from about 2 cm to 4 m, but a soft surface such as cloth can swallow the sound and a rock at a steep angle can bounce it away. The HC-SR04 needs 5 V to work well.",
+      "implement": "Add an HC-SR04 and a servo to a Wokwi ESP32. Click the sensor and drag its distance slider. The simulator will stand in for the real one.",
+      "outcome": "You know what the sensor does and where it is weak.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/embedded-autonomous-rover/hc-sr04.jpg",
+        "alt": "The back of an HC-SR04 ultrasonic sensor circuit board, blue with three small chips and four metal pins at the bottom.",
+        "caption": "The back of an HC-SR04 module. The two silver round parts on the front are the speaker and the microphone.",
+        "credit": "Suyash Dwivedi, CC BY-SA 4.0, Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:HC-SR04_ultrasonic_distance_sensor_module_pcb.jpg"
+      },
+      "resources": [
+        {
+          "label": "Wokwi: HC-SR04",
+          "url": "https://docs.wokwi.com/parts/wokwi-hc-sr04"
+        },
+        {
+          "label": "How an ultrasonic sensor works (video)",
+          "url": "https://www.youtube.com/watch?v=iwD9RiqIHQw"
+        }
+      ]
+    },
+    {
+      "title": "Time the echo",
+      "learn": "How the time of a sound turns into a distance.",
+      "explain": "The ESP32 gives the TRIG pin a 10 microsecond pulse. The sensor sends its burst, then makes the ECHO pin go high until the sound comes back. The ESP32 times how long ECHO stays high. Sound travels at about 343 metres a second, which is 0.0343 cm per microsecond. The echo covers the trip there and back, so halve it. An echo lasting 1166 microseconds means a wall 20 cm away.",
+      "implement": "Work out the distance for echoes of 580 and 2900 microseconds, using the formula in the picture. Check your answers in the next step.",
+      "outcome": "You can convert an echo time into a distance by hand.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-autonomous-rover/echo-timing.svg",
+        "alt": "Sound goes out from the sensor to a wall and comes back. Below, the TRIG line shows a short 10 microsecond pulse and the ECHO line stays high for the time the sound travelled. The formula is distance equals time times 0.0343 divided by 2.",
+        "caption": "The ECHO pulse is a stopwatch for the sound. The longer it is, the farther away the wall."
+      },
+      "resources": [
+        {
+          "label": "Arduino: pulseIn",
+          "url": "https://docs.arduino.cc/language-reference/en/functions/advanced-io/pulseIn/"
+        }
+      ]
+    },
+    {
+      "title": "Wire the sensor and the servo",
+      "learn": "How to connect a 5 V sensor to a 3.3 V board safely.",
+      "explain": "The HC-SR04's ECHO pin outputs 5 V, but ESP32 pins take 3.3 V at most. Put a voltage divider in the ECHO wire: a 1k resistor in series, then a 2k resistor from that point to ground, with the ESP32 pin at the middle. It cuts 5 V to about 3.3 V. TRIG is fine as it is. The sensor and the small servo take 5 V from VIN, which carries the USB voltage. Use 2 x 1k in series if you have no 2k.",
+      "implement": "Mount the sensor on the servo, and the servo at the front of the chassis. Wire it as shown. Check the divider with a multimeter if you have one: the middle point should read about 3.3 V when ECHO is high.",
+      "outcome": "The sensor reads safely on a 3.3 V pin and the servo turns.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-autonomous-rover/rover-sensor-wiring.svg",
+        "alt": "Wiring diagram: HC-SR04 VCC to VIN, TRIG to GPIO 18, ECHO through a 1k resistor to GPIO 19 with a 2k resistor from that point to ground, and GND to GND. The SG90 servo signal goes to GPIO 23 with power from VIN.",
+        "caption": "The 1k and 2k pair is a voltage divider. Without it, the 5 V ECHO signal can damage GPIO 19."
+      },
+      "resources": [
+        {
+          "label": "SparkFun: Voltage dividers",
+          "url": "https://learn.sparkfun.com/tutorials/voltage-dividers/all"
+        }
+      ]
+    },
+    {
+      "title": "Read the distance",
+      "learn": "How to get a number from the sensor in code.",
+      "explain": "The function distanceCm() pings and times the echo with pulseIn, which waits for a pin to go high and counts how long it stays there. The 30000 limits the wait to 30 ms, about 5 metres, so the code does not hang when nothing replies. A returned 999 means nothing was seen. Readings jump around a little, which is normal. Averaging three readings makes them steadier.",
+      "implement": "Upload the sketch and open the Serial Monitor. Put your hand, a book and a wall at known distances with a ruler and check the numbers.",
+      "outcome": "The rover reports distances that match a ruler.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "const int TRIG = 18, ECHO = 19;\n\nvoid setup() {\n  Serial.begin(115200);\n  pinMode(TRIG, OUTPUT);\n  pinMode(ECHO, INPUT);\n}\n\nfloat distanceCm() {\n  digitalWrite(TRIG, LOW);  delayMicroseconds(2);\n  digitalWrite(TRIG, HIGH); delayMicroseconds(10);   // a 10 us pulse starts a ping\n  digitalWrite(TRIG, LOW);\n  long us = pulseIn(ECHO, HIGH, 30000);              // wait up to 30 ms for the echo\n  if (us == 0) return 999;                           // nothing came back\n  return us * 0.0343 / 2;                            // there and back, so halve it\n}\n\nvoid loop() {\n  Serial.println(distanceCm());\n  delay(200);\n}",
+        "caption": "Reads the distance in centimetres every 200 ms. Check it with a ruler before you trust it."
+      },
+      "resources": [
+        {
+          "label": "Arduino: pulseIn",
+          "url": "https://docs.arduino.cc/language-reference/en/functions/advanced-io/pulseIn/"
+        }
+      ]
+    },
+    {
+      "title": "Decide what to do",
+      "learn": "How to plan the rover's behaviour as a loop.",
+      "explain": "Start with a flowchart, because it is easier to fix a drawing than a bug. The rule is simple. If the way ahead is clear, drive forward. If an obstacle is under 25 cm away, stop and back up. Look left and right with the servo. Turn toward whichever side has more space and carry on. Test the logic in Wokwi first: use two LEDs for left and right turns, and move the HC-SR04's slider.",
+      "implement": "Test the loop in Wokwi. Make the sketch print LEFT, RIGHT or FORWARD instead of moving, and drag the distance slider to check each case.",
+      "outcome": "The logic works in the simulator.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-autonomous-rover/avoid-logic.svg",
+        "alt": "A loop: measure distance, then if closer than 25 centimetres stop and reverse, look left and right, and turn toward the clearer side, otherwise drive forward, then measure again.",
+        "caption": "The decision loop. Every autonomous robot has one, from this rover to Perseverance."
+      },
+      "resources": [
+        {
+          "label": "Wokwi: servo and HC-SR04 projects",
+          "url": "https://docs.wokwi.com/"
+        }
+      ]
+    },
+    {
+      "title": "Write the obstacle avoider",
+      "learn": "How to turn the flowchart into code.",
+      "explain": "The loop follows the flowchart one line at a time. lookAt() turns the servo, waits and measures. The turn is timed, so it is only roughly a quarter turn, and it changes with battery charge, floor and wheels. Tune the delay by trial. Keep every number in one place at the top so it is easy to change. This is open-loop control, with no way of knowing the actual angle. The next project fixes that with a camera.",
+      "implement": "Add this loop to your drive and distance code, with the setup line in the comment. Test with wheels off the ground, then put the rover on the floor with a wall ahead.",
+      "outcome": "The rover stops, looks and turns away from a wall.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "#include <ESP32Servo.h>\nServo neck;                           // the servo that turns the sensor\n\nfloat lookAt(int angle) {\n  neck.write(angle);\n  delay(400);                         // let the servo arrive\n  return distanceCm();\n}\n\nvoid loop() {\n  if (distanceCm() > 25) {            // clear ahead: keep going\n    drive(180, 180);\n    delay(50);\n    return;\n  }\n  drive(0, 0);  delay(200);           // too close: stop\n  drive(-150, -150);  delay(400);     // back up a little\n  drive(0, 0);\n  float left = lookAt(150), right = lookAt(30);   // swap if yours are reversed\n  neck.write(90);                     // face forward again\n  if (left > right) drive(-160, 160); else drive(160, -160);\n  delay(450);                         // about a quarter turn: tune this\n  drive(0, 0);\n}\n// In setup(): neck.attach(23, 500, 2400); neck.write(90);",
+        "caption": "Put it together with the drive and distance code. Adjust the 25 cm limit and the turn time to suit your rover."
+      },
+      "resources": [
+        {
+          "label": "ESP32Servo library",
+          "url": "https://github.com/madhephaestus/ESP32Servo"
+        }
+      ]
+    },
+    {
+      "title": "Build a mock moonscape and tune",
+      "learn": "How to test safely and improve the rover.",
+      "explain": "Build a small course on the floor: a flat area with books, shoe boxes and rolled towels as rocks. Start slow. Keep a hand near the switch. Tune one thing at a time: speed, the stopping distance, then the turn time. Note what fools it. Thin chair legs and soft cloth are hard for ultrasonic sensors to see. Never leave a moving rover alone near stairs. The L298N gets hot, so do not touch its heatsink after a long run.",
+      "implement": "Run five trials on your course. Count how many obstacles it avoided. Record a short video, then change one setting and run five more.",
+      "outcome": "You have data showing your rover avoids most obstacles.",
+      "resources": [
+        {
+          "label": "Last Minute Engineers: L298N tutorial",
+          "url": "https://lastminuteengineers.com/l298n-dc-stepper-driver-arduino-tutorial/"
+        }
+      ]
+    },
+    {
+      "title": "Publish your rover",
+      "learn": "How to share a robot so others can rebuild it.",
+      "explain": "Robots are hard to follow from code alone, so show it working. Include your wiring pictures, the code, a video and your test numbers. Say what failed. List the parts and the price. This documentation also helps you in the next project, where you will reuse the rover and teach it to follow a path planned by a camera.",
+      "implement": "Push the code, wiring pictures, a README with your trial results, and a link to the video to GitHub.",
+      "outcome": "Your rover is documented on GitHub.",
+      "resources": [
+        {
+          "label": "GitHub: About READMEs",
+          "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Datasheets and docs",
+      "links": [
+        {
+          "label": "Arduino-ESP32: LEDC PWM",
+          "url": "https://docs.espressif.com/projects/arduino-esp32/en/latest/api/ledc.html"
+        },
+        {
+          "label": "Wokwi: HC-SR04",
+          "url": "https://docs.wokwi.com/parts/wokwi-hc-sr04"
+        }
+      ]
+    },
+    {
+      "category": "Tutorials",
+      "links": [
+        {
+          "label": "Last Minute Engineers: L298N",
+          "url": "https://lastminuteengineers.com/l298n-dc-stepper-driver-arduino-tutorial/"
+        },
+        {
+          "label": "Random Nerd Tutorials: ESP32",
+          "url": "https://randomnerdtutorials.com/projects-esp32/"
+        }
+      ]
+    },
+    {
+      "category": "Space link",
+      "links": [
+        {
+          "label": "NASA: Mars 2020 Perseverance",
+          "url": "https://science.nasa.gov/mission/mars-2020-perseverance/"
+        },
+        {
+          "label": "NASA image library: CADRE rovers in the Mars Yard",
+          "url": "https://images.nasa.gov/details/PIA26168"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A GitHub repository with the rover code",
+    "Wiring pictures for the motors and the sensor",
+    "A video of the rover avoiding obstacles on your mock moonscape",
+    "A table of your trial results",
+    "A README with the parts list and what you learned"
+  ],
+  "checklist": [
+    {
+      "id": "rover-autonomy",
+      "label": "Explained sense, think, act for my rover"
+    },
+    {
+      "id": "rover-motors",
+      "label": "Wired the L298N with a shared ground and made both wheels turn"
+    },
+    {
+      "id": "rover-distance",
+      "label": "Read distances from the HC-SR04, with the ECHO divider fitted"
+    },
+    {
+      "id": "rover-logic",
+      "label": "Tested the decision logic in Wokwi"
+    },
+    {
+      "id": "rover-avoids",
+      "label": "Made the rover avoid a wall by itself"
+    },
+    {
+      "id": "rover-trials",
+      "label": "Ran trials on a mock moonscape and recorded results"
+    },
+    {
+      "id": "rover-pushed",
+      "label": "Wrote a README and pushed the finished work to GitHub"
+    }
+  ]
+}

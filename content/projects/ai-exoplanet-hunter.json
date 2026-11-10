@@ -1,0 +1,484 @@
+{
+  "id": "ai-exoplanet-hunter",
+  "hero": {
+    "src": "/media/ai-exoplanet-hunter/hero.jpg",
+    "alt": "The Sun glowing orange and white, with a small black disc, the planet Venus, crossing in front of its upper left edge.",
+    "credit": "NASA/SDO, HMI (cropped)",
+    "sourceUrl": "https://images.nasa.gov/details/GSFC_20171208_Archive_e001742"
+  },
+  "overview": {
+    "what": "A Python program that downloads real light curves from NASA's Kepler telescope, finds the repeating dip of a planet crossing its star, then trains a model to tell real planets from false alarms.",
+    "why": "It shows two sides of machine learning on real science data: a search algorithm that digs a tiny signal out of noise, and a classifier trained on thousands of labelled examples with scikit-learn.",
+    "spaceRelevance": "Kepler watched about 150,000 stars and found thousands of planets this way. Most were found by software first and confirmed by people after.",
+    "finalOutput": "A notebook-style script that recovers the planet Kepler-10 b from raw data, plus a classifier that scores Kepler planet candidates at about 92 percent accuracy.",
+    "difficulty": 3,
+    "estimatedTime": "4 to 5 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "telescope",
+      "label": "Download a light curve",
+      "detail": "Kepler's brightness readings for one star, from NASA."
+    },
+    {
+      "icon": "filter",
+      "label": "Clean it",
+      "detail": "Remove the slow drift and keep the short dips."
+    },
+    {
+      "icon": "search",
+      "label": "Search for a period",
+      "detail": "Box least squares tests thousands of repeat times."
+    },
+    {
+      "icon": "layers",
+      "label": "Fold and measure",
+      "detail": "Stack every dip to get depth and planet size."
+    },
+    {
+      "icon": "brain",
+      "label": "Train a classifier",
+      "detail": "A random forest learns planet versus false alarm."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "Light curve",
+      "meaning": "A graph of one star's brightness over time. A planet crossing in front makes a small, repeating dip in it."
+    },
+    {
+      "term": "Folding",
+      "meaning": "Cutting the light curve into pieces one orbit long and stacking them. The dips line up and add together, while the noise averages out."
+    },
+    {
+      "term": "Classifier",
+      "meaning": "A model that puts things in categories. You show it many labelled examples, and it learns to label new ones. Here the labels are planet and false alarm."
+    },
+    {
+      "term": "Train and test split",
+      "meaning": "You keep some labelled examples hidden while training, then score the model on them. That tells you how it will do on cases it has never seen."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "xNeRqbw18Jk",
+      "title": "Detecting exoplanets with the transit method",
+      "channel": "ESA Space Science Hub",
+      "why": "A short, clear animation of a planet crossing its star and the dip it causes. It is the picture behind everything in this project."
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "The Mars Crater Detector project, or the same skills: Python, NumPy, the terminal and Git",
+      "Reading a simple graph"
+    ],
+    "programming": [
+      "Python: functions, loops and lists",
+      "Basic NumPy arrays",
+      "A first look at pandas tables is helpful but is explained here"
+    ],
+    "mathPhysics": [
+      "Percentages and ratios",
+      "Squares and square roots",
+      "A planet's size sets how much light it blocks"
+    ],
+    "software": [
+      "Python 3.11 or newer",
+      "Git and a GitHub account",
+      "lightkurve, scikit-learn, pandas and matplotlib, installed in step 3",
+      "An internet connection, for NASA's archives"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "lightkurve",
+      "why": "Downloads Kepler data and provides flatten, fold and period search",
+      "priority": "Essential"
+    },
+    {
+      "name": "NumPy",
+      "why": "Holds the brightness values and the grid of periods to test",
+      "priority": "Essential"
+    },
+    {
+      "name": "scikit-learn",
+      "why": "Provides the random forest and the tools to score it fairly",
+      "priority": "Essential"
+    },
+    {
+      "name": "pandas",
+      "why": "Reads NASA's table of Kepler candidates and filters its rows",
+      "priority": "Essential"
+    },
+    {
+      "name": "matplotlib",
+      "why": "Plots light curves and results",
+      "priority": "Recommended"
+    },
+    {
+      "name": "NASA Exoplanet Archive",
+      "why": "The labelled list of Kepler planets and false alarms",
+      "priority": "Essential"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "The transit method",
+      "learn": "How a planet that you cannot see still shows up in a star's brightness.",
+      "explain": "A star is far too bright and far away to see its planets directly. But if a planet's orbit happens to pass in front of the star as we see it, the planet blocks a sliver of light, and the star dims a little. This is a transit. The dip is small: a Jupiter-sized planet blocks about 1 percent of the Sun's light, and an Earth about 0.008 percent. Depth is the planet's size squared, divided by the star's size squared.",
+      "implement": "Work out the depth for a planet half as wide as its star, and for one a tenth as wide. Check your answers against the formula in the picture. Then watch the video.",
+      "outcome": "You can explain what a transit is and what sets its depth.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/ai-exoplanet-hunter/transit-dip.svg",
+        "alt": "A planet shown before, during and after crossing the disc of a star, above a graph of brightness over time that dips while the planet is in front.",
+        "caption": "The planet crosses the star, and the graph below dips by the fraction of light blocked. Depth is (planet radius divided by star radius) squared."
+      },
+      "resources": [
+        {
+          "label": "Wikipedia: Methods of detecting exoplanets",
+          "url": "https://en.wikipedia.org/wiki/Methods_of_detecting_exoplanets"
+        }
+      ]
+    },
+    {
+      "title": "Meet Kepler",
+      "learn": "What the Kepler telescope did, and what its data looks like.",
+      "explain": "Kepler launched in 2009 and stared at one patch of sky for four years, measuring the brightness of about 150,000 stars every 30 minutes. Its main target was a simple question: how common are Earth-sized planets? Its data is public, and after Kepler was retired in 2018, people kept finding new planets in it. Your target star, Kepler-10, hosts Kepler-10 b, the first confirmed rocky planet Kepler found. It circles its star every 20 hours.",
+      "implement": "Read the Kepler mission summary. Then find out what a quarter is in Kepler's data. Each one is about three months, and you will download four of them.",
+      "outcome": "You know where your data comes from.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/ai-exoplanet-hunter/kepler-clean-room.jpg",
+        "alt": "The Kepler spacecraft in a clean room: a tall cylinder wrapped in copper-coloured foil with a white top, and two technicians in white suits at its base.",
+        "caption": "NASA's Kepler spacecraft in a clean room before launch. Its one instrument was a huge camera that measured the brightness of stars.",
+        "credit": "NASA/JPL-Caltech/Ball Aerospace",
+        "sourceUrl": "https://images.nasa.gov/details/PIA11188"
+      },
+      "resources": [
+        {
+          "label": "NASA: Kepler mission",
+          "url": "https://science.nasa.gov/mission/kepler/"
+        },
+        {
+          "label": "NASA: Kepler-10 b",
+          "url": "https://science.nasa.gov/exoplanet-catalog/kepler-10-b/"
+        }
+      ]
+    },
+    {
+      "title": "Set up the project",
+      "learn": "How to install lightkurve and the other packages.",
+      "explain": "You have made a virtual environment before. This time the packages are bigger: lightkurve brings in astropy, the standard Python toolkit for astronomy. The install can take a few minutes. Lightkurve will cache everything it downloads in a hidden folder in your home directory, so each file is fetched only once.",
+      "implement": "Run these commands. If the last Python line prints a version number, such as 2.6.0, you are ready.",
+      "outcome": "A working project folder with all the tools.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "mkdir exoplanet-hunter\ncd exoplanet-hunter\npython -m venv .venv\nsource .venv/Scripts/activate    # Mac or Linux: source .venv/bin/activate\n\n# lightkurve fetches Kepler data; the rest handle tables, plots and learning\npip install lightkurve scikit-learn pandas matplotlib\n\npython -c \"import lightkurve; print(lightkurve.__version__)\"\n\ngit init\necho \".venv/\" > .gitignore",
+        "caption": "Windows users run these in Git Bash. The two last lines start the Git repository you will push at the end."
+      },
+      "resources": [
+        {
+          "label": "lightkurve documentation",
+          "url": "https://lightkurve.github.io/lightkurve/"
+        },
+        {
+          "label": "lightkurve: installation",
+          "url": "https://lightkurve.github.io/lightkurve/about/install.html"
+        }
+      ]
+    },
+    {
+      "title": "Download a light curve",
+      "learn": "How to search NASA's archive and get a star's data in a few lines.",
+      "explain": "Kepler's data lives in the Mikulski Archive for Space Telescopes (MAST). lightkurve's search function asks it for every light curve of a target. The result is a table with one row per quarter. download_all fetches them and stitch joins them into one long curve, with each quarter scaled so it averages 1. Brightness is shown as flux: 1.0 means normal, 0.999 means 0.1 percent dimmer.",
+      "implement": "Save this as hunt.py and run it. A graph window opens. Look at it: you should see slow wavy changes, and no obvious planet. That is normal.",
+      "outcome": "You have a plot of real Kepler data.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import lightkurve as lk\nimport matplotlib.pyplot as plt\n\n# ask NASA's MAST archive for Kepler-10's 30-minute-cadence light curves\nfound = lk.search_lightcurve(\"Kepler-10\", mission=\"Kepler\",\n                             author=\"Kepler\", cadence=\"long\")\nprint(found)                         # a table: one row per 3-month quarter\n\n# download the first four quarters (about 1 year, a few MB)\nlcs = found[:4].download_all()\nlc = lcs.stitch().remove_nans()      # join them, drop missing points\nprint(len(lc), \"points\")             # 10297 points\n\nlc.plot()\nplt.show()",
+        "caption": "hunt.py, part 1. Kepler-10 is a good first target: it is bright, quiet and has a planet whose period you can check against NASA's."
+      },
+      "resources": [
+        {
+          "label": "lightkurve tutorials",
+          "url": "https://lightkurve.github.io/lightkurve/tutorials/index.html"
+        },
+        {
+          "label": "MAST: Kepler data",
+          "url": "https://archive.stsci.edu/missions-and-data/kepler"
+        }
+      ]
+    },
+    {
+      "title": "Remove the slow drift",
+      "learn": "Why raw data needs cleaning, and what flatten does.",
+      "explain": "The raw curve wanders up and down over days and weeks. That comes from the star's own spots and from the spacecraft, not from planets. A transit lasts only hours, so a filter that follows the slow wiggles can be subtracted, leaving short dips behind. lightkurve's flatten does this. We then remove outliers such as flares and glitches. Setting sigma_lower=20 means the dips we want are almost never thrown away as errors.",
+      "implement": "Add two lines to hunt.py: flat = lc.flatten(window_length=901), then clean = flat.remove_outliers(sigma_upper=4, sigma_lower=20). Plot both with .plot(). The window must be an odd number.",
+      "outcome": "A flat, clean light curve.",
+      "figure": {
+        "kind": "compare",
+        "before": {
+          "src": "/media/ai-exoplanet-hunter/kepler10-raw.jpg",
+          "label": "Raw"
+        },
+        "after": {
+          "src": "/media/ai-exoplanet-hunter/kepler10-flat.jpg",
+          "label": "After flatten()"
+        },
+        "alt": "Two graphs of the same Kepler-10 data, one with wavy drifting brightness and one flat and level with small scatter.",
+        "caption": "Drag the slider. Same star, same scale. Most of the slow drift is gone, so short, fast changes stand out. A 0.01 percent dip is now much easier to find.",
+        "credit": "NASA Kepler data from MAST, plotted by the Apogee project script",
+        "sourceUrl": "https://archive.stsci.edu/missions-and-data/kepler"
+      },
+      "resources": [
+        {
+          "label": "lightkurve: flatten",
+          "url": "https://lightkurve.github.io/lightkurve/reference/api/lightkurve.LightCurve.flatten.html"
+        }
+      ]
+    },
+    {
+      "title": "Search for the repeating dip",
+      "learn": "How box least squares tests thousands of possible periods.",
+      "explain": "Even flat, the dips are buried in noise, so you cannot spot them by eye. Box least squares (BLS) fits a simple box-shaped dip, tried at every period, start time and duration you offer it. For each guess it measures how much a repeating box would improve the fit. The best one, a spike in the periodogram, is the most likely planet. Here we try 20,000 periods between 0.5 and 10 days.",
+      "implement": "Add this code to hunt.py and run it. It takes a few seconds. Compare your period with the archive's 0.8375 days. Then try a wider range, such as up to 20 days, and see if the answer holds.",
+      "outcome": "You found a planet's orbit period in raw data.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import numpy as np\n\n# try periods from 0.5 to 10 days, and dips lasting 1.2, 2.4 or 3.6 hours\nperiods = np.linspace(0.5, 10, 20000)\nbls = clean.to_periodogram(\"bls\", period=periods,\n                           duration=[0.05, 0.1, 0.15])   # durations in days\n\nperiod = bls.period_at_max_power\nt0 = bls.transit_time_at_max_power\ndepth = bls.depth_at_max_power\nprint(period)        # about 0.8373 d  (the archive says 0.8375 d)\nprint(t0, depth)     # a time near 120.7, and a depth of 0.000115\n\nbls.plot()           # a tall spike marks the best period",
+        "caption": "hunt.py, part 2. The result is within about 0.03 percent of NASA's published period."
+      },
+      "resources": [
+        {
+          "label": "lightkurve: Periodograms",
+          "url": "https://lightkurve.github.io/lightkurve/reference/periodogram.html"
+        },
+        {
+          "label": "astropy: BoxLeastSquares",
+          "url": "https://docs.astropy.org/en/stable/timeseries/bls.html"
+        }
+      ]
+    },
+    {
+      "title": "Fold the light curve",
+      "learn": "How stacking every orbit brings a faint dip out of the noise.",
+      "explain": "Once you know the period, you can cut the light curve into pieces exactly one orbit long and lay them on top of one another. This is folding. The noise is random, so it spreads out and averages away. The dip is in the same place every orbit, so it builds up. It is the same idea as stacking telescope frames in project 1, but along time instead of across pictures.",
+      "implement": "Run folded = clean.fold(period=period, epoch_time=t0), then folded.plot(). Then add .bin(time_bin_size=0.01) to average the points into bins. Look for a clear dip around zero.",
+      "outcome": "A clear transit shape from noisy data.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/ai-exoplanet-hunter/phase-folding.svg",
+        "alt": "A long noisy light curve cut at every period with dashed lines, then the pieces stacked, so that the dips line up into one clear dip with a fitted box.",
+        "caption": "Top: five orbits, with each dip lost in noise. Bottom: the same data folded at the right period, with all the dips in one place."
+      },
+      "resources": [
+        {
+          "label": "lightkurve: fold",
+          "url": "https://lightkurve.github.io/lightkurve/reference/api/lightkurve.LightCurve.fold.html"
+        }
+      ]
+    },
+    {
+      "title": "Measure the planet",
+      "learn": "How to turn a dip into a planet size.",
+      "explain": "Look at the folded result. The dip is about 0.0115 percent deep, 115 parts per million. Depth is (planet radius divided by star radius) squared, so the radius ratio is its square root: about 0.0107. NASA lists Kepler-10's radius as 1.065 Suns. One Sun is about 109 Earths wide, so the planet comes out near 1.25 Earth radii. The published value is 1.47. The gap is real: a box is a rough shape, and the data are noisy.",
+      "implement": "Compute radius = depth.value ** 0.5 * 1.065 * 109.2 in Python, where depth is the BLS value. Compare it with 1.47 from NASA's catalogue, and write down why they may differ.",
+      "outcome": "You measured a planet slightly bigger than Earth, from raw data.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/ai-exoplanet-hunter/kepler10-folded.jpg",
+        "alt": "A graph of Kepler-10 folded at 0.837 days: a cloud of grey points with an orange line of averages dipping about 0.00015 below normal near the middle.",
+        "caption": "The real Kepler-10 transit, from four quarters of data, folded and binned. Grey dots are every measurement and the orange line is their average.",
+        "credit": "NASA Kepler data from MAST, plotted by the Apogee project script",
+        "sourceUrl": "https://science.nasa.gov/exoplanet-catalog/kepler-10-b/"
+      },
+      "resources": [
+        {
+          "label": "NASA Exoplanet Archive: planet table",
+          "url": "https://exoplanetarchive.ipac.caltech.edu/"
+        }
+      ]
+    },
+    {
+      "title": "Not every dip is a planet",
+      "learn": "Why a search finds false alarms, and how they differ from planets.",
+      "explain": "Many dips come from other things. The most common is an eclipsing binary: two stars orbiting each other, one passing in front of the other. A binary dip is usually deeper, V-shaped, and alternates between two depths as each star takes a turn. A planet gives a flat-bottomed, repeating dip of one depth. Other false alarms come from spacecraft faults and background stars. Vetting every candidate by hand takes years, which is why machine learning helps.",
+      "implement": "Search the NASA Exoplanet Archive for the KOI table and open its column list. Find the columns for transit depth, duration and signal to noise. These are what your classifier will learn from.",
+      "outcome": "You can tell why a classifier is needed.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/ai-exoplanet-hunter/planet-or-binary.svg",
+        "alt": "Two light curve dips side by side: a planet with a flat U-shaped bottom, and an eclipsing binary with a sharp deep V shape.",
+        "caption": "Shape is a clue. A planet blocks a small fixed fraction of light. Two stars eclipsing each other can block far more."
+      },
+      "resources": [
+        {
+          "label": "NASA Exoplanet Archive: KOI table columns",
+          "url": "https://exoplanetarchive.ipac.caltech.edu/docs/API_kepcandidate_columns.html"
+        },
+        {
+          "label": "Wikipedia: Eclipsing binary",
+          "url": "https://en.wikipedia.org/wiki/Eclipsing_binary"
+        }
+      ]
+    },
+    {
+      "title": "Train a planet classifier",
+      "learn": "How a random forest learns from labelled examples, and how to test it fairly.",
+      "explain": "NASA's archive lists 9,564 Kepler objects of interest. About 2,750 are confirmed planets, about 4,840 are false positives, and 1,977 are undecided. We train on the decided ones. A random forest is a crowd of decision trees, each asking simple questions such as is the dip deeper than X, and their votes are combined. We hide 25 percent of the rows during training, then score the model on them. That is how you check it has learned, not memorised.",
+      "implement": "Save this as classify.py and run it. It should print an accuracy near 0.92. If NASA has updated the table, the number may move a little. Guessing planet for everything would score only 37 percent.",
+      "outcome": "A trained model that scores about 92 percent on unseen data.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import pandas as pd\nfrom sklearn.ensemble import RandomForestClassifier\nfrom sklearn.model_selection import train_test_split\n\n# one row per Kepler \"object of interest\" (KOI)\nurl = (\"https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query=select+\"\n       \"kepoi_name,koi_disposition,koi_period,koi_duration,koi_depth,\"\n       \"koi_prad,koi_model_snr,koi_impact,koi_teq,koi_steff,koi_srad\"\n       \"+from+cumulative&format=csv\")\ndf = pd.read_csv(url)\n\nknown = df[df.koi_disposition != \"CANDIDATE\"].dropna()   # decided only\nX = known.drop(columns=[\"kepoi_name\", \"koi_disposition\"])\ny = (known.koi_disposition == \"CONFIRMED\") * 1   # 1 = planet\n\nX_train, X_test, y_train, y_test = train_test_split(\n    X, y, test_size=0.25, stratify=y, random_state=0)\nmodel = RandomForestClassifier(random_state=0).fit(X_train, y_train)\nprint(\"accuracy\", round(model.score(X_test, y_test), 2))   # 0.92",
+        "caption": "classify.py, part 1. The measurements come from NASA's own vetting pipeline, so this learns to copy their decisions, not to make a new discovery."
+      },
+      "resources": [
+        {
+          "label": "scikit-learn: RandomForestClassifier",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html"
+        },
+        {
+          "label": "NASA Exoplanet Archive: TAP user guide",
+          "url": "https://exoplanetarchive.ipac.caltech.edu/docs/TAP/usingTAP.html"
+        }
+      ]
+    },
+    {
+      "title": "Read the results honestly",
+      "learn": "How to look beyond accuracy, and how to score unresolved candidates.",
+      "explain": "Accuracy hides detail. The confusion matrix shows what kind of mistakes were made: false alarms called planets, and planets missed. A search for planets may prefer to miss fewer, and accept more false alarms. The forest also reports which measurements it used most: planet radius and signal to noise lead. Finally, we score the candidates NASA has not decided on. High scores are worth a look, but they are suggestions and never proof.",
+      "implement": "Add this to classify.py. Write down your two types of error and which one costs more in a planet search. Then look up one top-scoring candidate in the archive and see its status.",
+      "outcome": "A fair report of what the model gets right and wrong.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "from sklearn.metrics import confusion_matrix\n\npred = model.predict(X_test)\nprint(confusion_matrix(y_test, pred))\n# [[1077   69]   fakes: 1077 caught, 69 called planets\n#  [  80  606]]  planets: 80 missed, 606 found\n\n# which measurements mattered most?\ntop = sorted(zip(model.feature_importances_, X.columns), reverse=True)\nprint([(n, round(w, 2)) for w, n in top[:3]])\n# koi_prad 0.21, koi_model_snr 0.17, koi_period 0.13\n\n# score the undecided candidates (about 1,870 have full data)\ntodo = df[df.koi_disposition == \"CANDIDATE\"].dropna()\ntodo = todo.assign(score=model.predict_proba(todo[X.columns])[:, 1])\nprint(todo.nlargest(5, \"score\")[[\"kepoi_name\", \"score\"]])",
+        "caption": "classify.py, part 2. Your counts may differ slightly if NASA has updated its table."
+      },
+      "resources": [
+        {
+          "label": "scikit-learn: Confusion matrix",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html"
+        },
+        {
+          "label": "scikit-learn: Metrics and scoring",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html"
+        }
+      ]
+    },
+    {
+      "title": "Write it up and push",
+      "learn": "How to describe a two-part project clearly.",
+      "explain": "Your README should have two short parts. Part one: the search. Show your folded plot, the period you found against NASA's, and your size estimate with its gap. Part two: the classifier. Give the accuracy, the confusion matrix and one line on what it cannot do. Readers trust a project more when it says where it is weak.",
+      "implement": "Save your folded plot, write the README, then run the commands below with your own GitHub name.",
+      "outcome": "Your work is on GitHub and ready to share.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "pip freeze > requirements.txt\ngit add .\ngit commit -m \"Exoplanet hunter: BLS search and a random forest vetting model\"\ngit branch -M main\ngit remote add origin https://github.com/YOUR-NAME/exoplanet-hunter.git\ngit push -u origin main",
+        "caption": "Create an empty repository called exoplanet-hunter on GitHub first, then run these."
+      },
+      "resources": [
+        {
+          "label": "GitHub: Quickstart for repositories",
+          "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Official documentation",
+      "links": [
+        {
+          "label": "lightkurve documentation",
+          "url": "https://lightkurve.github.io/lightkurve/"
+        },
+        {
+          "label": "scikit-learn user guide",
+          "url": "https://scikit-learn.org/stable/user_guide.html"
+        },
+        {
+          "label": "astropy documentation",
+          "url": "https://docs.astropy.org/en/stable/"
+        }
+      ]
+    },
+    {
+      "category": "Data",
+      "links": [
+        {
+          "label": "NASA Exoplanet Archive",
+          "url": "https://exoplanetarchive.ipac.caltech.edu/"
+        },
+        {
+          "label": "MAST: Kepler data",
+          "url": "https://archive.stsci.edu/missions-and-data/kepler"
+        },
+        {
+          "label": "NASA: Kepler mission",
+          "url": "https://science.nasa.gov/mission/kepler/"
+        }
+      ]
+    },
+    {
+      "category": "Free courses",
+      "links": [
+        {
+          "label": "lightkurve tutorials",
+          "url": "https://lightkurve.github.io/lightkurve/tutorials/index.html"
+        },
+        {
+          "label": "scikit-learn: Getting started",
+          "url": "https://scikit-learn.org/stable/getting_started.html"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A public GitHub repository with hunt.py, classify.py and requirements.txt",
+    "A folded plot of Kepler-10, with your period and size estimates beside NASA's",
+    "A confusion matrix and a paragraph on what your classifier gets wrong",
+    "A README explaining both parts in your own words"
+  ],
+  "checklist": [
+    {
+      "id": "exoplanet-setup",
+      "label": "Installed lightkurve and scikit-learn in a new virtual environment"
+    },
+    {
+      "id": "exoplanet-download",
+      "label": "Downloaded and plotted Kepler-10's light curve"
+    },
+    {
+      "id": "exoplanet-flatten",
+      "label": "Flattened the light curve and removed outliers"
+    },
+    {
+      "id": "exoplanet-bls",
+      "label": "Found the orbital period with box least squares"
+    },
+    {
+      "id": "exoplanet-fold",
+      "label": "Folded the data and measured the planet's size"
+    },
+    {
+      "id": "exoplanet-classifier",
+      "label": "Trained a random forest and scored it on unseen data"
+    },
+    {
+      "id": "exoplanet-report",
+      "label": "Read the confusion matrix and scored the candidates"
+    },
+    {
+      "id": "exoplanet-published",
+      "label": "Wrote a README and pushed the finished work to GitHub"
+    }
+  ]
+}

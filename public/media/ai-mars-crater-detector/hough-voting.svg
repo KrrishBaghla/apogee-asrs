@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" font-family="Verdana, Arial, sans-serif">
+<circle cx="330.0" cy="200.0" r="100" fill="none" stroke="#c8d86a" stroke-width="1.6" stroke-dasharray="5 6"/>
+<circle cx="294.3" cy="276.6" r="100" fill="none" stroke="#ee9a6c" stroke-width="1.6" stroke-dasharray="5 6"/>
+<circle cx="165.7" cy="276.6" r="100" fill="none" stroke="#f5c48a" stroke-width="1.6" stroke-dasharray="5 6"/>
+<circle cx="136.0" cy="165.8" r="100" fill="none" stroke="#86d8c9" stroke-width="1.6" stroke-dasharray="5 6"/>
+<circle cx="264.2" cy="106.0" r="100" fill="none" stroke="#f19cb0" stroke-width="1.6" stroke-dasharray="5 6"/>
+<circle cx="230" cy="200" r="100" fill="none" stroke="#f1eee6" stroke-width="4" />
+<circle cx="330.0" cy="200.0" r="7" fill="#c8d86a" stroke="none" stroke-width="1.5" />
+<circle cx="294.3" cy="276.6" r="7" fill="#ee9a6c" stroke="none" stroke-width="1.5" />
+<circle cx="165.7" cy="276.6" r="7" fill="#f5c48a" stroke="none" stroke-width="1.5" />
+<circle cx="136.0" cy="165.8" r="7" fill="#86d8c9" stroke="none" stroke-width="1.5" />
+<circle cx="264.2" cy="106.0" r="7" fill="#f19cb0" stroke="none" stroke-width="1.5" />
+<circle cx="230" cy="200" r="10" fill="#f5c48a" stroke="#161617" stroke-width="2" />
+<line x1="242" y1="198" x2="448" y2="96" stroke="#5e5c58" stroke-width="1.5" />
+<text x="456" y="92" font-size="16" fill="#f5c48a" text-anchor="start">All the circles cross</text>
+<text x="456" y="116" font-size="16" fill="#f5c48a" text-anchor="start">here: most votes wins</text>
+<text x="456" y="212" font-size="16" fill="#f1eee6" text-anchor="start">Each edge point draws</text>
+<text x="456" y="236" font-size="16" fill="#f1eee6" text-anchor="start">a circle of possible</text>
+<text x="456" y="260" font-size="16" fill="#f1eee6" text-anchor="start">centres, and votes on</text>
+<text x="456" y="284" font-size="16" fill="#f1eee6" text-anchor="start">every pixel it touches</text>
+</svg>

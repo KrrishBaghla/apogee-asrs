@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Verdana, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ee9a6c"/></marker><marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f5c48a"/></marker></defs>
+<text x="360" y="32" font-size="20" fill="#f1eee6" text-anchor="middle">Where the numbers hide in NASA's reply</text>
+<text x="30" y="80" font-size="17" fill="#ee9a6c" text-anchor="start" font-family="Consolas, Courier New, monospace">near_earth_objects</text>
+<text x="400" y="80" font-size="15" fill="#a8a5a0" text-anchor="start">one key per date</text>
+<text x="58" y="122" font-size="17" fill="#ee9a6c" text-anchor="start" font-family="Consolas, Courier New, monospace">"2026-11-07"</text>
+<text x="400" y="122" font-size="15" fill="#a8a5a0" text-anchor="start">a list of that day's asteroids</text>
+<text x="86" y="164" font-size="17" fill="#ee9a6c" text-anchor="start" font-family="Consolas, Courier New, monospace">[ 0 ]</text>
+<text x="400" y="164" font-size="15" fill="#a8a5a0" text-anchor="start">one asteroid, with many fields</text>
+<line x1="40" y1="90" x2="40" y2="112" stroke="#5e5c58" stroke-width="2"/>
+<line x1="40" y1="112" x2="54" y2="112" stroke="#5e5c58" stroke-width="2"/>
+<line x1="68" y1="132" x2="68" y2="154" stroke="#5e5c58" stroke-width="2"/>
+<line x1="68" y1="154" x2="82" y2="154" stroke="#5e5c58" stroke-width="2"/>
+<rect x="100" y="186" width="600" height="196" rx="10" fill="none" stroke="#ee9a6c" stroke-width="2"/>
+<text x="116" y="222" font-size="15" fill="#f5c48a" text-anchor="start" font-family="Consolas, Courier New, monospace">name</text>
+<text x="684" y="222" font-size="15" fill="#a8a5a0" text-anchor="end">its name</text>
+<text x="116" y="258" font-size="15" fill="#f5c48a" text-anchor="start" font-family="Consolas, Courier New, monospace">estimated_diameter.meters</text>
+<text x="684" y="258" font-size="15" fill="#a8a5a0" text-anchor="end">size range</text>
+<text x="116" y="294" font-size="15" fill="#f5c48a" text-anchor="start" font-family="Consolas, Courier New, monospace">is_potentially_hazardous_asteroid</text>
+<text x="684" y="294" font-size="15" fill="#a8a5a0" text-anchor="end">NASA's flag</text>
+<text x="116" y="330" font-size="15" fill="#f5c48a" text-anchor="start" font-family="Consolas, Courier New, monospace">close_approach_data[0].miss_distance</text>
+<text x="684" y="330" font-size="15" fill="#a8a5a0" text-anchor="end">how far</text>
+<text x="116" y="366" font-size="15" fill="#f5c48a" text-anchor="start" font-family="Consolas, Courier New, monospace">close_approach_data[0].relative_velocity</text>
+<text x="684" y="366" font-size="15" fill="#a8a5a0" text-anchor="end">how fast</text>
+</svg>

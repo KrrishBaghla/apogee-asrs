@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Verdana, Arial, sans-serif">
+<text x="130" y="44" font-size="16" fill="#a8a5a0" text-anchor="middle">3 by 3 window</text>
+<rect x="28" y="64" width="68" height="68" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="62.0" y="105" font-size="18" fill="#f1eee6" text-anchor="middle">14</text>
+<rect x="96" y="64" width="68" height="68" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="130.0" y="105" font-size="18" fill="#f1eee6" text-anchor="middle">12</text>
+<rect x="164" y="64" width="68" height="68" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="198.0" y="105" font-size="18" fill="#f1eee6" text-anchor="middle">15</text>
+<rect x="28" y="132" width="68" height="68" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="62.0" y="173" font-size="18" fill="#f1eee6" text-anchor="middle">13</text>
+<rect x="96" y="132" width="68" height="68" fill="#2c2c2e" stroke="#f5c48a" stroke-width="2.5" rx="0"/>
+<text x="130.0" y="173" font-size="18" fill="#f5c48a" text-anchor="middle">255</text>
+<rect x="164" y="132" width="68" height="68" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="198.0" y="173" font-size="18" fill="#f1eee6" text-anchor="middle">16</text>
+<rect x="28" y="200" width="68" height="68" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="62.0" y="241" font-size="18" fill="#f1eee6" text-anchor="middle">11</text>
+<rect x="96" y="200" width="68" height="68" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="130.0" y="241" font-size="18" fill="#f1eee6" text-anchor="middle">14</text>
+<rect x="164" y="200" width="68" height="68" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="198.0" y="241" font-size="18" fill="#f1eee6" text-anchor="middle">13</text>
+<text x="130" y="310" font-size="16" fill="#f5c48a" text-anchor="middle">A hot pixel: 255</text>
+<line x1="246" y1="140" x2="290.0" y2="140.0" stroke="#c8d86a" stroke-width="2.5" /><polygon points="296,140 285.2,145.2 285.2,134.8" fill="#c8d86a"/>
+<text x="510" y="84" font-size="16" fill="#a8a5a0" text-anchor="middle">Sort, then take the middle value</text>
+<rect x="312" y="112" width="44" height="56" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="334.0" y="147" font-size="15" fill="#f1eee6" text-anchor="middle">11</text>
+<rect x="356" y="112" width="44" height="56" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="378.0" y="147" font-size="15" fill="#f1eee6" text-anchor="middle">12</text>
+<rect x="400" y="112" width="44" height="56" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="422.0" y="147" font-size="15" fill="#f1eee6" text-anchor="middle">13</text>
+<rect x="444" y="112" width="44" height="56" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="466.0" y="147" font-size="15" fill="#f1eee6" text-anchor="middle">13</text>
+<rect x="488" y="112" width="44" height="56" fill="#2c2c2e" stroke="#c8d86a" stroke-width="2.5" rx="0"/>
+<text x="510.0" y="147" font-size="15" fill="#c8d86a" text-anchor="middle">14</text>
+<rect x="532" y="112" width="44" height="56" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="554.0" y="147" font-size="15" fill="#f1eee6" text-anchor="middle">14</text>
+<rect x="576" y="112" width="44" height="56" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="598.0" y="147" font-size="15" fill="#f1eee6" text-anchor="middle">15</text>
+<rect x="620" y="112" width="44" height="56" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="642.0" y="147" font-size="15" fill="#f1eee6" text-anchor="middle">16</text>
+<rect x="664" y="112" width="44" height="56" fill="none" stroke="#5e5c58" stroke-width="1.5" rx="0"/>
+<text x="686.0" y="147" font-size="15" fill="#f5c48a" text-anchor="middle">255</text>
+<line x1="510.0" y1="176" x2="510.0" y2="226.0" stroke="#c8d86a" stroke-width="2.5" /><polygon points="510.0,232 504.8,221.2 515.2,221.2" fill="#c8d86a"/>
+<rect x="472.0" y="240" width="76" height="60" fill="#2c2c2e" stroke="#c8d86a" stroke-width="2.5" rx="0"/>
+<text x="510.0" y="278" font-size="20" fill="#c8d86a" text-anchor="middle">14</text>
+<text x="510" y="338" font-size="16" fill="#f1eee6" text-anchor="middle">The centre pixel becomes 14.</text>
+<text x="510" y="364" font-size="16" fill="#a8a5a0" text-anchor="middle">The hot pixel is gone.</text>
+</svg>

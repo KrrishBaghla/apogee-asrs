@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Verdana, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ee9a6c"/></marker><marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f5c48a"/></marker></defs>
+<text x="360" y="30" font-size="20" fill="#f1eee6" text-anchor="middle">One lap of the Moon takes about 29.5 days</text>
+<circle cx="100" cy="100" r="36" fill="#232325" stroke="#5e5c58" stroke-width="2"/>
+<text x="100" y="162" font-size="15" fill="#f1eee6" text-anchor="middle">New moon</text>
+<text x="100" y="182" font-size="15" fill="#a8a5a0" text-anchor="middle">day 0.0</text>
+<circle cx="273" cy="100" r="36" fill="#232325" stroke="#5e5c58" stroke-width="2"/>
+<path d="M273 64 A36 36 0 0 1 273 136 A25.5 36 0 0 0 273 64 Z" fill="#f1eee6"/>
+<text x="273" y="162" font-size="15" fill="#f1eee6" text-anchor="middle">Waxing crescent</text>
+<text x="273" y="182" font-size="15" fill="#a8a5a0" text-anchor="middle">day 3.7</text>
+<circle cx="446" cy="100" r="36" fill="#232325" stroke="#5e5c58" stroke-width="2"/>
+<path d="M446 64 A36 36 0 0 1 446 136 A0.0 36 0 0 1 446 64 Z" fill="#f1eee6"/>
+<text x="446" y="162" font-size="15" fill="#f1eee6" text-anchor="middle">First quarter</text>
+<text x="446" y="182" font-size="15" fill="#a8a5a0" text-anchor="middle">day 7.4</text>
+<circle cx="619" cy="100" r="36" fill="#232325" stroke="#5e5c58" stroke-width="2"/>
+<path d="M619 64 A36 36 0 0 1 619 136 A25.5 36 0 0 1 619 64 Z" fill="#f1eee6"/>
+<text x="619" y="162" font-size="15" fill="#f1eee6" text-anchor="middle">Waxing gibbous</text>
+<text x="619" y="182" font-size="15" fill="#a8a5a0" text-anchor="middle">day 11.1</text>
+<circle cx="100" cy="250" r="36" fill="#232325" stroke="#5e5c58" stroke-width="2"/>
+<circle cx="100" cy="250" r="36" fill="#f1eee6"/>
+<text x="100" y="312" font-size="15" fill="#f1eee6" text-anchor="middle">Full moon</text>
+<text x="100" y="332" font-size="15" fill="#a8a5a0" text-anchor="middle">day 14.8</text>
+<circle cx="273" cy="250" r="36" fill="#232325" stroke="#5e5c58" stroke-width="2"/>
+<path d="M273 214 A36 36 0 0 1 273 286 A25.5 36 0 0 1 273 214 Z" fill="#f1eee6" transform="rotate(180 273 250)"/>
+<text x="273" y="312" font-size="15" fill="#f1eee6" text-anchor="middle">Waning gibbous</text>
+<text x="273" y="332" font-size="15" fill="#a8a5a0" text-anchor="middle">day 18.5</text>
+<circle cx="446" cy="250" r="36" fill="#232325" stroke="#5e5c58" stroke-width="2"/>
+<path d="M446 214 A36 36 0 0 1 446 286 A0.0 36 0 0 1 446 214 Z" fill="#f1eee6" transform="rotate(180 446 250)"/>
+<text x="446" y="312" font-size="15" fill="#f1eee6" text-anchor="middle">Last quarter</text>
+<text x="446" y="332" font-size="15" fill="#a8a5a0" text-anchor="middle">day 22.1</text>
+<circle cx="619" cy="250" r="36" fill="#232325" stroke="#5e5c58" stroke-width="2"/>
+<path d="M619 214 A36 36 0 0 1 619 286 A25.5 36 0 0 0 619 214 Z" fill="#f1eee6" transform="rotate(180 619 250)"/>
+<text x="619" y="312" font-size="15" fill="#f1eee6" text-anchor="middle">Waning crescent</text>
+<text x="619" y="332" font-size="15" fill="#a8a5a0" text-anchor="middle">day 25.8</text>
+</svg>

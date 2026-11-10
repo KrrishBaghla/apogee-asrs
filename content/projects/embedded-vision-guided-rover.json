@@ -1,0 +1,576 @@
+{
+  "id": "embedded-vision-guided-rover",
+  "hero": {
+    "src": "/media/embedded-vision-guided-rover/hero.jpg",
+    "alt": "Three NASA rovers of different sizes parked on reddish rocky sand in the JPL Mars Yard, seen from above.",
+    "credit": "NASA/JPL-Caltech",
+    "sourceUrl": "https://images.nasa.gov/details/PIA15277"
+  },
+  "overview": {
+    "what": "An overhead camera and a laptop find a rover and a goal on a mock moonscape, plan a path around the rocks with A*, and steer the rover along it over Wi-Fi.",
+    "why": "It joins everything: computer vision, path planning, wireless links and motor control. The rover itself stays simple, and the thinking happens in Python.",
+    "spaceRelevance": "Planners like A* choose safe routes for rovers. Test teams also use overhead cameras to track rovers in mock terrain, as in JPL's Mars Yard.",
+    "finalOutput": "A rover that crosses your own moonscape on a route chosen by the camera and A*, with code, a video and test results.",
+    "difficulty": 5,
+    "estimatedTime": "5 to 7 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "camera",
+      "label": "Camera looks down",
+      "detail": "A webcam sees the board, the rocks and two markers."
+    },
+    {
+      "icon": "eye",
+      "label": "Find rover and goal",
+      "detail": "OpenCV reads the ArUco markers for position and heading."
+    },
+    {
+      "icon": "map",
+      "label": "Rocks become a grid",
+      "detail": "Dark areas become blocked cells, grown for safety."
+    },
+    {
+      "icon": "route",
+      "label": "A* plans the path",
+      "detail": "The shortest route that avoids every blocked cell."
+    },
+    {
+      "icon": "wifi",
+      "label": "Speeds go to the rover",
+      "detail": "The laptop steers by sending left and right speeds."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "ArUco marker",
+      "meaning": "A printed black and white square with a unique ID. A camera can find it and tell its position and which way it faces."
+    },
+    {
+      "term": "Occupancy grid",
+      "meaning": "A map made of cells, each marked free or blocked. It is the simplest map a path planner can use."
+    },
+    {
+      "term": "A* search",
+      "meaning": "A path search that explores toward the goal first. It scores cells by distance travelled plus a guess of the distance left, and finds the shortest path."
+    },
+    {
+      "term": "Closed-loop control",
+      "meaning": "Using a sensor to check the result of each action and correct the next one. Here the camera checks where the rover really is."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "-L-WgKMFuhE",
+      "title": "A* Pathfinding (E01: algorithm explanation)",
+      "channel": "Sebastian Lague",
+      "why": "A clear, animated walk through A* on a grid, with the g, h and f scores shown on each cell."
+    },
+    {
+      "youtubeId": "bS00Vs09Upw",
+      "title": "ArUco Marker Pose Estimation and Detection in Real-Time using OpenCV Python",
+      "channel": "Kevin Wood | Robotics & AI",
+      "why": "Shows markers being found live by a camera. It is the same idea you will use to track the rover."
+    }
+  ],
+  "parts": [
+    {
+      "name": "Rover from the Autonomous Rover project",
+      "why": "ESP32, L298N, motors and battery. The ultrasonic sensor is not needed",
+      "cost": "₹0 (reuse)"
+    },
+    {
+      "name": "USB webcam, or a phone with an IP camera app",
+      "why": "The overhead eye. A phone costs nothing if you have one",
+      "cost": "₹700 to ₹1500 (webcam)"
+    },
+    {
+      "name": "Tripod, clamp stand or shelf clamp",
+      "why": "Holds the camera about 1 m above the board",
+      "cost": "₹300 to ₹700"
+    },
+    {
+      "name": "Printed ArUco markers on stiff card",
+      "why": "One on the rover, one for the goal",
+      "cost": "₹10 to ₹40"
+    },
+    {
+      "name": "Sand-coloured chart paper or cloth, about 1 m by 75 cm",
+      "why": "The mock moonscape floor",
+      "cost": "₹100 to ₹250"
+    },
+    {
+      "name": "Black chart paper, card or foam",
+      "why": "Rocks the camera can see",
+      "cost": "₹50 to ₹150"
+    },
+    {
+      "name": "Wi-Fi network (phone hotspot or lab router), 2.4 GHz",
+      "why": "Carries speeds from the laptop to the rover",
+      "cost": "₹0"
+    },
+    {
+      "name": "Masking tape, glue stick, scissors",
+      "why": "Fixing the sheet, markers and rocks",
+      "cost": "₹50 to ₹100"
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "Finished the Autonomous Rover project",
+      "Know what a grid and a path are"
+    ],
+    "programming": [
+      "Python: functions, lists, dictionaries and loops",
+      "Basic NumPy arrays",
+      "C++ on the ESP32 from the earlier projects"
+    ],
+    "mathPhysics": [
+      "Angles in degrees, and atan2",
+      "Pythagoras for distances"
+    ],
+    "software": [
+      "Python 3 with opencv-python and numpy",
+      "Arduino IDE 2 with Arduino-ESP32 core 3.0 or newer",
+      "Git and a GitHub account"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "Python",
+      "why": "Runs the whole vision and planning pipeline on the laptop",
+      "priority": "Essential"
+    },
+    {
+      "name": "OpenCV with ArUco",
+      "why": "Reads the camera and finds the markers",
+      "priority": "Essential"
+    },
+    {
+      "name": "NumPy",
+      "why": "Holds the grid as an array",
+      "priority": "Essential"
+    },
+    {
+      "name": "A* search",
+      "why": "Plans the shortest path around the rocks",
+      "priority": "Essential"
+    },
+    {
+      "name": "ESP32 with UDP over Wi-Fi",
+      "why": "Receives speed commands and drives the motors",
+      "priority": "Essential"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "From the Moon to your floor",
+      "learn": "Why space agencies test rovers on mock terrain.",
+      "explain": "Rovers are tested on Earth first, in places like NASA JPL's Mars Yard, a patch of rocky sand built to look like another world. Small rovers on the Moon, such as the CADRE trio in the artist's picture, are planned to work as a team. In this project you build your own mock moonscape on a table, with an overhead camera acting as the all-seeing eye. A laptop uses it to plan a route and steer your rover from start to goal.",
+      "implement": "Look at the two pictures on this page. List what a robot would need to see to cross them: where it is, where the goal is and where the rocks are.",
+      "outcome": "You know what your camera system has to find out.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/embedded-vision-guided-rover/moon-rovers.jpg",
+        "alt": "An artist's illustration of three small boxy rovers with blue solar panels driving across grey, rock-strewn lunar ground under a black sky.",
+        "caption": "An artist's concept of NASA's CADRE rovers, small robots designed to explore the Moon together.",
+        "credit": "NASA/JPL-Caltech, Motiv Space Systems (artist's concept)",
+        "sourceUrl": "https://images.nasa.gov/details/PIA26296"
+      },
+      "resources": [
+        {
+          "label": "NASA image library: CADRE rovers",
+          "url": "https://images.nasa.gov/details/PIA26296"
+        },
+        {
+          "label": "NASA image library: Mars Yard",
+          "url": "https://images.nasa.gov/details/PIA15277"
+        }
+      ]
+    },
+    {
+      "title": "The big picture",
+      "learn": "How the camera, the laptop and the rover work together.",
+      "explain": "The rover is simple: it only obeys left and right wheel speeds. All the thinking happens on the laptop. Many times a second, the laptop grabs a camera frame, finds the rover and goal by their markers, turns the rocks into a grid, plans the shortest safe path with A*, works out how to steer and sends two speeds to the rover by Wi-Fi. Seeing the rover move changes the next frame, which closes the loop.",
+      "implement": "Draw your own version of the pipeline picture. Beside each box, write the name of the function you will write for it.",
+      "outcome": "You can name the six parts of the system.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-vision-guided-rover/vision-pipeline.svg",
+        "alt": "Six boxes in a loop: camera frame, find markers, make a grid, A star search, steering, and send speeds to the rover by Wi-Fi.",
+        "caption": "The laptop does all the thinking. The rover only follows the speeds it is sent."
+      },
+      "resources": [
+        {
+          "label": "OpenCV: ArUco detection tutorial",
+          "url": "https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html"
+        }
+      ]
+    },
+    {
+      "title": "Build the moonscape and mount the camera",
+      "learn": "How to set up a course the camera can read.",
+      "explain": "Lay a plain, light sand-coloured sheet, such as chart paper or cloth, about 1 metre by 75 cm. Cut dark rocks from black card or foam, 5 to 10 cm across. Fix a webcam or phone looking straight down, about 1 metre up. A webcam with a 60 degree view sees about 1.15 m across at that height. Use even light with no strong shadows, since the code treats dark pixels as rocks. Make sure the camera mount cannot fall on anyone.",
+      "implement": "Set up the board and camera. Take a still photo. Check that the whole board is in view and the rocks are clearly darker than the sheet.",
+      "outcome": "A camera photo shows the whole moonscape clearly.",
+      "resources": [
+        {
+          "label": "Logitech: choosing a webcam",
+          "url": "https://www.logitech.com/en-in/products/webcams.html"
+        }
+      ]
+    },
+    {
+      "title": "Why use markers?",
+      "learn": "How printed squares tell the computer where things are.",
+      "explain": "Finding a plain rover in a photo is hard. ArUco markers make it easy. They are black and white squares with a pattern that is unique for each ID. OpenCV finds all four corners of each marker and reads its ID. From the corners you get the position, from the centre, and the direction, from which way the top edge points. You put marker 7 on top of the rover, with its top edge pointing forward, and marker 3 flat on the board as the goal.",
+      "implement": "Print both markers at about 6 to 8 cm wide, with a white border. Glue marker 7 to a card on the rover, top edge facing forward, and lay marker 3 where you want the rover to go.",
+      "outcome": "The rover wears marker 7 and the goal is marker 3.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/embedded-vision-guided-rover/markers.jpg",
+        "alt": "Two printed square markers made of black and white blocks, labelled ID 7 for the rover and ID 3 for the goal.",
+        "caption": "The two markers used here, from the OpenCV 4x4 dictionary. You can make your own with generateImageMarker.",
+        "credit": "Apogee example, made with OpenCV",
+        "sourceUrl": "https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html"
+      },
+      "resources": [
+        {
+          "label": "OpenCV: ArUco marker detection",
+          "url": "https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html"
+        },
+        {
+          "label": "ArUco pose detection (video)",
+          "url": "https://www.youtube.com/watch?v=bS00Vs09Upw"
+        }
+      ]
+    },
+    {
+      "title": "Find the rover and the goal",
+      "learn": "How to read markers from a camera frame.",
+      "explain": "find_markers() converts the frame to grey and asks the detector for all markers. For each one it takes the centre from the average of the corners and works out the heading. In image coordinates, y grows downward and angles grow clockwise, so a heading of -90 degrees means pointing up the picture. The function returns a dictionary from marker ID to position and heading. Install with pip install opencv-python numpy. OpenCV 4.7 or newer is needed.",
+      "implement": "Save the code as vision.py. Run it on your still photo and print the result. You should see IDs 7 and 3. Rotate the rover marker and check that the heading changes.",
+      "outcome": "Your code finds the rover and the goal and tells which way the rover faces.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import cv2, math\n\ndictionary = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)\ndetector = cv2.aruco.ArucoDetector(dictionary, cv2.aruco.DetectorParameters())\n\ndef find_markers(frame):\n    \"\"\"Return {marker id: (x, y, heading in degrees)}.\"\"\"\n    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)\n    corners, ids, _ = detector.detectMarkers(gray)\n    found = {}\n    if ids is None:\n        return found\n    for c, marker_id in zip(corners, ids.flatten()):\n        pts = c[0]                      # 4 corners, clockwise from top-left\n        cx, cy = pts.mean(axis=0)       # centre of the marker\n        front = (pts[0] + pts[1]) / 2   # middle of the top edge\n        heading = math.degrees(math.atan2(front[1] - cy, front[0] - cx))\n        found[int(marker_id)] = (cx, cy, heading)\n    return found",
+        "caption": "Returns {7: (x, y, heading), 3: (x, y, heading)} for the markers it can see."
+      },
+      "resources": [
+        {
+          "label": "OpenCV: ArUco marker detection",
+          "url": "https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html"
+        }
+      ]
+    },
+    {
+      "title": "Turn rocks into a grid",
+      "learn": "How to make a map the planner can use.",
+      "explain": "A* works on a grid of cells, not on pixels. The code first picks out dark pixels with a colour range in HSV, where V, the value, is brightness. It then shrinks the frame so that each cell stands for a 20 by 20 pixel block, and marks a cell blocked if enough of it is dark. For a 640 by 480 camera this gives a 32 by 24 grid. The last line grows each rock, which the next step explains.",
+      "implement": "Add make_grid to vision.py. Run it on your photo and print the grid as rows of # and . to check that each rock appears as a blob.",
+      "outcome": "Your rocks appear as blocked cells in a grid.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import numpy as np\n\nCELL = 20                       # one grid cell = 20 x 20 pixels\n\ndef make_grid(frame, grow=1):\n    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)\n    rocks = cv2.inRange(hsv, (0, 0, 0), (180, 255, 70))   # dark pixels\n    h, w = rocks.shape\n    small = cv2.resize(rocks, (w // CELL, h // CELL), interpolation=cv2.INTER_AREA)\n    grid = (small > 40).astype(np.uint8)                  # 1 = blocked\n    kernel = np.ones((2 * grow + 1, 2 * grow + 1), np.uint8)\n    return cv2.dilate(grid, kernel)                       # grow every rock",
+        "caption": "1 means blocked. Tune the 70 brightness limit if your rocks are lighter or the light is dim."
+      },
+      "resources": [
+        {
+          "label": "Wikipedia: HSL and HSV",
+          "url": "https://en.wikipedia.org/wiki/HSL_and_HSV"
+        }
+      ]
+    },
+    {
+      "title": "Give the rover some room",
+      "learn": "Why the planner must treat the rover as having a size.",
+      "explain": "A path that squeezes past a rock by one pixel would crash a real rover, which has width. The fix is to grow every blocked area by about the rover's half width before planning. This is called inflating the obstacles. The planner then treats the rover as a single point moving through a world of fatter rocks. The grow value of 1 adds one cell, about 20 pixels, on each side. Measure your rover and choose a number that fits.",
+      "implement": "Measure your rover's width in camera pixels. Divide by 2 and by 20 to get the cells to grow. Change the grow value, and print the grid to see the rocks swell.",
+      "outcome": "The planner keeps a safe distance from the rocks.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-vision-guided-rover/grid-inflate.svg",
+        "alt": "Three panels: a camera view of a round rock, the same rock as a plus-shaped cluster of blocked grid cells, and the cluster grown by one cell in every direction.",
+        "caption": "Grow the rocks, then plan for a point. It is the same as planning for a rover with a body."
+      },
+      "resources": [
+        {
+          "label": "Wikipedia: Minkowski addition",
+          "url": "https://en.wikipedia.org/wiki/Minkowski_addition"
+        }
+      ]
+    },
+    {
+      "title": "How A* thinks",
+      "learn": "The idea behind the shortest-path search.",
+      "explain": "A* explores the grid one cell at a time, always picking the cell that looks most promising. It scores each cell with two numbers: g, the real distance travelled so far, and h, a guess of the straight-line distance still to go. The cell with the lowest g plus h goes next. Because h pulls the search toward the goal, A* wastes far less effort than a search that spreads out in every direction. If h never overestimates, A* gives the shortest path.",
+      "implement": "Watch the video. Then take a 5 by 5 grid on paper with two rocks, and find a path by hand, scoring each cell with g plus h.",
+      "outcome": "You can explain what g and h are, and why A* finds short paths.",
+      "figure": {
+        "kind": "video",
+        "youtubeId": "ySN5Wnu88nE",
+        "title": "A* (A Star) Search Algorithm - Computerphile",
+        "channel": "Computerphile",
+        "caption": "Dr Mike Pound walks through A* on a small grid, step by step. The description notes one small correction around 8 minutes 38."
+      },
+      "resources": [
+        {
+          "label": "Red Blob Games: Introduction to A*",
+          "url": "https://www.redblobgames.com/pathfinding/a-star/introduction.html"
+        }
+      ]
+    },
+    {
+      "title": "Write A*",
+      "learn": "How to put the search into code.",
+      "explain": "The code keeps a queue of cells to try, ordered by g plus h, with Python's heapq. came remembers where each cell was reached from, so the path can be rebuilt backwards from the goal. cost holds the best known g for each cell. Moves can go diagonally, and a diagonal costs the square root of 2, which hypot works out. If the queue runs empty without reaching the goal, the function ends and returns None, which means no route exists.",
+      "implement": "Add this to vision.py. Test it on a tiny hand-made grid, such as 6 rows of zeros with a wall of ones that has a gap. Print the path and check it goes round the wall.",
+      "outcome": "A* returns a list of cells from the rover to the goal.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import heapq, math\n\ndef astar(grid, start, goal):\n    # grid is 1 where a rock is; cells are (row, col)\n    h = lambda c: math.hypot(c[0] - goal[0], c[1] - goal[1])\n    queue, came, cost = [(h(start), start)], {}, {start: 0}\n    while queue:\n        _, cell = heapq.heappop(queue)\n        if cell == goal:\n            path = [cell]\n            while cell in came:\n                cell = came[cell]\n                path.append(cell)\n            return path[::-1]\n        for dr, dc in [(a, b) for a in (-1, 0, 1) for b in (-1, 0, 1) if a or b]:\n            r, c = cell[0] + dr, cell[1] + dc\n            if 0 <= r < len(grid) and 0 <= c < len(grid[0]) and not grid[r][c]:\n                new = cost[cell] + math.hypot(dr, dc)\n                if new < cost.get((r, c), 1e9):\n                    cost[(r, c)], came[(r, c)] = new, cell\n                    heapq.heappush(queue, (new + h((r, c)), (r, c)))",
+        "caption": "The same idea as in the video, in about 20 lines. A path is a list of (row, column) cells, or None."
+      },
+      "resources": [
+        {
+          "label": "Python: heapq",
+          "url": "https://docs.python.org/3/library/heapq.html"
+        }
+      ]
+    },
+    {
+      "title": "Plan on a real frame",
+      "learn": "How to join markers, grid and A* into one function.",
+      "explain": "plan() runs the first parts in order. It finds the markers, builds the grid and converts the rover and goal pixel positions into grid cells. The black squares of the markers would look like rocks, so it clears the cells around the start and the goal before it plans. If either marker is hidden, for example under the camera arm, it returns no plan, and the rover will stop rather than guess.",
+      "implement": "Add plan() and run it on your still photo. Print the length of the path. Move a rock into the way and check that the path bends round it.",
+      "outcome": "A single call gives you a path from the rover to the goal.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "def to_cell(x, y):\n    return (int(y) // CELL, int(x) // CELL)       # pixels -> (row, column)\n\ndef plan(frame, rover_id=7, goal_id=3):\n    seen = find_markers(frame)\n    if rover_id not in seen or goal_id not in seen:\n        return None, seen                         # a marker is hidden: no plan\n    grid = make_grid(frame)\n    start = to_cell(*seen[rover_id][:2])\n    goal = to_cell(*seen[goal_id][:2])\n    for r, c in (start, goal):                    # black marker squares are not rocks\n        grid[max(r - 3, 0):r + 4, max(c - 3, 0):c + 4] = 0\n    return astar(grid.tolist(), start, goal), seen",
+        "caption": "Returns the path and the markers seen, so the steering step can use both."
+      },
+      "resources": [
+        {
+          "label": "OpenCV documentation",
+          "url": "https://docs.opencv.org/4.x/"
+        }
+      ]
+    },
+    {
+      "title": "See your plan",
+      "learn": "How to check a plan with your eyes.",
+      "explain": "Always look at what the planner sees. Draw the path on the frame with cv2.line between the cell centres, and show it with cv2.imshow. The slider compares a camera frame with the same frame after planning. In this example, the path swings around the rocks, with a gap in between. A path that goes through a rock, or stops short, tells you to check the brightness limit, the grow value and the marker size.",
+      "implement": "Draw your path on a real frame and save it as a photo. Put your before and after in your README.",
+      "outcome": "You have a picture of your own planned route.",
+      "figure": {
+        "kind": "compare",
+        "before": {
+          "src": "/media/embedded-vision-guided-rover/camera-view.jpg",
+          "label": "Camera view"
+        },
+        "after": {
+          "src": "/media/embedded-vision-guided-rover/a-star-path.jpg",
+          "label": "Planned route"
+        },
+        "alt": "A sand-coloured board with dark round rocks and two markers, then the same board with a yellow line curving around the rocks from the rover marker to the goal marker.",
+        "caption": "Drag the slider. Same scene, before and after planning. This is a made-up test scene drawn by the code in this project.",
+        "credit": "Apogee example, made with the code in this project",
+        "sourceUrl": "https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html"
+      },
+      "resources": [
+        {
+          "label": "OpenCV: drawing functions",
+          "url": "https://docs.opencv.org/4.x/dc/da5/tutorial_py_drawing_functions.html"
+        }
+      ]
+    },
+    {
+      "title": "From a path to a turn",
+      "learn": "How the rover decides which way to turn.",
+      "explain": "The path is a list of cells, but the rover needs one instruction: turn or go straight. Pick a cell a few steps ahead on the path, and find the angle from the rover to it. Compare that with the rover's heading. The difference is the heading error. If it is big, spin on the spot until the rover faces roughly the right way. If it is small, drive forward and nudge the speeds so the rover curves back toward the path.",
+      "implement": "On paper, put the rover at the bottom of the page facing up and a target up and to the right. Work out the heading error and say which wheel should be faster.",
+      "outcome": "You can work out a turn from two angles.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/embedded-vision-guided-rover/heading-error.svg",
+        "alt": "A rover with a heading arrow pointing up, and a dashed line to the next path point on the right with the angle between them marked as error. Rules: over 30 degrees spin, otherwise drive and nudge.",
+        "caption": "The error is the angle between where the rover faces and where it should go. Two simple rules turn it into wheel speeds."
+      },
+      "resources": [
+        {
+          "label": "Wikipedia: Differential wheeled robot",
+          "url": "https://en.wikipedia.org/wiki/Differential_wheeled_robot"
+        }
+      ]
+    },
+    {
+      "title": "Write the steering",
+      "learn": "How to turn the heading error into two wheel speeds.",
+      "explain": "steer() picks a waypoint three cells ahead, finds its angle with atan2 and subtracts the rover's heading. The line with % 360 wraps the answer into the range from -180 to 180, so a 350 degree error becomes -10 and the rover takes the short way round. Past 30 degrees it spins. Otherwise the speeds are 200, plus or minus twice the error, so a small error gives a gentle curve. The numbers are starting guesses to tune.",
+      "implement": "Add steer() and test with a still photo and a path. For a target to the right of the rover it should give a larger left speed. If the real rover turns the wrong way, swap the motor wires.",
+      "outcome": "Your code returns left and right speeds for any rover position.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "def steer(seen, path, rover_id=7, ahead=3):\n    \"\"\"Return (left, right) motor speeds from -255 to 255.\"\"\"\n    x, y, heading = seen[rover_id]\n    row, col = path[min(ahead, len(path) - 1)]    # aim a few cells ahead\n    tx, ty = col * CELL + CELL / 2, row * CELL + CELL / 2\n    want = math.degrees(math.atan2(ty - y, tx - x))\n    error = (want - heading + 180) % 360 - 180    # -180 to 180\n    if abs(error) > 30:                           # wrong way round: spin\n        return (150, -150) if error > 0 else (-150, 150)\n    return 200 + int(error * 2), 200 - int(error * 2)",
+        "caption": "Positive error means the target is clockwise from the heading in the picture, so the rover turns right."
+      },
+      "resources": [
+        {
+          "label": "Python: math.atan2",
+          "url": "https://docs.python.org/3/library/math.html#math.atan2"
+        }
+      ]
+    },
+    {
+      "title": "Teach the rover to listen",
+      "learn": "How the rover receives its speeds over Wi-Fi.",
+      "explain": "The simplest way to send small messages over Wi-Fi is UDP. The laptop sends a short text such as 200,-200 to the rover's address and port, and the rover sets the motors. UDP does not check that a message arrived, which is fine, because a fresh one follows a moment later. The safety part is the last line: if no message arrives for half a second, the rover stops. A lost Wi-Fi link then stops the rover instead of letting it run away.",
+      "implement": "Add this to your rover code from the last project. Upload, open the Serial Monitor and note the IP address it prints. Use your phone's hotspot or the lab router, on the 2.4 GHz band.",
+      "outcome": "The rover obeys network messages and stops when they stop.",
+      "figure": {
+        "kind": "code",
+        "language": "cpp",
+        "code": "#include <WiFi.h>\n#include <WiFiUdp.h>\nWiFiUDP udp;\nunsigned long lastPacket = 0;\n// ... motor(), drive() and the pin setup from the last project\n\nvoid setup() {\n  // motor pins and ledcAttach as before, then:\n  Serial.begin(115200);\n  WiFi.begin(\"YOUR_WIFI\", \"YOUR_PASSWORD\");        // a 2.4 GHz network\n  while (WiFi.status() != WL_CONNECTED) delay(200);\n  Serial.println(WiFi.localIP());                  // type this into the laptop script\n  udp.begin(4210);\n}\n\nvoid loop() {\n  char text[32];\n  if (udp.parsePacket() > 0) {\n    int len = udp.read(text, sizeof(text) - 1);\n    text[len] = 0;\n    int left, right;\n    if (sscanf(text, \"%d,%d\", &left, &right) == 2) {   // text like \"200,-200\"\n      drive(left, right);\n      lastPacket = millis();\n    }\n  }\n  if (millis() - lastPacket > 500) drive(0, 0);    // laptop went quiet: stop\n}",
+        "caption": "The rover side of the link. Replace the network name and password with your own."
+      },
+      "resources": [
+        {
+          "label": "Arduino-ESP32: WiFiUDP",
+          "url": "https://docs.espressif.com/projects/arduino-esp32/en/latest/api/wifi.html"
+        }
+      ]
+    },
+    {
+      "title": "Close the loop",
+      "learn": "How to run the whole pipeline on the live camera.",
+      "explain": "The final script is the loop from the big picture. It grabs a frame, plans, steers and sends the speeds, then repeats. When no path exists, or the rover is within 4 cells of the goal, it sends 0,0. Pressing Esc ends the program and sends a final stop. Run this with the rover's wheels off the table first, and watch the speeds change as you move the rover marker by hand.",
+      "implement": "Put your own rover address in ROVER. Lift the rover's wheels off the ground, run the script, and move the rover marker by hand. The wheels should turn to chase the goal.",
+      "outcome": "The wheels react to what the camera sees.",
+      "figure": {
+        "kind": "code",
+        "language": "python",
+        "code": "import socket\nROVER = (\"192.168.1.50\", 4210)         # the address your rover printed\nsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)\ncam = cv2.VideoCapture(0)              # 0 = first USB camera\n\nwhile True:\n    ok, frame = cam.read()\n    if not ok:\n        break\n    path, seen = plan(frame)\n    if path and len(path) > 4:\n        left, right = steer(seen, path)\n    else:\n        left, right = 0, 0             # no path, or arrived: stop\n    sock.sendto(f\"{left},{right}\".encode(), ROVER)\n    cv2.imshow(\"rover\", frame)\n    if cv2.waitKey(1) == 27:           # Esc quits\n        break\nsock.sendto(b\"0,0\", ROVER)",
+        "caption": "The main loop. Put it at the end of vision.py, below the functions from the earlier steps."
+      },
+      "resources": [
+        {
+          "label": "OpenCV documentation",
+          "url": "https://docs.opencv.org/4.x/"
+        }
+      ]
+    },
+    {
+      "title": "Test safely and tune",
+      "learn": "How to run the rover safely and make it better.",
+      "explain": "Put the rover on the board with a clear area and keep a hand on the battery switch. Start slowly with lower speeds. Common problems: a hidden marker, since the arm or the rover itself can cover it, shadows that look like rocks, and glare on the markers. Add a second safety: the stop when messages go quiet. Run five trials, and time them. Change one number at a time: the lookahead, the speeds, then the grow value.",
+      "implement": "Run five trials from the same start. Record the time and whether the rover hit a rock. Record a video. Change one number and run five again.",
+      "outcome": "You have trial data and a video of the rover crossing the moonscape.",
+      "resources": [
+        {
+          "label": "OpenCV: ArUco marker detection",
+          "url": "https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html"
+        }
+      ]
+    },
+    {
+      "title": "Publish your project",
+      "learn": "How to show off a robotics project.",
+      "explain": "A finished robotics project needs proof. Put the rover video first in your README. Then add the pipeline picture, your own planned route image, the parts list and the trial results. Write down what failed and what you would try next, such as a bigger board, a faster planner or a rover that can drive curves. This is your final project in the domain, so make it something a future student could follow.",
+      "implement": "Push all the code, the README with video, parts, results and lessons, and a photo of the setup to GitHub.",
+      "outcome": "Your vision-guided rover is documented on GitHub.",
+      "resources": [
+        {
+          "label": "GitHub: About READMEs",
+          "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Libraries",
+      "links": [
+        {
+          "label": "OpenCV documentation",
+          "url": "https://docs.opencv.org/4.x/"
+        },
+        {
+          "label": "ArUco detection tutorial",
+          "url": "https://docs.opencv.org/4.x/d5/dae/tutorial_aruco_detection.html"
+        },
+        {
+          "label": "NumPy",
+          "url": "https://numpy.org/doc/"
+        }
+      ]
+    },
+    {
+      "category": "Path planning",
+      "links": [
+        {
+          "label": "Red Blob Games: Introduction to A*",
+          "url": "https://www.redblobgames.com/pathfinding/a-star/introduction.html"
+        },
+        {
+          "label": "Wikipedia: A* search algorithm",
+          "url": "https://en.wikipedia.org/wiki/A*_search_algorithm"
+        }
+      ]
+    },
+    {
+      "category": "Space link",
+      "links": [
+        {
+          "label": "NASA image library: CADRE rovers",
+          "url": "https://images.nasa.gov/details/PIA26296"
+        },
+        {
+          "label": "NASA: Mars 2020 Perseverance",
+          "url": "https://science.nasa.gov/mission/mars-2020-perseverance/"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A GitHub repository with the Python code and the rover firmware",
+    "A photo of the setup and a picture of a planned route",
+    "A video of the rover crossing the moonscape",
+    "Trial results and a list of what failed",
+    "A README with the parts list and what you would improve"
+  ],
+  "checklist": [
+    {
+      "id": "vision-setup",
+      "label": "Built the moonscape and mounted the camera"
+    },
+    {
+      "id": "vision-markers",
+      "label": "Found the rover and goal markers and read the heading"
+    },
+    {
+      "id": "vision-grid",
+      "label": "Turned the rocks into a grid and grew them"
+    },
+    {
+      "id": "vision-astar",
+      "label": "Wrote A* and planned a path on a real photo"
+    },
+    {
+      "id": "vision-steer",
+      "label": "Turned a path into left and right speeds"
+    },
+    {
+      "id": "vision-wifi",
+      "label": "Sent speeds to the rover by Wi-Fi, with a stop if messages go quiet"
+    },
+    {
+      "id": "vision-pushed",
+      "label": "Tested the full system, wrote a README and pushed the finished work to GitHub"
+    }
+  ]
+}

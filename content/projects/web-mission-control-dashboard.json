@@ -1,0 +1,502 @@
+{
+  "id": "web-mission-control-dashboard",
+  "hero": {
+    "src": "/media/web-mission-control-dashboard/hero-flight-control.jpg",
+    "alt": "Flight controllers at rows of screens in NASA's Mission Control Center, with a huge wall display showing the Orion spacecraft and a world map.",
+    "credit": "NASA/JSC, Artemis II flight control team",
+    "sourceUrl": "https://images.nasa.gov/details/jsc2026e019618"
+  },
+  "overview": {
+    "what": "A one-screen dashboard that shows today's near-Earth asteroids, the ISS on a live map and the Sun's activity, each refreshing at its own pace, with an alert strip on top.",
+    "why": "You bring the whole track together: APIs, maps and polling. Then you add what real apps need, including a server for secrets, components, error states and deployment.",
+    "spaceRelevance": "Mission control rooms watch many data streams at once and raise an alert when something changes. Your dashboard does the same thing at small scale.",
+    "finalOutput": "A deployed Next.js app at a public address with three live panels, an alert strip and a README.",
+    "difficulty": 5,
+    "estimatedTime": "6 to 8 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    {
+      "icon": "layers",
+      "label": "Plan three panels",
+      "detail": "Each source gets its own panel and its own rate."
+    },
+    {
+      "icon": "server",
+      "label": "Hide the key",
+      "detail": "A route handler on the server adds the NASA key."
+    },
+    {
+      "icon": "sun",
+      "label": "Read the Sun",
+      "detail": "Flare class and Kp come from NOAA, with no key."
+    },
+    {
+      "icon": "zap",
+      "label": "Refresh on timers",
+      "detail": "A polling hook updates each panel at its own pace."
+    },
+    {
+      "icon": "monitor",
+      "label": "Alert and deploy",
+      "detail": "Rules raise alerts, and Vercel hosts the app."
+    }
+  ],
+  "keyIdeas": [
+    {
+      "term": "Server code and client code",
+      "meaning": "Some code runs on a server you control, and some runs in the visitor's browser. Anything in the browser can be read by the visitor, so secrets such as API keys must stay on the server."
+    },
+    {
+      "term": "Route handler",
+      "meaning": "In Next.js, a file named route.js that answers requests at its own address, such as /api/asteroids. It runs on the server, so it can use secret keys safely."
+    },
+    {
+      "term": "Flare class and Kp",
+      "meaning": "Flare class (A, B, C, M, X) is how strong a flash of solar X-rays is. Kp (0 to 9) is how disturbed Earth's magnetic field is. Kp 5 or more is a geomagnetic storm."
+    },
+    {
+      "term": "Hook",
+      "meaning": "A React function whose name starts with use. It adds a feature to a component, such as state or a timer, and lets you share that feature between many components."
+    }
+  ],
+  "videos": [
+    {
+      "youtubeId": "TWjtYSRlOUI",
+      "title": "NASA | The Difference Between CMEs and Solar Flares",
+      "channel": "NASA Goddard",
+      "why": "Shows the two kinds of solar eruption that your solar panel reports, and what each does when it reaches Earth."
+    },
+    {
+      "youtubeId": "Sklc_fQBmcs",
+      "title": "Next.js in 100 Seconds // Plus Full Beginner's Tutorial",
+      "channel": "Fireship",
+      "why": "A quick tour of what Next.js is and how its files become pages, before you build your own app."
+    }
+  ],
+  "prerequisites": {
+    "knowledge": [
+      "Projects 1 to 4, or the same skills: APIs, JSON, maps, timers and async code",
+      "How to publish a site"
+    ],
+    "programming": [
+      "JavaScript fetch, async and await",
+      "The basics of React: components, props and state",
+      "Using npm"
+    ],
+    "mathPhysics": [
+      "Powers of ten and scientific notation such as 1e-5",
+      "Reading a logarithmic scale"
+    ],
+    "software": [
+      "Node.js",
+      "Visual Studio Code",
+      "Git and a GitHub account",
+      "A free NASA API key and a free Vercel account"
+    ]
+  },
+  "technologies": [
+    {
+      "name": "Next.js",
+      "why": "Pages, routes and server code in one project",
+      "priority": "Essential"
+    },
+    {
+      "name": "React",
+      "why": "Splits the screen into panels that update on their own",
+      "priority": "Essential"
+    },
+    {
+      "name": "NASA NeoWs",
+      "why": "The asteroid list, called through your own server",
+      "priority": "Essential"
+    },
+    {
+      "name": "NOAA Space Weather Prediction Center",
+      "why": "Free, keyless solar flare and Kp data",
+      "priority": "Essential"
+    },
+    {
+      "name": "Leaflet and wheretheiss.at",
+      "why": "The ISS map from the last project, now as a panel",
+      "priority": "Essential"
+    },
+    {
+      "name": "Environment variables",
+      "why": "Keep secret keys out of your code and your repository",
+      "priority": "Essential"
+    },
+    {
+      "name": "Vercel",
+      "why": "Hosts a Next.js app and runs its server code",
+      "priority": "Recommended"
+    }
+  ],
+  "roadmap": [
+    {
+      "title": "Plan the mission control",
+      "learn": "How to split an app into panels, and decide where each data source is called.",
+      "explain": "A control-room screen shows several streams at once. Yours has three panels: asteroids from NASA NeoWs, the ISS from wheretheiss.at, and solar activity from NOAA. One source needs a secret key, so your own server calls it. The other two are open, and the browser can call them directly. Deciding which source goes where, before you write code, saves a rewrite.",
+      "implement": "Sketch the screen on paper: three panels and a strip for alerts. Under each panel write its data source, its refresh time and what the visitor sees if it fails.",
+      "outcome": "A one-page plan for the whole app.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-mission-control-dashboard/architecture.svg",
+        "alt": "Three data sources on the left. NASA NeoWs passes through your server before reaching the Asteroids panel. The ISS and NOAA sources go straight to their panels in the browser.",
+        "caption": "Only the source that needs a key goes through your server. The other two are called directly."
+      },
+      "resources": [
+        {
+          "label": "NASA Open APIs",
+          "url": "https://api.nasa.gov/"
+        }
+      ]
+    },
+    {
+      "title": "Create the Next.js project",
+      "learn": "How a Next.js project is laid out, and where secrets belong.",
+      "explain": "Next.js is a React framework that gives you pages and server code in one project. create-next-app sets it up. Files inside app/ become pages and routes. Your NASA key goes in a file called .env.local. Variables without the NEXT_PUBLIC_ prefix stay on the server and are never sent to the browser. The default setup tells Git to ignore .env files, so your key stays off GitHub. Check that before your first push.",
+      "implement": "Run the commands. Put your own key in .env.local. Open localhost:3000 and edit app/page.js (or page.tsx) to see the page change. Then check that .gitignore lists .env files.",
+      "outcome": "A running Next.js app with your key stored safely.",
+      "figure": {
+        "kind": "code",
+        "language": "bash",
+        "code": "# Make the project. Say yes to the App Router when it asks.\nnpx create-next-app@latest mission-control\ncd mission-control\n\n# Keep your NASA key in .env.local. The default setup already\n# tells Git to ignore this file, so the key is never uploaded.\necho \"NASA_API_KEY=paste_your_key_here\" > .env.local\n\n# Leaflet is the map library from the last project.\nnpm install leaflet\n\nnpm run dev   # open http://localhost:3000",
+        "caption": "Answer the questions create-next-app asks. Either JavaScript or TypeScript works, and the examples here are plain JavaScript."
+      },
+      "resources": [
+        {
+          "label": "Next.js: Installation",
+          "url": "https://nextjs.org/docs/app/getting-started/installation"
+        },
+        {
+          "label": "Next.js: Environment variables",
+          "url": "https://nextjs.org/docs/app/guides/environment-variables"
+        }
+      ]
+    },
+    {
+      "title": "Hide the key behind a route",
+      "learn": "How a route handler keeps an API key secret.",
+      "explain": "In project 2 your key sat in browser code where anyone could read it. Now the browser calls your own address, /api/asteroids. A route handler, a file called route.js inside app/api/asteroids/, runs on the server. It adds the key, asks NASA and passes on the list. The visitor never sees the key. The Cache-Control header lets the host reuse the answer for an hour, which also protects your rate limit.",
+      "implement": "Create app/api/asteroids/route.js and restart npm run dev. Open localhost:3000/api/asteroids and check that you see a JSON list. Look in the Network tab: no key appears.",
+      "outcome": "Asteroid data arrives through your own server.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "// app/api/asteroids/route.js\n// This file runs on the server, so the key never reaches the browser.\nexport async function GET() {\n  const day = new Date().toISOString().slice(0, 10);\n  const key = process.env.NASA_API_KEY;\n  const url = `https://api.nasa.gov/neo/rest/v1/feed?start_date=${day}&end_date=${day}&api_key=${key}`;\n\n  const reply = await fetch(url);\n  if (!reply.ok) {\n    return Response.json({ error: \"NASA request failed\" }, { status: 502 });\n  }\n  const data = await reply.json();\n\n  return Response.json(data.near_earth_objects[day] ?? [], {\n    // Let the host reuse this answer for an hour.\n    headers: { \"Cache-Control\": \"s-maxage=3600, stale-while-revalidate\" },\n  });\n}",
+        "caption": "Tested with a fake NASA reply: it returns 200 with the list, and 502 with a clear message when NASA fails."
+      },
+      "resources": [
+        {
+          "label": "Next.js: Route Handlers",
+          "url": "https://nextjs.org/docs/app/getting-started/route-handlers"
+        }
+      ]
+    },
+    {
+      "title": "Meet space weather",
+      "learn": "What solar flares and CMEs are, and why a dashboard should show them.",
+      "explain": "The Sun is not steady. A solar flare is a sudden flash of light and X-rays. Its light reaches us in about eight minutes. A coronal mass ejection (CME) is a huge cloud of charged gas thrown into space, and it takes a day or more to arrive. When a CME hits Earth's magnetic field it can cause a geomagnetic storm, which can disturb radio, satellites and power grids, and also brings aurora.",
+      "implement": "Open NOAA's space weather site and note today's flare class and Kp value. They will be your test values when you build the panel.",
+      "outcome": "You can explain what your solar panel measures.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/web-mission-control-dashboard/solar-flare.jpg",
+        "alt": "A bright white flash on the glowing orange-gold surface of the Sun, with a vertical streak of light running through it.",
+        "caption": "A powerful X-class flare on 29 March 2014, seen in extreme ultraviolet light by NASA's Solar Dynamics Observatory.",
+        "credit": "NASA/SDO",
+        "sourceUrl": "https://images.nasa.gov/details/GSFC_20171208_Archive_e001164"
+      },
+      "resources": [
+        {
+          "label": "NOAA Space Weather Prediction Center",
+          "url": "https://www.swpc.noaa.gov/"
+        },
+        {
+          "label": "NASA Solar Dynamics Observatory",
+          "url": "https://sdo.gsfc.nasa.gov/"
+        }
+      ]
+    },
+    {
+      "title": "Learn the flare scale",
+      "learn": "How flare classes work, and how to turn a raw number into a class.",
+      "explain": "Satellites called GOES measure the Sun's X-rays in watts per square metre. The strength gives a class: A, B, C, M and X, each ten times stronger than the one before. A number after the letter says where in the class it falls, so M5.0 is five times 1e-5. 1e-5 is scientific notation for 0.00001. M and X flares can disturb radio signals on Earth. Quiet days sit at A, B or C.",
+      "implement": "Using the chart, work out by hand the class for a flux of 3e-6 (C3.0) and for 2.5e-5 (M2.5). You will check your answers in code in the next steps.",
+      "outcome": "You can read a flare class from a flux number.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-mission-control-dashboard/flare-scale.svg",
+        "alt": "Five blocks labelled A, B, C, M and X on a scale from 1e-8 to 1e-4 watts per square metre, with an arrow marking 8.6e-7 as B8.6.",
+        "caption": "The scale is logarithmic: each block is ten times the one before. The arrow marks an example reading."
+      },
+      "resources": [
+        {
+          "label": "NOAA: Solar flares and radio blackouts",
+          "url": "https://www.swpc.noaa.gov/phenomena/solar-flares-radio-blackouts"
+        }
+      ]
+    },
+    {
+      "title": "See what the Kp index means",
+      "learn": "What Kp measures, and how it connects to aurora.",
+      "explain": "Kp runs from 0 to 9 and measures how disturbed Earth's magnetic field is. Charged particles from the Sun follow the field toward the poles and light up the upper air, which makes aurora. At Kp 5 or more, NOAA calls it a geomagnetic storm, and aurora can appear farther from the poles than usual. Kp comes as a value every 3 hours, so it changes more slowly than the flare data.",
+      "implement": "On paper, decide how your solar panel will colour Kp: calm for 0 to 3, watch for 4 and storm for 5 or more. You will use this rule in the alerts step.",
+      "outcome": "You know when your panel should call out a storm.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/web-mission-control-dashboard/aurora-from-iss.jpg",
+        "alt": "A green and red glow of aurora along the curved edge of Earth, seen from space under a sky full of stars.",
+        "caption": "Aurora seen from the ISS over Manitoba, Canada, on 30 October 2024, as the station flew 257 miles above.",
+        "credit": "NASA, International Space Station crew",
+        "sourceUrl": "https://images.nasa.gov/details/iss072e159172"
+      },
+      "resources": [
+        {
+          "label": "NOAA: Planetary K-index",
+          "url": "https://www.swpc.noaa.gov/products/planetary-k-index"
+        },
+        {
+          "label": "NOAA: Space weather scales",
+          "url": "https://www.swpc.noaa.gov/noaa-scales-explanation"
+        }
+      ]
+    },
+    {
+      "title": "Fetch the solar data",
+      "learn": "How to read NOAA's JSON and turn it into a flare class.",
+      "explain": "NOAA's Space Weather Prediction Center serves free JSON with no key. The X-ray file holds one reading a minute for six hours, in two energy bands. Flares are named from the 0.1-0.8nm band, so we filter for it, and the last reading is the newest. flareClass finds the biggest class whose floor the flux has reached and divides to get the number. We checked it against NOAA's own flare list: 8.6e-7 gives B8.6. Promise.all asks for both files at once.",
+      "implement": "Run getSolar() in your browser console and compare the class with NOAA's site. Then test flareClass with 1.2e-4, which should give X1.2, and with 3e-6, which should give C3.0.",
+      "outcome": "Live solar data is in your app.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "const XRAY = \"https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json\";\nconst KP = \"https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json\";\n\n// Turn raw flux (watts per square metre) into a class like \"M2.4\".\nfunction flareClass(flux) {\n  const classes = [[\"X\", 1e-4], [\"M\", 1e-5], [\"C\", 1e-6], [\"B\", 1e-7], [\"A\", 1e-8]];\n  for (const [letter, floor] of classes) {\n    if (flux >= floor || letter === \"A\") return letter + (flux / floor).toFixed(1);\n  }\n}\n\nasync function getSolar() {\n  const [xrays, kps] = await Promise.all(\n    [XRAY, KP].map((url) => fetch(url).then((reply) => reply.json())),\n  );\n  const band = xrays.filter((r) => r.energy === \"0.1-0.8nm\"); // the flare band\n  const latest = band[band.length - 1];\n  return {\n    flare: flareClass(latest.flux),\n    kp: Number(kps[kps.length - 1].Kp), // storm level, 0 to 9\n    time: latest.time_tag,\n  };\n}",
+        "caption": "Run for real, this returned a flare class and a Kp value. The key names (flux, energy, Kp) are NOAA's own."
+      },
+      "resources": [
+        {
+          "label": "NOAA SWPC data service",
+          "url": "https://services.swpc.noaa.gov/"
+        },
+        {
+          "label": "MDN: Promise.all",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all"
+        }
+      ]
+    },
+    {
+      "title": "Build the three panels",
+      "learn": "How to organise a React app into panels and load a map safely.",
+      "explain": "Each panel is a React component: a function that returns a piece of page. Keeping them apart means each can load, fail and update on its own. Leaflet needs the browser's window object, which does not exist while Next.js builds the page on the server. next/dynamic with ssr set to false loads the map only in the browser. That option works only in client components, so the file starts with 'use client'.",
+      "implement": "Create AsteroidPanel, IssMap and SolarPanel files with placeholder text, and a Dashboard like this one. Show it from app/page.js. Then move your map code from last project into IssMap.",
+      "outcome": "A page with three panels, and the map loading in the browser.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "\"use client\";\nimport dynamic from \"next/dynamic\";\nimport AsteroidPanel from \"./AsteroidPanel\";\nimport SolarPanel from \"./SolarPanel\";\n\n// Leaflet needs the browser's window object, so load the map only in the browser.\nconst IssMap = dynamic(() => import(\"./IssMap\"), {\n  ssr: false,\n  loading: () => <p>Loading map...</p>,\n});\n\nexport default function Dashboard() {\n  return (\n    <main className=\"grid\">\n      <AsteroidPanel />\n      <IssMap />\n      <SolarPanel />\n    </main>\n  );\n}",
+        "caption": "Import Leaflet's CSS inside IssMap with: import 'leaflet/dist/leaflet.css'. The default marker icon needs an extra fix in Next.js, so a circle marker is a good start."
+      },
+      "resources": [
+        {
+          "label": "Next.js: Lazy loading",
+          "url": "https://nextjs.org/docs/app/guides/lazy-loading"
+        },
+        {
+          "label": "React: Your first component",
+          "url": "https://react.dev/learn/your-first-component"
+        }
+      ]
+    },
+    {
+      "title": "Choose how often to refresh",
+      "learn": "How to match the refresh rate to how fast each source changes.",
+      "explain": "Different data needs different speeds. The ISS moves about 7.7 km every second, so every 5 seconds looks smooth. NOAA's X-ray data updates once a minute, so asking more often wastes effort. The asteroid list changes by the day, so once an hour is plenty. Fast polling of slow data drains phone batteries and can get you blocked by free APIs. Choose the slowest rate that still looks right.",
+      "implement": "Write down a refresh time for each panel, with a one-line reason. If someone asks 'why every 5 seconds?', your README should have the answer.",
+      "outcome": "A refresh plan that you can defend.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-mission-control-dashboard/polling.svg",
+        "alt": "Three timelines over one minute: ISS position with a dot every 5 seconds, solar data with a dot at 0 and 60 seconds, and asteroids with a single dot at the start.",
+        "caption": "More dots mean more requests. Give the busiest rate only to the data that moves."
+      },
+      "resources": [
+        {
+          "label": "NOAA SWPC: Data service",
+          "url": "https://services.swpc.noaa.gov/"
+        }
+      ]
+    },
+    {
+      "title": "Write a polling hook",
+      "learn": "How a custom hook runs a timer and cleans up after itself.",
+      "explain": "A hook is a function that adds a feature to a component. usePolling runs your load function, stores the result in state and repeats on a timer. The function useEffect returns is a cleanup: it stops the timer when the panel leaves the page, or timers would pile up. If a refresh fails, we keep the old data and store the error, so one hiccup never blanks the screen. load must be defined outside the component, or the effect restarts on every render.",
+      "implement": "Put the hook in app/usePolling.js. Test it with a load function that fails every third call, and check that the last good data stays on screen.",
+      "outcome": "Any panel can refresh itself with one line.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "\"use client\";\nimport { useEffect, useState } from \"react\";\n\n// Calls load() now, then again every few milliseconds.\nexport function usePolling(load, everyMs) {\n  const [state, setState] = useState({ data: null, error: null, loading: true });\n\n  useEffect(() => {\n    let stopped = false;\n    async function run() {\n      try {\n        const data = await load();\n        if (!stopped) setState({ data, error: null, loading: false });\n      } catch (error) {\n        // Keep the last good data on screen and show the error beside it.\n        if (!stopped) setState((old) => ({ ...old, error, loading: false }));\n      }\n    }\n    run();\n    const timer = setInterval(run, everyMs);\n    return () => { stopped = true; clearInterval(timer); }; // panel left the page\n  }, [load, everyMs]);\n\n  return state;\n}",
+        "caption": "We ran this hook in a browser with a function that failed on its third call. The old data stayed on screen."
+      },
+      "resources": [
+        {
+          "label": "React: useEffect",
+          "url": "https://react.dev/reference/react/useEffect"
+        },
+        {
+          "label": "React: Reusing logic with custom Hooks",
+          "url": "https://react.dev/learn/reusing-logic-with-custom-hooks"
+        }
+      ]
+    },
+    {
+      "title": "Show loading, data and errors",
+      "learn": "How to design every state a panel can be in.",
+      "explain": "Every panel has four states: loading, data, no data with an error, and data with an error on a later refresh. Write all four on purpose. Each panel has its own hook, so one failing source never breaks the rest. A visitor should always see something honest: a loading note, the numbers, or a plain message that the data is unavailable. Never leave a panel blank.",
+      "implement": "Build SolarPanel as shown. Then build AsteroidPanel, which polls /api/asteroids every hour, and give IssMap the same states. Switch off your wifi for 30 seconds and watch each panel cope.",
+      "outcome": "Three panels that fail politely.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "\"use client\";\nimport { usePolling } from \"./usePolling\";\n\nexport default function SolarPanel() {\n  // getSolar sits outside the component, so it is the same function every render.\n  const { data, error, loading } = usePolling(getSolar, 60_000);\n\n  if (loading) return <section>Loading solar data...</section>;\n  if (!data) return <section>Solar data is unavailable right now.</section>;\n\n  return (\n    <section>\n      <h2>Solar activity</h2>\n      <p>Flare class: {data.flare}</p>\n      <p>Storm level (Kp): {data.kp}</p>\n      {error && <p className=\"warn\">Could not refresh. Showing older data.</p>}\n    </section>\n  );\n}",
+        "caption": "getSolar is the function from the solar step. The 60_000 means 60,000 milliseconds, one minute."
+      },
+      "resources": [
+        {
+          "label": "React: Conditional rendering",
+          "url": "https://react.dev/learn/conditional-rendering"
+        }
+      ]
+    },
+    {
+      "title": "Raise alerts",
+      "learn": "How to turn raw numbers into plain-English warnings.",
+      "explain": "A dashboard is more useful when it speaks up. Write rules that turn numbers into alerts: a flagged asteroid inside 20 Moon distances, a Kp of 5 or more, or a flare of class M or X. The thresholds are your own choices, so keep them in one place where they are easy to change. The pattern ^[MX] is a regular expression that checks the class starts with M or X.",
+      "implement": "Write getAlerts and show a strip at the top: green 'All quiet' when the list is empty, amber when it has alerts. Test it with made-up data like the line at the bottom of the code.",
+      "outcome": "Your dashboard warns the visitor when something matters.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "// asteroids: from getAsteroids(). solar: from getSolar().\nfunction getAlerts(asteroids, solar) {\n  const alerts = [];\n\n  const close = asteroids.filter((a) => a.hazardous && a.moonDistances < 20);\n  if (close.length) {\n    alerts.push(`${close.length} flagged asteroid(s) within 20 Moon distances`);\n  }\n  if (solar.kp >= 5) {\n    alerts.push(`Geomagnetic storm, Kp ${solar.kp}. Aurora may appear further from the poles`);\n  }\n  if (/^[MX]/.test(solar.flare)) {\n    alerts.push(`Strong solar flare: ${solar.flare}`);\n  }\n  return alerts;\n}\n\nconsole.log(getAlerts([{ hazardous: true, moonDistances: 12 }], { kp: 6, flare: \"M2.1\" }));",
+        "caption": "The last line is a test. It printed three alerts when we ran it."
+      },
+      "resources": [
+        {
+          "label": "MDN: Regular expressions",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions"
+        }
+      ]
+    },
+    {
+      "title": "Deploy with a secret",
+      "learn": "How to host a Next.js app and give it its secret key.",
+      "explain": "Vercel, the company behind Next.js, has a free plan for personal projects. Connect your GitHub repository and it builds the app on every push. Your .env.local file does not travel with your code, so add NASA_API_KEY in the project's Environment Variables settings and redeploy. Forgetting this is the classic first-deploy bug: every panel works except asteroids. Credit your data sources in the footer.",
+      "implement": "Push to GitHub, import the repository on Vercel, add NASA_API_KEY and redeploy. Test on your phone. Write a README with a screenshot and credits for NASA, NOAA, wheretheiss.at and OpenStreetMap.",
+      "outcome": "A live Mission Control Dashboard with a safely stored key.",
+      "resources": [
+        {
+          "label": "Vercel: Environment variables",
+          "url": "https://vercel.com/docs/environment-variables"
+        },
+        {
+          "label": "Vercel: Next.js on Vercel",
+          "url": "https://vercel.com/docs/frameworks/nextjs"
+        }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Data",
+      "links": [
+        {
+          "label": "NASA Open APIs",
+          "url": "https://api.nasa.gov/"
+        },
+        {
+          "label": "NOAA Space Weather Prediction Center",
+          "url": "https://www.swpc.noaa.gov/"
+        },
+        {
+          "label": "wheretheiss.at API",
+          "url": "https://wheretheiss.at/w/developer"
+        }
+      ]
+    },
+    {
+      "category": "Official documentation",
+      "links": [
+        {
+          "label": "Next.js documentation",
+          "url": "https://nextjs.org/docs"
+        },
+        {
+          "label": "React: Learn",
+          "url": "https://react.dev/learn"
+        },
+        {
+          "label": "Leaflet documentation",
+          "url": "https://leafletjs.com/reference.html"
+        }
+      ]
+    },
+    {
+      "category": "Free courses",
+      "links": [
+        {
+          "label": "freeCodeCamp",
+          "url": "https://www.freecodecamp.org/learn/"
+        },
+        {
+          "label": "The Odin Project",
+          "url": "https://www.theodinproject.com/"
+        }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A public GitHub repository with your source code, and no secret keys in it",
+    "A README with a screenshot, a diagram of your data sources and your refresh-rate reasons",
+    "A link to your live dashboard",
+    "A short list of the alert rules and why you chose each threshold"
+  ],
+  "checklist": [
+    {
+      "id": "mission-plan",
+      "label": "Sketched the panels, data sources and refresh rates"
+    },
+    {
+      "id": "mission-project",
+      "label": "Created the Next.js project with the key in .env.local"
+    },
+    {
+      "id": "mission-route",
+      "label": "Called NASA through a route handler so the key stays secret"
+    },
+    {
+      "id": "mission-solar",
+      "label": "Read flare class and Kp from NOAA"
+    },
+    {
+      "id": "mission-panels",
+      "label": "Built the three panels, with the map loaded in the browser"
+    },
+    {
+      "id": "mission-polling",
+      "label": "Wrote a polling hook and set a refresh rate for each panel"
+    },
+    {
+      "id": "mission-states",
+      "label": "Handled loading, data and error states in every panel"
+    },
+    {
+      "id": "mission-alerts",
+      "label": "Added alert rules and a status strip"
+    },
+    {
+      "id": "mission-deployed",
+      "label": "Deployed with the key set on the host and pushed the finished work to GitHub"
+    }
+  ]
+}

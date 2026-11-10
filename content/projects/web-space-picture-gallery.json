@@ -1,0 +1,277 @@
+{
+  "id": "web-space-picture-gallery",
+  "hero": {
+    "src": "/media/web-space-picture-gallery/hero-cosmic-cliffs.jpg",
+    "alt": "Towering orange clouds of gas and dust under a deep blue sky full of bright stars, in the Carina Nebula.",
+    "credit": "NASA, ESA, CSA, STScI",
+    "sourceUrl": "https://images.nasa.gov/details/carina_nebula"
+  },
+  "overview": {
+    "what": "A website that loads NASA's Astronomy Picture of the Day and shows the last 7 days as a gallery, with each picture's title and explanation.",
+    "why": "It covers the core of web development in one small project: writing pages, styling them, fetching live data and publishing to the internet.",
+    "spaceRelevance": "You read the same public NASA data that powers the official picture archive, and every picture comes with an explanation written by a professional astronomer.",
+    "finalOutput": "A live website at your own public address that shows a fresh space picture every day.",
+    "difficulty": 1,
+    "estimatedTime": "2 to 3 weeks at 3 to 4 hours a week"
+  },
+  "howItWorks": [
+    { "icon": "code", "label": "You write the page", "detail": "HTML for structure, CSS for looks, JavaScript for actions." },
+    { "icon": "search", "label": "Your page asks NASA", "detail": "JavaScript requests the 7 newest pictures from a web address." },
+    { "icon": "file", "label": "NASA replies in JSON", "detail": "Plain text holding each title, image link and explanation." },
+    { "icon": "image", "label": "Cards appear", "detail": "A loop turns each picture into a card in a grid." },
+    { "icon": "globe", "label": "The world sees it", "detail": "GitHub Pages puts your site at a public address." }
+  ],
+  "keyIdeas": [
+    { "term": "Browser and server", "meaning": "A server is a computer that stores web pages. Your browser asks it for a page, gets the files back and draws them on screen." },
+    { "term": "API", "meaning": "A web address built for programs instead of people. You ask for data at that address, and it answers with data instead of a designed page." },
+    { "term": "JSON", "meaning": "A simple text format for data, written as named values such as \"title\": \"Enceladus in Silhouette\". JavaScript can read it directly." },
+    { "term": "Repository", "meaning": "A project folder tracked by Git. It remembers every saved version of your work, and a copy can live on GitHub." }
+  ],
+  "videos": [
+    {
+      "youtubeId": "ok-plXXHlWw",
+      "title": "HTML in 100 Seconds",
+      "channel": "Fireship",
+      "why": "A fast picture of what HTML is before you write your own. Don't worry about catching every word."
+    },
+    {
+      "youtubeId": "s7wmiS2mSXY",
+      "title": "What is an API? (in 3 minutes)",
+      "channel": "MuleSoft Videos",
+      "why": "Explains APIs with a restaurant waiter analogy, which is the one idea this whole project rests on."
+    }
+  ],
+  "prerequisites": {
+    "knowledge": ["How to use a computer, a browser and folders", "No web development experience is needed"],
+    "programming": ["None. This project is where you start"],
+    "mathPhysics": ["None"],
+    "software": ["A web browser", "Visual Studio Code", "Git", "A free GitHub account"]
+  },
+  "technologies": [
+    { "name": "HTML", "why": "Gives your page its structure: headings, images and text", "priority": "Essential" },
+    { "name": "CSS", "why": "Controls colours, spacing and the gallery layout", "priority": "Essential" },
+    { "name": "JavaScript", "why": "Fetches the pictures and puts them on the page", "priority": "Essential" },
+    { "name": "REST APIs and JSON", "why": "How your page asks NASA for data and reads the reply", "priority": "Essential" },
+    { "name": "The terminal", "why": "Lets you run Git and, in later projects, every other developer tool", "priority": "Essential" },
+    { "name": "Git and GitHub", "why": "Saves your work and shares it", "priority": "Essential" },
+    { "name": "GitHub Pages", "why": "Publishes your site for free", "priority": "Recommended" }
+  ],
+  "roadmap": [
+    {
+      "title": "See how the web works",
+      "learn": "What a browser and a server do when you open a website.",
+      "explain": "When you type an address, your browser sends a request across the internet to a server, which is just a computer that stays switched on. The server sends back files, and your browser turns them into the page you see. The photo shows the very first web server, at CERN in 1990. It was an ordinary desktop computer, with a sticker telling people not to switch it off.",
+      "implement": "Open any website, right-click and choose View Page Source. You are looking at the same HTML text the server sent to your browser.",
+      "outcome": "You can explain what happens between typing an address and seeing a page.",
+      "figure": {
+        "kind": "image",
+        "src": "/media/web-space-picture-gallery/first-web-server.jpg",
+        "alt": "A black NeXT computer with monitor and keyboard in a museum case, with a handwritten sticker on the machine saying it is a server and must not be powered down.",
+        "caption": "Tim Berners-Lee's NeXT computer, the world's first web server. A server is a computer that waits for requests and answers them.",
+        "credit": "Coolcaesar, CC BY-SA 3.0, Wikimedia Commons",
+        "sourceUrl": "https://commons.wikimedia.org/wiki/File:First_Web_Server.jpg"
+      },
+      "resources": [
+        { "label": "MDN: How the web works", "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Web_standards/How_the_web_works" }
+      ]
+    },
+    {
+      "title": "Write your first page",
+      "learn": "What HTML and CSS do, and how they work together.",
+      "explain": "HTML is the content of the page, marked with tags: <h1> for a heading, <p> for a paragraph, <img> for a picture. CSS is a separate list of rules about how those parts look, such as h1 { color: skyblue; }. Think of HTML as the walls of a house and CSS as the paint. Keeping them apart means you can restyle a whole site by changing one file.",
+      "implement": "Make a file called index.html with a heading, a paragraph and an image. Double-click it to open it in your browser. Then add a style.css file, link it from your page and change the colours.",
+      "outcome": "You can create and style a web page from scratch.",
+      "figure": {
+        "kind": "compare",
+        "before": { "src": "/media/web-space-picture-gallery/page-plain.jpg", "label": "HTML only" },
+        "after": { "src": "/media/web-space-picture-gallery/page-styled.jpg", "label": "HTML with CSS" },
+        "alt": "The same web page twice: plain black text on white, then with a dark background, coloured heading and rounded picture.",
+        "caption": "Drag the slider. The words and the picture are the same on both sides. Four short CSS rules made all of the difference.",
+        "credit": "Apogee example page, photo by NASA, ESA, CSA, STScI",
+        "sourceUrl": "https://images.nasa.gov/details/carina_nebula"
+      },
+      "resources": [
+        { "label": "MDN: Your first website", "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Your_first_website" },
+        { "label": "MDN: Learn web development", "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development" }
+      ]
+    },
+    {
+      "title": "Meet the terminal",
+      "learn": "What a terminal is, and the four commands you will use every day.",
+      "explain": "A terminal lets you control your computer by typing instead of clicking. It always sits inside one folder. pwd prints which folder that is, ls lists what is inside, mkdir makes a new folder and cd moves you into one, so cd space-gallery goes in and cd .. goes back up. Every developer tool you meet later, including Git, is run from here.",
+      "implement": "Install VS Code and Git. Open VS Code, choose Terminal, then New Terminal, and pick Git Bash on Windows. Use mkdir and cd to make a space-gallery folder and move your page files into it.",
+      "outcome": "You can move around folders and run commands without fear.",
+      "figure": {
+        "kind": "video",
+        "youtubeId": "id3DGvljhT4",
+        "title": "Linux Command-Line for Beginners: Your First 5 Minutes",
+        "channel": "tutoriaLinux",
+        "caption": "A gentle first look at typing commands. The video uses Linux, and the same commands work in Git Bash on Windows and in the Mac terminal."
+      },
+      "resources": [
+        { "label": "Download Visual Studio Code", "url": "https://code.visualstudio.com/" },
+        { "label": "Download Git", "url": "https://git-scm.com/downloads" },
+        { "label": "VS Code: Integrated terminal", "url": "https://code.visualstudio.com/docs/terminal/getting-started" }
+      ]
+    },
+    {
+      "title": "Save your work with Git",
+      "learn": "What repositories, commits and pushes are, and why every developer uses them.",
+      "explain": "Git is like save points in a game. A commit is one saved snapshot of your whole project, with a short note saying what changed. If you break something, you can go back. GitHub is a website that keeps an online copy of your repository, so your work survives a dead laptop. git add picks the changes, git commit saves them, and git push sends them to GitHub.",
+      "implement": "Create an empty repository on GitHub. In your folder, run git init, git add . and git commit -m \"First page\". Then follow the commands GitHub shows you to connect the two and push.",
+      "outcome": "Your code is saved on GitHub.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-space-picture-gallery/git-flow.svg",
+        "alt": "Three boxes in a row: your files, local history and GitHub. git add and git commit move work to local history, and git push moves it to GitHub.",
+        "caption": "Your work moves left to right. Commit often, with a short note saying what you changed."
+      },
+      "resources": [
+        { "label": "GitHub: Get started", "url": "https://docs.github.com/en/get-started" },
+        { "label": "GitHub: Set up Git", "url": "https://docs.github.com/en/get-started/git-basics/set-up-git" }
+      ]
+    },
+    {
+      "title": "Understand the NASA API",
+      "learn": "What an API is, what JSON looks like, and what an API key is for.",
+      "explain": "Paste the picture API address into your browser and you will see JSON: named values inside curly brackets, inside a list in square brackets. Each picture has a title, a date, an hdurl (the image file) and an explanation. This address needs no key. Many other services do. A key is a free password that identifies you, so a service can limit how much each person asks for.",
+      "implement": "Open science.nasa.gov/wp-json/wp/v2/apod-basic?per_page=1 in your browser and find the title and hdurl. Then sign up for a free NASA key at api.nasa.gov and save it. You will need it in the next project.",
+      "outcome": "You can read the JSON that NASA sends back.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-space-picture-gallery/api-request.svg",
+        "alt": "Your page sends a request to a NASA server, and the server sends back JSON text with a title and media type.",
+        "caption": "Careful with old tutorials. They use api.nasa.gov/planetary/apod, which NASA is retiring on 1 December 2026. Use the address in this step."
+      },
+      "resources": [
+        { "label": "NASA Open APIs", "url": "https://api.nasa.gov/" },
+        { "label": "NASA: APOD feed and API user guide (PDF)", "url": "https://api.nasa.gov/assets/files/apod/APOD-APIs-and-RSS-info.pdf" },
+        { "label": "MDN: Working with JSON", "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/JSON" }
+      ]
+    },
+    {
+      "title": "Show today's picture",
+      "learn": "JavaScript variables, functions and the fetch command.",
+      "explain": "A variable is a labelled box for a value, and a function is a named set of steps you can run. fetch asks a web address for data. The reply takes a moment to arrive, so we write await, which means wait here until it comes. Then querySelector finds a part of your page by its id, and we swap in NASA's data. Your HTML just needs an empty h2, img and p with matching ids.",
+      "implement": "Add an h2 with id title, an img with id photo and a p with id about to your page. Link a script.js file just before </body>, paste in this code and reload.",
+      "outcome": "Your page shows live NASA data.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "const url = \"https://science.nasa.gov/wp-json/wp/v2/apod-basic?per_page=1\";\n\n// The explanation arrives with HTML tags in it. This keeps only the words.\nfunction cleanText(html) {\n  const page = new DOMParser().parseFromString(html, \"text/html\");\n  const words = page.body.textContent.split(\"Tomorrow's picture\")[0];\n  return words.replace(\"Explanation:\", \"\").trim();\n}\n\nasync function showToday() {\n  const response = await fetch(url);      // ask NASA, wait for the reply\n  const pictures = await response.json(); // turn JSON text into a list\n  const today = pictures[0];              // the newest picture comes first\n\n  document.querySelector(\"#title\").textContent = today.title;\n  document.querySelector(\"#photo\").src = today.hdurl;\n  document.querySelector(\"#photo\").alt = today.alt;\n  document.querySelector(\"#about\").textContent = cleanText(today.explanation);\n}\n\nshowToday();",
+        "caption": "script.js. Use hdurl for the image: the field called url is a link to NASA's article page, not to the picture."
+      },
+      "resources": [
+        { "label": "MDN: Using the Fetch API", "url": "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch" },
+        { "label": "MDN: JavaScript first steps", "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting" }
+      ]
+    },
+    {
+      "title": "Turn data into cards",
+      "learn": "Loops, and how JavaScript builds new page elements from data.",
+      "explain": "So far your HTML had a fixed slot for one picture. A gallery needs as many slots as there are pictures, so JavaScript builds them. createElement makes a new element, you fill it in, and append places it on the page. The loop forEach runs your function once for each picture in the list. One function plus one loop gives you 7 cards, or 700.",
+      "implement": "Change the address to per_page=7. Add an empty <main id=\"gallery\"> to your HTML, write addCard, and call pictures.forEach(addCard) after the data arrives.",
+      "outcome": "All 7 pictures appear on your page.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "function addCard(picture) {\n  const card = document.createElement(\"article\");\n  card.className = \"card\";\n\n  const photo = document.createElement(\"img\");\n  photo.src = picture.hdurl;\n  photo.alt = picture.alt;      // NASA writes a description for screen readers\n  photo.loading = \"lazy\";       // only download it when it nears the screen\n\n  const title = document.createElement(\"h2\");\n  title.textContent = picture.title;\n\n  card.append(photo, title);\n  document.querySelector(\"#gallery\").append(card);\n}",
+        "caption": "One function builds one card. Calling it from forEach builds the whole gallery."
+      },
+      "resources": [
+        { "label": "MDN: Array forEach", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach" },
+        { "label": "MDN: document.createElement", "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement" }
+      ]
+    },
+    {
+      "title": "Lay out the gallery",
+      "learn": "CSS Grid, and how one layout can suit both phones and laptops.",
+      "explain": "CSS Grid arranges items in rows and columns. The rule grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) says: fit as many columns as you can, each at least 260 pixels wide, and share out the spare space. The browser works out the number of columns itself, so the same rule gives 3 columns on a laptop and 1 on a phone. A design that adapts like this is called responsive.",
+      "implement": "Give #gallery display: grid, that column rule and gap: 16px. Set card images to width: 100%, height: 200px and object-fit: cover. Add the viewport meta tag, then narrow your window and watch the columns change.",
+      "outcome": "A complete, responsive gallery.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-space-picture-gallery/grid-responsive.svg",
+        "alt": "A laptop screen showing cards in 3 columns next to a phone screen showing the same cards in 1 column.",
+        "caption": "No separate phone version is needed. The browser fits as many 260 pixel columns as it can."
+      },
+      "resources": [
+        { "label": "MDN: CSS grid layout", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout" },
+        { "label": "MDN: Viewport meta tag", "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Viewport_meta_element" }
+      ]
+    },
+    {
+      "title": "Test and debug",
+      "learn": "How to use browser developer tools, and how to handle errors.",
+      "explain": "Press F12 to open the developer tools. The Console tab shows errors in red, and the Network tab shows every request and its status code, where 200 means fine and 404 means not found. Real services fail, so plan for it: try runs risky code and catch runs if it breaks. Also, some days NASA posts a video. On those days media_type is \"video\" and hdurl is only a still frame.",
+      "implement": "Wrap your loading code as shown here. In addCard, if media_type is video, add a link to picture.permalink. Test it by misspelling the address on purpose, then by choosing Offline in the Network tab.",
+      "outcome": "Your site keeps working when something goes wrong.",
+      "figure": {
+        "kind": "code",
+        "language": "javascript",
+        "code": "async function loadGallery() {\n  const status = document.querySelector(\"#status\");\n  try {\n    const response = await fetch(url);\n    // fetch only fails on a dead connection, so check the reply as well\n    if (!response.ok) throw new Error(`NASA replied ${response.status}`);\n\n    const pictures = await response.json();\n    pictures.forEach(addCard);\n    status.textContent = \"\";\n  } catch (error) {\n    console.error(error); // the details, for you, in the Console tab\n    status.textContent = \"Could not load pictures. Please try again later.\";\n  }\n}\n\nloadGallery();",
+        "caption": "A visitor sees a friendly message and you see the real error in the Console. Your HTML needs a <p id=\"status\">Loading...</p>."
+      },
+      "resources": [
+        { "label": "MDN: What are browser developer tools?", "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Tools_and_setup/What_are_browser_developer_tools" },
+        { "label": "MDN: HTTP response status codes", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status" }
+      ]
+    },
+    {
+      "title": "Publish your site",
+      "learn": "How static hosting works, and what a good README contains.",
+      "explain": "Your site is static: just files, with nothing to run on the server. That makes hosting simple and free, because a host only has to hand those files out. Fresh pictures still appear daily, as the JavaScript runs in each visitor's browser and asks NASA itself. GitHub Pages serves a public repository at an address like your-name.github.io/space-gallery. Your main file must be named index.html.",
+      "implement": "Push your work. On GitHub open Settings, then Pages, and choose Deploy from a branch, main, / (root). Wait a minute and open your address. Add a README.md saying what the site does and how to run it.",
+      "outcome": "Your site is live, and you can share the link.",
+      "figure": {
+        "kind": "diagram",
+        "src": "/media/web-space-picture-gallery/publish-flow.svg",
+        "alt": "Your repository feeds GitHub Pages, which sends the same files to a friend's phone, your laptop and a recruiter, at one public web address.",
+        "caption": "Every time you push, GitHub Pages updates the live site within a minute or two."
+      },
+      "resources": [
+        { "label": "GitHub Pages", "url": "https://pages.github.com/" },
+        { "label": "GitHub: Creating a Pages site", "url": "https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site" }
+      ]
+    }
+  ],
+  "resources": [
+    {
+      "category": "Official documentation",
+      "links": [
+        { "label": "MDN Web Docs", "url": "https://developer.mozilla.org/en-US/" },
+        { "label": "GitHub Docs", "url": "https://docs.github.com/en" }
+      ]
+    },
+    {
+      "category": "Data",
+      "links": [
+        { "label": "NASA Open APIs", "url": "https://api.nasa.gov/" },
+        { "label": "Astronomy Picture of the Day", "url": "https://science.nasa.gov/apod/" },
+        { "label": "The picture API, ready to read", "url": "https://science.nasa.gov/wp-json/wp/v2/apod-basic?per_page=1" }
+      ]
+    },
+    {
+      "category": "Free courses",
+      "links": [
+        { "label": "freeCodeCamp", "url": "https://www.freecodecamp.org/learn/" },
+        { "label": "The Odin Project", "url": "https://www.theodinproject.com/" }
+      ]
+    }
+  ],
+  "deliverables": [
+    "A public GitHub repository with your source code",
+    "A README explaining what the site does and how to run it",
+    "A screenshot of the finished gallery",
+    "A link to your live site"
+  ],
+  "checklist": [
+    { "id": "gallery-first-page", "label": "Wrote a styled HTML page" },
+    { "id": "gallery-tools-setup", "label": "Installed VS Code and Git, used the terminal, and created a GitHub repository" },
+    { "id": "gallery-api-key", "label": "Read NASA's picture JSON and got a free NASA API key for the next project" },
+    { "id": "gallery-todays-picture", "label": "Showed today's picture using fetch" },
+    { "id": "gallery-grid", "label": "Built a responsive gallery of the last 7 days" },
+    { "id": "gallery-errors", "label": "Handled failed requests and video days" },
+    { "id": "gallery-published", "label": "Published the site and pushed the finished work to GitHub" }
+  ]
+}

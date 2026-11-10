@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="Verdana, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ee9a6c"/></marker><marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#f5c48a"/></marker></defs>
+<text x="360" y="30" font-size="20" fill="#f1eee6" text-anchor="middle">Real heights, drawn to one scale</text>
+<line x1="20" y1="290" x2="700" y2="290" stroke="#5e5c58" stroke-width="2"/>
+<rect x="44" y="284" width="36" height="6" rx="4" fill="#5e5c58" stroke="#5e5c58" stroke-width="1"/>
+<text x="62" y="314" font-size="15" fill="#f1eee6" text-anchor="middle">Cricket</text>
+<text x="62" y="334" font-size="15" fill="#f1eee6" text-anchor="middle">pitch</text>
+<text x="62" y="358" font-size="15" fill="#a8a5a0" text-anchor="middle">20 m</text>
+<rect x="143" y="268.1" width="36" height="21.9" rx="4" fill="#5e5c58" stroke="#5e5c58" stroke-width="1"/>
+<text x="161" y="314" font-size="15" fill="#f1eee6" text-anchor="middle">Qutub</text>
+<text x="161" y="334" font-size="15" fill="#f1eee6" text-anchor="middle">Minar</text>
+<text x="161" y="358" font-size="15" fill="#a8a5a0" text-anchor="middle">73 m</text>
+<rect x="242" y="262.1" width="36" height="27.9" rx="4" fill="#5e5c58" stroke="#5e5c58" stroke-width="1"/>
+<text x="260" y="314" font-size="15" fill="#f1eee6" text-anchor="middle">Statue of</text>
+<text x="260" y="334" font-size="15" fill="#f1eee6" text-anchor="middle">Liberty</text>
+<text x="260" y="358" font-size="15" fill="#a8a5a0" text-anchor="middle">93 m</text>
+<rect x="341" y="242" width="36" height="48" rx="4" fill="#f5c48a" stroke="#f5c48a" stroke-width="1"/>
+<text x="359" y="314" font-size="15" fill="#f1eee6" text-anchor="middle">Dimorphos</text>
+<text x="359" y="358" font-size="15" fill="#f5c48a" text-anchor="middle">160 m</text>
+<rect x="440" y="191" width="36" height="99" rx="4" fill="#5e5c58" stroke="#5e5c58" stroke-width="1"/>
+<text x="458" y="314" font-size="15" fill="#f1eee6" text-anchor="middle">Eiffel</text>
+<text x="458" y="334" font-size="15" fill="#f1eee6" text-anchor="middle">Tower</text>
+<text x="458" y="358" font-size="15" fill="#a8a5a0" text-anchor="middle">330 m</text>
+<rect x="539" y="143" width="36" height="147" rx="4" fill="#f5c48a" stroke="#f5c48a" stroke-width="1"/>
+<text x="557" y="314" font-size="15" fill="#f1eee6" text-anchor="middle">Bennu</text>
+<text x="557" y="358" font-size="15" fill="#f5c48a" text-anchor="middle">490 m</text>
+<rect x="638" y="41.60000000000002" width="36" height="248.39999999999998" rx="4" fill="#5e5c58" stroke="#5e5c58" stroke-width="1"/>
+<text x="656" y="314" font-size="15" fill="#f1eee6" text-anchor="middle">Burj</text>
+<text x="656" y="334" font-size="15" fill="#f1eee6" text-anchor="middle">Khalifa</text>
+<text x="656" y="358" font-size="15" fill="#a8a5a0" text-anchor="middle">828 m</text>
+<rect x="40" y="56" width="14" height="14" rx="3" fill="#5e5c58" stroke="#5e5c58" stroke-width="1"/>
+<text x="62" y="68" font-size="15" fill="#a8a5a0" text-anchor="start">landmark</text>
+<rect x="40" y="80" width="14" height="14" rx="3" fill="#f5c48a" stroke="#f5c48a" stroke-width="1"/>
+<text x="62" y="92" font-size="15" fill="#a8a5a0" text-anchor="start">asteroid</text>
+</svg>
